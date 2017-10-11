@@ -1,4 +1,4 @@
-package http.matchers;
+package com.github.resttest.http.matchers;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;

@@ -1,5 +1,8 @@
-package http;
+package com.github.resttest.http;
 
+/**
+ * List of some main response codes that can be used in asserts.
+ */
 public class StatusCode {
     public static final int OK = 200;
     public static final int CREATED = 201;
