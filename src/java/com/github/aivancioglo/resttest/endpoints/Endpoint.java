@@ -1,7 +1,7 @@
-package com.github.resttest.endpoints;
+package com.github.aivancioglo.resttest.endpoints;
 
-import com.github.resttest.http.HTTPRequest;
-import com.github.resttest.http.HTTPResponse;
+import com.github.aivancioglo.resttest.http.HTTPRequest;
+import com.github.aivancioglo.resttest.http.HTTPResponse;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -13,7 +13,7 @@ import static io.restassured.http.Method.*;
  * Simple endpoint for simple request.
  */
 public class Endpoint extends HTTPRequest<Endpoint> {
-    private static final String PROTOCOL = "com/github/resttest/http";
+    private static final String PROTOCOL = "com/github/aivancioglo/resttest/http";
 
     public Endpoint() {
         setProtocol(PROTOCOL);

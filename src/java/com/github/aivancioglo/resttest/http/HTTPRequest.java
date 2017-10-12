@@ -1,4 +1,4 @@
-package com.github.resttest.http;
+package com.github.aivancioglo.resttest.http;
 
 import io.restassured.RestAssured;
 import io.restassured.config.HttpClientConfig;
@@ -11,7 +11,7 @@ import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.github.resttest.http.HTTPResponse.resultsOf;
+import static com.github.aivancioglo.resttest.http.HTTPResponse.resultsOf;
 
 /**
  * This class is using for simple HTTP/HTTPS requests.

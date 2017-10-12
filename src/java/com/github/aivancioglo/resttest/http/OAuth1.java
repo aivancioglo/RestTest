@@ -1,4 +1,4 @@
-package com.github.resttest.http;
+package com.github.aivancioglo.resttest.http;
 
 /**
  * Thi class is using for requests with OAuth 1.0 security

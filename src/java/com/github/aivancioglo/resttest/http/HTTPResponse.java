@@ -1,4 +1,4 @@
-package com.github.resttest.http;
+package com.github.aivancioglo.resttest.http;
 
 import io.restassured.response.Response;
 import org.hamcrest.Matcher;
