@@ -1,7 +1,4 @@
-package com.github.aivancioglo.resttest.endpoints;
-
-import com.github.aivancioglo.resttest.http.HTTPRequest;
-import com.github.aivancioglo.resttest.http.HTTPResponse;
+package resttest;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -22,7 +19,7 @@ public class Endpoint extends HTTPRequest<Endpoint> {
     /**
      * Method for GET request.
      * @return HTTPResponse instance.
-     * @throws Exception
+     * @throws Exception if incorrect request.
      */
     public HTTPResponse get() throws Exception {
         return send(GET);
@@ -31,7 +28,7 @@ public class Endpoint extends HTTPRequest<Endpoint> {
     /**
      * Method for POST request.
      * @return HTTPResponse instance.
-     * @throws Exception
+     * @throws Exception if incorrect request.
      */
     public HTTPResponse post() throws Exception {
         return send(POST);
@@ -40,7 +37,7 @@ public class Endpoint extends HTTPRequest<Endpoint> {
     /**
      * Method for PATCH request.
      * @return HTTPResponse instance.
-     * @throws Exception
+     * @throws Exception if incorrect request.
      */
     public HTTPResponse patch() throws Exception {
         return send(PATCH);
@@ -49,7 +46,7 @@ public class Endpoint extends HTTPRequest<Endpoint> {
     /**
      * Method for DELETE request.
      * @return HTTPResponse instance.
-     * @throws Exception
+     * @throws Exception if incorrect request.
      */
     public HTTPResponse delete() throws Exception {
         return send(DELETE);
@@ -58,7 +55,7 @@ public class Endpoint extends HTTPRequest<Endpoint> {
     /**
      * Method for PUT request.
      * @return HTTPResponse instance.
-     * @throws Exception
+     * @throws Exception if incorrect request.
      */
     public HTTPResponse put() throws Exception {
         return send(PUT);
@@ -67,7 +64,7 @@ public class Endpoint extends HTTPRequest<Endpoint> {
     /**
      * Method for HEAD request.
      * @return HTTPResponse instance.
-     * @throws Exception
+     * @throws Exception if incorrect request.
      */
     public HTTPResponse head() throws Exception {
         return send(HEAD);
@@ -76,7 +73,7 @@ public class Endpoint extends HTTPRequest<Endpoint> {
     /**
      * Method for TRACE request.
      * @return HTTPResponse instance.
-     * @throws Exception
+     * @throws Exception if incorrect request.
      */
     public HTTPResponse trace() throws Exception {
         return send(TRACE);
@@ -85,7 +82,7 @@ public class Endpoint extends HTTPRequest<Endpoint> {
     /**
      * Method for OPTIONS request.
      * @return HTTPResponse instance.
-     * @throws Exception
+     * @throws Exception if incorrect request.
      */
     public HTTPResponse options() throws Exception {
         return send(OPTIONS);
@@ -95,8 +92,8 @@ public class Endpoint extends HTTPRequest<Endpoint> {
      * Set URL for request.
      * @param endpoint String.
      * @return instance of this class.
-     * @throws MalformedURLException
-     * @throws UnsupportedEncodingException
+     * @throws MalformedURLException if incorrect URL.
+     * @throws UnsupportedEncodingException if encoding invalid.
      */
     public Endpoint setURL(String endpoint) throws MalformedURLException, UnsupportedEncodingException {
         URL url = new URL(endpoint);

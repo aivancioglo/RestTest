@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest.http;
+package resttest;
 
 import io.restassured.response.Response;
 import org.hamcrest.Matcher;
@@ -94,8 +94,8 @@ public class HTTPResponse {
 
     /**
      * Deserialize response body as java class.
-     * @param cls
-     * @param <T>
+     * @param cls java class.
+     * @param <T> response model.
      * @return deserialized body as java class.
      */
     public <T> T as(Class<T> cls) {

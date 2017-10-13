@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest.http;
+package resttest;
 
 /**
  * List of some main response codes that can be used in asserts.

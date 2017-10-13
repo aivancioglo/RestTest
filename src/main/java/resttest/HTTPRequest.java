@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest.http;
+package resttest;
 
 import io.restassured.RestAssured;
 import io.restassured.config.HttpClientConfig;
@@ -8,10 +8,9 @@ import io.restassured.specification.RequestSpecification;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.github.aivancioglo.resttest.http.HTTPResponse.resultsOf;
 
 /**
  * This class is using for simple HTTP/HTTPS requests.
@@ -122,6 +121,17 @@ public class HTTPRequest<T> {
     }
 
     /**
+     * Add parameter as collection for request.
+     * @param name collection name.
+     * @param collection collection of values.
+     * @return this class instance.
+     */
+    public T addParam(String name, Collection<?> collection) {
+        send.param(name, collection);
+        return (T) this;
+    }
+
+    /**
      * Add query parameter for request.
      * @param key parameter key.
      * @param value parameter value.
@@ -129,6 +139,28 @@ public class HTTPRequest<T> {
      */
     public T addQueryParam(String key, String value) {
         send.queryParam(key, value);
+        return (T) this;
+    }
+
+    /**
+     * Add form param for request.
+     * @param key parameter key.
+     * @param value parameter value.
+     * @return this class instance.
+     */
+    public T addFormParam(String key, String value) {
+        send.formParam(key, value);
+        return (T) this;
+    }
+
+    /**
+     * Add form param as collection for request.
+     * @param name collection name.
+     * @param collection collection of values.
+     * @return this class instance.
+     */
+    public T addFormParam(String name, Collection<?> collection) {
+        send.formParam(name, collection);
         return (T) this;
     }
 
@@ -186,7 +218,7 @@ public class HTTPRequest<T> {
      * Set path for request.
      * @param path String.
      * @return this class instance.
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException if encoding invalid.
      */
     public T setPath(String path) throws UnsupportedEncodingException {
         Matcher m = Pattern.compile("[?&]([^&=]+)=([^&=]+)").matcher(path);
@@ -200,7 +232,7 @@ public class HTTPRequest<T> {
      * Returns instance of HTTPResponse class.
      * @param method Rest Assured Method enum.
      * @return HTTPResponse instance.
-     * @throws Exception
+     * @throws Exception if incorrect request.
      */
     protected HTTPResponse send(Method method) throws Exception {
         if (oAuth != null)
@@ -208,15 +240,15 @@ public class HTTPRequest<T> {
 
         send.baseUri(protocol + host);
 
-        return resultsOf(send.request(method));
+        return HTTPResponse.resultsOf(send.request(method));
     }
 
     /**
      * Returns instance of HTTPResponse class.
      * @param method Rest Assured Method enum.
      * @param path Rest Assured path param.
-     * @return
-     * @throws Exception
+     * @return HTTPResponse instance.
+     * @throws Exception if incorrect request.
      */
     protected HTTPResponse send(Method method, String path) throws Exception {
         if (oAuth != null)
@@ -224,6 +256,6 @@ public class HTTPRequest<T> {
 
         send.baseUri(protocol + host);
 
-        return resultsOf(send.request(method, path));
+        return HTTPResponse.resultsOf(send.request(method, path));
     }
 }
