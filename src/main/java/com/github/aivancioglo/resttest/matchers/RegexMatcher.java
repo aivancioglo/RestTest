@@ -26,7 +26,6 @@ public class RegexMatcher extends TypeSafeMatcher<String> {
         return false;
     }
 
-
     // matcher classMethod you can call on this matcher class
     public static RegexMatcher regex(final Object regex) {
         return new RegexMatcher((String) regex);

@@ -301,6 +301,6 @@ public class HTTPRequest<T> {
 
         send.baseUri(protocol + host);
 
-        return new HTTPResponse(send.request(method));
+        return new HTTPResponse(send.request(method, path));
     }
 }
