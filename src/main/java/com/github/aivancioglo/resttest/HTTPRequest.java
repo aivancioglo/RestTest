@@ -252,6 +252,18 @@ public class HTTPRequest<T> {
     }
 
     /**
+     * Setting up path param.
+     *
+     * @param key   of param.
+     * @param value of param.
+     * @return this class instance.
+     */
+    public T setPathParam(String key, Object value) {
+        send.pathParam(key, value);
+        return (T) this;
+    }
+
+    /**
      * Logging request.
      *
      * @return this class instance.
