@@ -1,4 +1,4 @@
-package resttest;
+package com.github.aivancioglo.resttest;
 
 /**
  * Thi class is using for requests with OAuth 1.0 security
@@ -11,6 +11,7 @@ public class OAuth1 {
 
     /**
      * Use this method to get consumer key.
+     *
      * @return consumer key.
      */
     public String consumerKey() {
@@ -19,6 +20,7 @@ public class OAuth1 {
 
     /**
      * Use this method to get consumer secret.
+     *
      * @return consumer secret.
      */
     public String consumerSecret() {
@@ -27,6 +29,7 @@ public class OAuth1 {
 
     /**
      * Use this method to get token.
+     *
      * @return token.
      */
     public String token() {
@@ -35,6 +38,7 @@ public class OAuth1 {
 
     /**
      * Use this method to get token secret.
+     *
      * @return token secret.
      */
     public String tokenSecret() {
@@ -43,6 +47,7 @@ public class OAuth1 {
 
     /**
      * Use this method to set consumer key.
+     *
      * @param consumerKey is sting value.
      */
     public void setConsumerKey(String consumerKey) {
@@ -51,6 +56,7 @@ public class OAuth1 {
 
     /**
      * Use this method to set consumer secret.
+     *
      * @param consumerSecret is string value.
      */
     public void setConsumerSecret(String consumerSecret) {
@@ -59,6 +65,7 @@ public class OAuth1 {
 
     /**
      * Use this method to set token.
+     *
      * @param token is sting value.
      */
     public void setToken(String token) {
@@ -67,6 +74,7 @@ public class OAuth1 {
 
     /**
      * Use this method to set token secret.
+     *
      * @param tokenSecret is sting value.
      */
     public void setTokenSecret(String tokenSecret) {

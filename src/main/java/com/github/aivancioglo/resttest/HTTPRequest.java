@@ -1,4 +1,4 @@
-package resttest;
+package com.github.aivancioglo.resttest;
 
 import io.restassured.RestAssured;
 import io.restassured.config.HttpClientConfig;
@@ -27,8 +27,8 @@ public class HTTPRequest<T> {
     static {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         RestAssured.config = RestAssured.config().httpClient(HttpClientConfig.httpClientConfig()
-                .setParam("com.github.resttest.http.connection.timeout", 3000)
-                .setParam("com.github.resttest.http.socket.timeout", 3000));
+                .setParam("http.connection.timeout", 3000)
+                .setParam("http.socket.timeout", 3000));
     }
 
     public HTTPRequest() {
@@ -38,7 +38,8 @@ public class HTTPRequest<T> {
 
     /**
      * Add new request header.
-     * @param name header name.
+     *
+     * @param name  header name.
      * @param value header value.
      * @return this class instance.
      */
@@ -49,6 +50,7 @@ public class HTTPRequest<T> {
 
     /**
      * Set consumer key for request.
+     *
      * @param consumerKey OAuth 1.0 consumer key.
      * @return this class instance.
      */
@@ -62,6 +64,7 @@ public class HTTPRequest<T> {
 
     /**
      * Set consumer secret for request.
+     *
      * @param consumerSecret OAuth 1.0 consumer secret.
      * @return this class instance.
      */
@@ -75,6 +78,7 @@ public class HTTPRequest<T> {
 
     /**
      * Set token for request.
+     *
      * @param token OAut 1.0 token.
      * @return this class instance.
      */
@@ -88,6 +92,7 @@ public class HTTPRequest<T> {
 
     /**
      * Set token secret for request.
+     *
      * @param tokenSecret OAut 1.0 token secret.
      * @return this class instance.
      */
@@ -101,6 +106,7 @@ public class HTTPRequest<T> {
 
     /**
      * Set protocol for request.
+     *
      * @param protocol protocol of endpoint.
      * @return this class instance.
      */
@@ -111,7 +117,8 @@ public class HTTPRequest<T> {
 
     /**
      * Add parameter for request.
-     * @param key parameter key.
+     *
+     * @param key   parameter key.
      * @param value parameter value.
      * @return this class instance.
      */
@@ -122,7 +129,8 @@ public class HTTPRequest<T> {
 
     /**
      * Add parameter as collection for request.
-     * @param name collection name.
+     *
+     * @param name       collection name.
      * @param collection collection of values.
      * @return this class instance.
      */
@@ -133,7 +141,8 @@ public class HTTPRequest<T> {
 
     /**
      * Add query parameter for request.
-     * @param key parameter key.
+     *
+     * @param key   parameter key.
      * @param value parameter value.
      * @return this class instance.
      */
@@ -143,8 +152,9 @@ public class HTTPRequest<T> {
     }
 
     /**
-     * Add form param for request.
-     * @param key parameter key.
+     * Add form-param for request.
+     *
+     * @param key   parameter key.
      * @param value parameter value.
      * @return this class instance.
      */
@@ -154,8 +164,9 @@ public class HTTPRequest<T> {
     }
 
     /**
-     * Add form param as collection for request.
-     * @param name collection name.
+     * Add form-param as collection for request.
+     *
+     * @param name       collection name.
      * @param collection collection of values.
      * @return this class instance.
      */
@@ -166,6 +177,7 @@ public class HTTPRequest<T> {
 
     /**
      * Add body as Object for request. Automatically serialization.
+     *
      * @param body class Object.
      * @return this class instance.
      */
@@ -176,6 +188,7 @@ public class HTTPRequest<T> {
 
     /**
      * Add body as string.
+     *
      * @param body String.
      * @return this class instance.
      */
@@ -186,6 +199,7 @@ public class HTTPRequest<T> {
 
     /**
      * Set content type.
+     *
      * @param type Rest assured ContentType enum.
      * @return this class instance.
      */
@@ -196,6 +210,7 @@ public class HTTPRequest<T> {
 
     /**
      * Set content type.
+     *
      * @param type String.
      * @return this class instance.
      */
@@ -206,6 +221,7 @@ public class HTTPRequest<T> {
 
     /**
      * Set host for request.
+     *
      * @param host String.
      * @return this class instance.
      */
@@ -216,46 +232,63 @@ public class HTTPRequest<T> {
 
     /**
      * Set path for request.
+     *
      * @param path String.
      * @return this class instance.
-     * @throws UnsupportedEncodingException if encoding invalid.
      */
-    public T setPath(String path) throws UnsupportedEncodingException {
+    public T setPath(String path) {
         Matcher m = Pattern.compile("[?&]([^&=]+)=([^&=]+)").matcher(path);
-        while (m.find()) addQueryParam(m.group(1), URLDecoder.decode(m.group(2), "UTF-8"));
+
+        while (m.find()) {
+            try {
+                addQueryParam(m.group(1), URLDecoder.decode(m.group(2), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         send.basePath(path);
         return (T) this;
     }
 
     /**
-     * Returns instance of HTTPResponse class.
-     * @param method Rest Assured Method enum.
-     * @return HTTPResponse instance.
-     * @throws Exception if incorrect request.
+     * Logging request.
+     *
+     * @return this class instance.
      */
-    protected HTTPResponse send(Method method) throws Exception {
-        if (oAuth != null)
-            send.auth().oauth(oAuth.consumerKey(), oAuth.consumerSecret(), oAuth.token(), oAuth.tokenSecret());
-
-        send.baseUri(protocol + host);
-
-        return HTTPResponse.resultsOf(send.request(method));
+    public T logRequest() {
+        send.request().log().all();
+        return (T) this;
     }
 
     /**
      * Returns instance of HTTPResponse class.
+     *
      * @param method Rest Assured Method enum.
-     * @param path Rest Assured path param.
      * @return HTTPResponse instance.
-     * @throws Exception if incorrect request.
      */
-    protected HTTPResponse send(Method method, String path) throws Exception {
+    protected HTTPResponse send(Method method) {
         if (oAuth != null)
             send.auth().oauth(oAuth.consumerKey(), oAuth.consumerSecret(), oAuth.token(), oAuth.tokenSecret());
 
         send.baseUri(protocol + host);
 
-        return HTTPResponse.resultsOf(send.request(method, path));
+        return new HTTPResponse(send.request(method));
+    }
+
+    /**
+     * Returns instance of HTTPResponse class.
+     *
+     * @param method Rest Assured Method enum.
+     * @param path   Rest Assured path param.
+     * @return HTTPResponse instance.
+     */
+    protected HTTPResponse send(Method method, String path) {
+        if (oAuth != null)
+            send.auth().oauth(oAuth.consumerKey(), oAuth.consumerSecret(), oAuth.token(), oAuth.tokenSecret());
+
+        send.baseUri(protocol + host);
+
+        return new HTTPResponse(send.request(method));
     }
 }

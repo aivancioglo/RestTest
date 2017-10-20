@@ -1,6 +1,5 @@
-package resttest;
+package com.github.aivancioglo.resttest;
 
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -18,85 +17,91 @@ public class Endpoint extends HTTPRequest<Endpoint> {
 
     /**
      * Method for GET request.
+     *
      * @return HTTPResponse instance.
-     * @throws Exception if incorrect request.
      */
-    public HTTPResponse get() throws Exception {
+    public HTTPResponse get() {
         return send(GET);
     }
 
     /**
      * Method for POST request.
+     *
      * @return HTTPResponse instance.
-     * @throws Exception if incorrect request.
      */
-    public HTTPResponse post() throws Exception {
+    public HTTPResponse post() {
         return send(POST);
     }
 
     /**
      * Method for PATCH request.
+     *
      * @return HTTPResponse instance.
-     * @throws Exception if incorrect request.
      */
-    public HTTPResponse patch() throws Exception {
+    public HTTPResponse patch() {
         return send(PATCH);
     }
 
     /**
      * Method for DELETE request.
+     *
      * @return HTTPResponse instance.
-     * @throws Exception if incorrect request.
      */
-    public HTTPResponse delete() throws Exception {
+    public HTTPResponse delete() {
         return send(DELETE);
     }
 
     /**
      * Method for PUT request.
+     *
      * @return HTTPResponse instance.
-     * @throws Exception if incorrect request.
      */
-    public HTTPResponse put() throws Exception {
+    public HTTPResponse put() {
         return send(PUT);
     }
 
     /**
      * Method for HEAD request.
+     *
      * @return HTTPResponse instance.
-     * @throws Exception if incorrect request.
      */
-    public HTTPResponse head() throws Exception {
+    public HTTPResponse head() {
         return send(HEAD);
     }
 
     /**
      * Method for TRACE request.
+     *
      * @return HTTPResponse instance.
-     * @throws Exception if incorrect request.
      */
-    public HTTPResponse trace() throws Exception {
+    public HTTPResponse trace() {
         return send(TRACE);
     }
 
     /**
      * Method for OPTIONS request.
+     *
      * @return HTTPResponse instance.
-     * @throws Exception if incorrect request.
      */
-    public HTTPResponse options() throws Exception {
+    public HTTPResponse options() {
         return send(OPTIONS);
     }
 
     /**
      * Set URL for request.
+     *
      * @param endpoint String.
      * @return instance of this class.
-     * @throws MalformedURLException if incorrect URL.
-     * @throws UnsupportedEncodingException if encoding invalid.
      */
-    public Endpoint setURL(String endpoint) throws MalformedURLException, UnsupportedEncodingException {
-        URL url = new URL(endpoint);
+    public Endpoint setURL(String endpoint) {
+        URL url;
+
+        try {
+            url = new URL(endpoint);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+
         setProtocol(url.getProtocol());
         setHost(url.getHost());
         setPath(url.getPath() + "?" + url.getQuery());
