@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest;
+package com.github.aivancioglo.resttest.http;
 
 /**
  * Thi class is using for requests with OAuth 1.0 security
@@ -46,7 +46,7 @@ public class OAuth1 {
     }
 
     /**
-     * Use this method to set consumer key.
+     * Use this method to update consumer key.
      *
      * @param consumerKey is sting value.
      */
@@ -55,7 +55,7 @@ public class OAuth1 {
     }
 
     /**
-     * Use this method to set consumer secret.
+     * Use this method to update consumer secret.
      *
      * @param consumerSecret is string value.
      */
@@ -64,7 +64,7 @@ public class OAuth1 {
     }
 
     /**
-     * Use this method to set token.
+     * Use this method to update token.
      *
      * @param token is sting value.
      */
@@ -73,7 +73,7 @@ public class OAuth1 {
     }
 
     /**
-     * Use this method to set token secret.
+     * Use this method to update token secret.
      *
      * @param tokenSecret is sting value.
      */
