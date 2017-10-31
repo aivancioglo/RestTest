@@ -15,6 +15,6 @@ public class Path<T extends HTTPRequest> implements Setter<T> {
      */
     @Override
     public void update(T request) {
-        request.setToken(path);
+        request.setPath(path);
     }
 }
