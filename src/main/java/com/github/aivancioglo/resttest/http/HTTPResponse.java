@@ -38,6 +38,26 @@ public class HTTPResponse {
     }
 
     /**
+     * Returns instance of Validate class.
+     *
+     * @param code assertion status code.
+     * @return Validate instance.
+     */
+    public Validate assertThat(int code) {
+        return new Validate().statusCode(code);
+    }
+
+    /**
+     * Returns instance of Validate class.
+     *
+     * @param code assertion status code enum.
+     * @return Validate instance.
+     */
+    public Validate assertThat(StatusCode code) {
+        return new Validate().statusCode(code);
+    }
+
+    /**
      * Use this method for response logging.
      *
      * @return this class instance.
@@ -141,6 +161,17 @@ public class HTTPResponse {
          */
         public HTTPResponse.Validate statusCode(int code) {
             response.then().assertThat().statusCode(code);
+            return this;
+        }
+
+        /**
+         * Assert response status code.
+         *
+         * @param code response status code enum.
+         * @return this class instance.
+         */
+        public HTTPResponse.Validate statusCode(StatusCode code) {
+            response.then().assertThat().statusCode(code.code);
             return this;
         }
 
