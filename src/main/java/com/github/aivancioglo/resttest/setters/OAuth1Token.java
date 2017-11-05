@@ -2,11 +2,11 @@ package com.github.aivancioglo.resttest.setters;
 
 import com.github.aivancioglo.resttest.http.HTTPRequest;
 
-public class TokenSecret<T extends HTTPRequest> implements Setter<T> {
-    private String tokenSecret;
+public class OAuth1Token<T extends HTTPRequest> implements Setter<T> {
+    private String token;
 
-    public TokenSecret(String tokenSecret) {
-        this.tokenSecret = tokenSecret;
+    public OAuth1Token(String token) {
+        this.token = token;
     }
 
     /**
@@ -15,6 +15,6 @@ public class TokenSecret<T extends HTTPRequest> implements Setter<T> {
      */
     @Override
     public void update(T request) {
-        request.setTokenSecret(tokenSecret);
+        request.setOAuth1Token(token);
     }
 }

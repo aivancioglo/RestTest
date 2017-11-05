@@ -17,7 +17,8 @@ import java.util.regex.Pattern;
  */
 public class HTTPRequest<T> {
     protected RequestSpecification send;
-    protected OAuth1 oAuth;
+    protected OAuth1 oAuth1;
+    protected OAuth2 oAuth2;
     protected String protocol;
     protected String host;
 
@@ -51,56 +52,70 @@ public class HTTPRequest<T> {
     /**
      * Set consumer key for request.
      *
-     * @param consumerKey OAuth 1.0 consumer key.
+     * @param consumerKey OAuth1 consumer key.
      * @return this class instance.
      */
-    public T setConsumerKey(String consumerKey) {
-        if (oAuth == null)
-            oAuth = new OAuth1();
+    public T setOAuth1ConsumerKey(String consumerKey) {
+        if (oAuth1 == null)
+            oAuth1 = new OAuth1();
 
-        oAuth.setConsumerKey(consumerKey);
+        oAuth1.setConsumerKey(consumerKey);
         return (T) this;
     }
 
     /**
      * Set consumer secret for request.
      *
-     * @param consumerSecret OAuth 1.0 consumer secret.
+     * @param consumerSecret OAuth1 consumer secret.
      * @return this class instance.
      */
-    public T setConsumerSecret(String consumerSecret) {
-        if (oAuth == null)
-            oAuth = new OAuth1();
+    public T setOAuth1ConsumerSecret(String consumerSecret) {
+        if (oAuth1 == null)
+            oAuth1 = new OAuth1();
 
-        oAuth.setConsumerSecret(consumerSecret);
+        oAuth1.setConsumerSecret(consumerSecret);
         return (T) this;
     }
 
     /**
      * Set token for request.
      *
-     * @param token OAut 1.0 token.
+     * @param token OAuth1 token.
      * @return this class instance.
      */
-    public T setToken(String token) {
-        if (oAuth == null)
-            oAuth = new OAuth1();
+    public T setOAuth2Token(String token) {
+        if (oAuth2 == null)
+            oAuth2 = new OAuth2();
 
-        oAuth.setToken(token);
+        oAuth2.setToken(token);
         return (T) this;
     }
 
     /**
      * Set token secret for request.
      *
-     * @param tokenSecret OAut 1.0 token secret.
+     * @param tokenSecret OAuth1 token secret.
      * @return this class instance.
      */
-    public T setTokenSecret(String tokenSecret) {
-        if (oAuth == null)
-            oAuth = new OAuth1();
+    public T setOAuth1TokenSecret(String tokenSecret) {
+        if (oAuth1 == null)
+            oAuth1 = new OAuth1();
 
-        oAuth.setTokenSecret(tokenSecret);
+        oAuth1.setTokenSecret(tokenSecret);
+        return (T) this;
+    }
+
+    /**
+     * Set token for request.
+     *
+     * @param token OAuth2 token.
+     * @return this class instance.
+     */
+    public T setOAuth1Token(String token) {
+        if (oAuth1 == null)
+            oAuth1 = new OAuth1();
+
+        oAuth1.setToken(token);
         return (T) this;
     }
 
@@ -280,8 +295,14 @@ public class HTTPRequest<T> {
      * @return HTTPResponse instance.
      */
     protected HTTPResponse send(Method method) {
-        if (oAuth != null)
-            send.auth().oauth(oAuth.consumerKey(), oAuth.consumerSecret(), oAuth.token(), oAuth.tokenSecret());
+        if (oAuth1 != null && oAuth2 != null)
+            throw new RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same request!");
+
+        if (oAuth1 != null)
+            send.auth().oauth(oAuth1.consumerKey(), oAuth1.consumerSecret(), oAuth1.token(), oAuth1.tokenSecret());
+
+        if (oAuth2 != null)
+            send.auth().oauth2(oAuth2.token());
 
         send.baseUri(protocol + host);
 
@@ -296,8 +317,8 @@ public class HTTPRequest<T> {
      * @return HTTPResponse instance.
      */
     protected HTTPResponse send(Method method, String path) {
-        if (oAuth != null)
-            send.auth().oauth(oAuth.consumerKey(), oAuth.consumerSecret(), oAuth.token(), oAuth.tokenSecret());
+        if (oAuth1 != null)
+            send.auth().oauth(oAuth1.consumerKey(), oAuth1.consumerSecret(), oAuth1.token(), oAuth1.tokenSecret());
 
         send.baseUri(protocol + host);
 

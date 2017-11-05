@@ -90,7 +90,7 @@ public class Endpoint extends HTTPRequest<Endpoint> {
     /**
      * Set URL for request.
      *
-     * @param endpoint String.
+     * @param endpoint URL.
      * @return instance of this class.
      */
     public Endpoint setURL(String endpoint) {

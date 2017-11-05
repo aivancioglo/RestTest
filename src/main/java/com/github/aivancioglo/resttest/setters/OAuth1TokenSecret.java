@@ -2,11 +2,11 @@ package com.github.aivancioglo.resttest.setters;
 
 import com.github.aivancioglo.resttest.http.HTTPRequest;
 
-public class ConsumerKey<T extends HTTPRequest> implements Setter<T> {
-    private String consumerKey;
+public class OAuth1TokenSecret<T extends HTTPRequest> implements Setter<T> {
+    private String tokenSecret;
 
-    public ConsumerKey(String consumerKey) {
-        this.consumerKey = consumerKey;
+    public OAuth1TokenSecret(String tokenSecret) {
+        this.tokenSecret = tokenSecret;
     }
 
     /**
@@ -15,6 +15,6 @@ public class ConsumerKey<T extends HTTPRequest> implements Setter<T> {
      */
     @Override
     public void update(T request) {
-        request.setConsumerKey(consumerKey);
+        request.setOAuth1TokenSecret(tokenSecret);
     }
 }

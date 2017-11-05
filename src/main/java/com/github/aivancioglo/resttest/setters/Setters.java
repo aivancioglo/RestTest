@@ -81,42 +81,6 @@ public abstract class Setters {
     }
 
     /**
-     * Add consumer key to request.
-     * @param consumerKey oAuth 1.0 consumer key.
-     * @return instance of ConsumerKey setter.
-     */
-    public static ConsumerKey consumerKey(String consumerKey) {
-        return new ConsumerKey(consumerKey);
-    }
-
-    /**
-     * Add consumer secret to request.
-     * @param consumerSecret oAuth 1.0 consumer secret.
-     * @return instance of ConsumerSecret setter.
-     */
-    public static ConsumerSecret consumerSecret(String consumerSecret) {
-        return new ConsumerSecret(consumerSecret);
-    }
-
-    /**
-     * Add token to request.
-     * @param token oAuth 1.0 token.
-     * @return instance of Token setter.
-     */
-    public static Token token(String token) {
-        return new Token(token);
-    }
-
-    /**
-     * Add token secret to request.
-     * @param tokenSecret oAuth 1.0 token secret.
-     * @return instance of TokenSecret setter.
-     */
-    public static TokenSecret tokenSecret(String tokenSecret) {
-        return new TokenSecret(tokenSecret);
-    }
-
-    /**
      * Set protocol to request.
      * @param protocol request protocol.
      * @return instance of Protocol setter.
