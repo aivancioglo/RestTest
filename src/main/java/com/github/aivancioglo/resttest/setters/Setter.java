@@ -8,4 +8,15 @@ public interface Setter<T extends HTTPRequest> {
      * @param request actual request.
      */
     void update(T request);
+
+    /**
+     * Update request params using setters.
+     * @param request actual request.
+     * @param setters array of setters.
+     * @param <K> request class.
+     */
+    static <K extends HTTPRequest> void set(K request, Setter<K>... setters) {
+        for (Setter<K> setter : setters)
+            setter.update(request);
+    }
 }
