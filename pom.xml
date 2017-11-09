@@ -4,7 +4,7 @@
 
     <groupId>com.github.aivancioglo</groupId>
     <artifactId>resttest</artifactId>
-    <version>1.2.5</version>
+    <version>1.2.7</version>
 
     <name>RestTest</name>
     <description>Lib for REST API testing</description>
@@ -28,7 +28,7 @@
         <url>http://github.com/aivancioglo/RestTest/tree/master</url>
         <connection>scm:git:git://github.com/aivancioglo/RestTest.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/aivancioglo/RestTest.git</developerConnection>
-        <tag>resttest-1.2.5</tag>
+        <tag>resttest-1.2.7</tag>
     </scm>
 
     <distributionManagement>

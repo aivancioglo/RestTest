@@ -28,7 +28,7 @@ public abstract class Setters {
      * @param value value of param.
      * @return instance of Param setter.
      */
-    public static Param param(String key, String value) {
+    public static Param param(String key, Object value) {
         return new Param(key, value);
     }
 
@@ -38,7 +38,7 @@ public abstract class Setters {
      * @param value value of param.
      * @return instance of QueryParam setter.
      */
-    public static QueryParam queryParam(String key, String value) {
+    public static QueryParam queryParam(String key, Object value) {
         return new QueryParam(key, value);
     }
 
@@ -48,7 +48,7 @@ public abstract class Setters {
      * @param value value of param.
      * @return instance of FormParam setter.
      */
-    public static FormParam formParam(String key, String value) {
+    public static FormParam formParam(String key, Object value) {
         return new FormParam(key, value);
     }
 
@@ -60,15 +60,6 @@ public abstract class Setters {
      */
     public static Header header(String name, String value) {
         return new Header(name, value);
-    }
-
-    /**
-     * Add body to request.
-     * @param body request body.
-     * @return instance of Body setter.
-     */
-    public static Body body(String body) {
-        return new Body(body);
     }
 
     /**

@@ -4,9 +4,9 @@ import com.github.aivancioglo.resttest.http.HTTPRequest;
 
 public class FormParam<T extends HTTPRequest> implements Setter<T> {
     private String key;
-    private String value;
+    private Object value;
 
-    public FormParam(String key, String value) {
+    public FormParam(String key, Object value) {
         this.key = key;
         this.value = value;
     }
