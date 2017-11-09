@@ -4,9 +4,9 @@ import com.github.aivancioglo.resttest.http.HTTPRequest;
 
 public class QueryParam<T extends HTTPRequest> implements Setter<T> {
     private String key;
-    private String value;
+    private Object value;
 
-    public QueryParam(String key, String value) {
+    public QueryParam(String key, Object value) {
         this.key = key;
         this.value = value;
     }
