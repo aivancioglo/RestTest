@@ -122,7 +122,7 @@ public class HTTPRequest<T> {
      * @param value parameter value.
      * @return this class instance.
      */
-    public T addParam(String key, String value) {
+    public T addParam(String key, Object value) {
         send.param(key, value);
         return (T) this;
     }
@@ -146,7 +146,7 @@ public class HTTPRequest<T> {
      * @param value parameter value.
      * @return this class instance.
      */
-    public T addQueryParam(String key, String value) {
+    public T addQueryParam(String key, Object value) {
         send.queryParam(key, value);
         return (T) this;
     }
@@ -158,7 +158,7 @@ public class HTTPRequest<T> {
      * @param value parameter value.
      * @return this class instance.
      */
-    public T addFormParam(String key, String value) {
+    public T addFormParam(String key, Object value) {
         send.formParam(key, value);
         return (T) this;
     }
@@ -182,17 +182,6 @@ public class HTTPRequest<T> {
      * @return this class instance.
      */
     public T setBody(Object body) {
-        send.body(body);
-        return (T) this;
-    }
-
-    /**
-     * Add body as string.
-     *
-     * @param body String.
-     * @return this class instance.
-     */
-    public T setBody(String body) {
         send.body(body);
         return (T) this;
     }
