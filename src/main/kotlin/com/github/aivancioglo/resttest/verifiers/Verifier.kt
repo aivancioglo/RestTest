@@ -2,12 +2,15 @@ package com.github.aivancioglo.resttest.verifiers
 
 import io.restassured.response.Response
 
+/**
+ *  Verifiers interface.
+ */
 interface Verifier {
-    fun verify(response: Response)
 
-    companion object {
-        fun verify(response: Response, vararg verifiers: Verifier) {
-            verifiers.forEach { it.verify(response) }
-        }
-    }
+    /**
+     * Function for response verifying.
+     *
+     * @param response of your request.
+     */
+    fun verify(response: Response)
 }

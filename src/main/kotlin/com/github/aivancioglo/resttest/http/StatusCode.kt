@@ -1,5 +1,12 @@
 package com.github.aivancioglo.resttest.http
 
+/**
+ * Enum class with all base response status codes.
+ *
+ * @constructor creates enum item.
+ * @param code of response.
+ * @param message of response code.
+ */
 enum class StatusCode(val code: Int, val message: String) {
     // Information
     CONTINUE(100, "Continue"),
