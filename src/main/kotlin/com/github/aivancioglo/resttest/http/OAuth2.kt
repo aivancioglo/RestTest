@@ -6,13 +6,13 @@ import com.github.aivancioglo.resttest.setters.OAuth2Token
  * Class for OAuth 2 using in requests.
  */
 class OAuth2 {
-    var created = false
+    var used = false
         private set
 
     var token: String = ""
         set(value) {
             field = value
-            created = true
+            used = true
         }
 
     companion object {

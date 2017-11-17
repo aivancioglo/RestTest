@@ -32,14 +32,14 @@ class ContentType<in T : HTTPRequest<*>> : Setter<T> {
     }
 
     /**
-     * Setting content type of your request.
+     * Setting content type of your requestSpecification.
      *
      * @param request that will be updated.
      */
     override fun update(request: T) {
         if (isString)
-            request.send.contentType(sType)
+            request.requestSpecification.contentType(sType)
         else
-            request.send.contentType(rType)
+            request.requestSpecification.contentType(rType.acceptHeader)
     }
 }

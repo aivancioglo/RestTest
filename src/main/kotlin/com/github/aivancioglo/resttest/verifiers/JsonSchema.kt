@@ -17,6 +17,6 @@ class JsonSchema(private val schema: String) : Verifier {
      * @param response of your request.
      */
     override fun verify(response: Response) {
-        response.then().assertThat().body(matchesJsonSchemaInClasspath(schema))
+        response.then().body(matchesJsonSchemaInClasspath(schema))
     }
 }

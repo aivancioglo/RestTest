@@ -6,37 +6,16 @@ import org.junit.jupiter.api.Assertions.assertEquals
 /**
  * Equals verifier class.
  */
-class Equals : Verifier {
-    private var expected: Any? = null
-    private var actual: Any? = null
-    private var message: String = ""
-
-    /**
-     * @constructor is creating variables of expected and actual values.
-     * @param expected value.
-     * @param actual array of matchers.
-     */
-    constructor(expected: Any, actual: Any) {
-        this.expected = expected
-        this.actual = actual
-    }
-
-    /**
-     * @constructor is creating variables of expected and actual values.
-     * @param expected value.
-     * @param actual array of matchers.
-     * @param message of fail.
-     */
-    constructor(expected: Any, actual: Any, message: String) {
-        this.expected = expected
-        this.actual = actual
-        this.message = message
-    }
+class Equals @JvmOverloads constructor(
+        private var expected: Any,
+        private var actual: Any,
+        private var message: String = ""
+) : Verifier {
 
     /**
      * Verify response.
      *
-     * @param response of your request.
+     * @param response of your requestSpecification.
      */
     override fun verify(response: Response) {
         if (message == "")

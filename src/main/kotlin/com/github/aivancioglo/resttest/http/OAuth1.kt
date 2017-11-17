@@ -9,31 +9,31 @@ import com.github.aivancioglo.resttest.setters.OAuth1TokenSecret
  * Class for OAuth 1.0 using in requests.
  */
 class OAuth1 {
-    var created = false
+    var used = false
         private set
 
     var consumerKey: String = ""
         set(value) {
             field = value
-            created = true
+            used = true
         }
 
     var consumerSecret: String = ""
         set(value) {
             field = value
-            created = true
+            used = true
         }
 
     var token: String = ""
         set(value) {
             field = value
-            created = true
+            used = true
         }
 
     var tokenSecret: String = ""
         set(value) {
             field = value
-            created = true
+            used = true
         }
 
     companion object {

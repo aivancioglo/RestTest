@@ -5,7 +5,7 @@ import com.github.aivancioglo.resttest.http.HTTPRequest
 class OAuth1TokenSecret<in T : HTTPRequest<*>>(private val tokenSecret: String) : Setter<T> {
 
     /**
-     * Setting OAuth 1.0 token secret to your request.
+     * Setting OAuth 1.0 token secret to your requestSpecification.
      *
      * @param request that will be updated.
      */

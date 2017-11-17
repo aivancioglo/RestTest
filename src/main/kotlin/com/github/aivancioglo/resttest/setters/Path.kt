@@ -7,13 +7,13 @@ import java.util.regex.Pattern
 /**
  * Path setter.
  *
- * @constructor is creating variable with request path value.
- * @param path of your request.
+ * @constructor is creating variable with requestSpecification path value.
+ * @param path of your requestSpecification.
  */
 class Path<in T : HTTPRequest<*>>(private val path: String) : Setter<T> {
 
     /**
-     * Setting path of your request.
+     * Setting path of your requestSpecification.
      *
      * @param request that will be updated.
      */
@@ -21,8 +21,8 @@ class Path<in T : HTTPRequest<*>>(private val path: String) : Setter<T> {
         val m = Pattern.compile("[?&]([^&=]+)=([^&=]+)").matcher(path)
 
         while (m.find())
-            request.send.queryParam(m.group(1), URLDecoder.decode(m.group(2), "UTF-8"))
+            request.requestSpecification.queryParam(m.group(1), URLDecoder.decode(m.group(2), "UTF-8"))
 
-        request.send.basePath(path)
+        request.requestSpecification.basePath(path)
     }
 }

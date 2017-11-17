@@ -11,14 +11,18 @@ import org.hamcrest.Matcher
  * @param matcher for path validation.
  * @param additionalKeyMatcherPairs is array of matchers.
  */
-class Path(private val path: String, private val matcher: Matcher<*>, vararg private val additionalKeyMatcherPairs: Any) : Verifier {
+class Path(
+        private val path: String,
+        private val matcher: Matcher<*>,
+        vararg private val additionalKeyMatcherPairs: Any
+) : Verifier {
 
     /**
      * Verify response.
      *
-     * @param response of your request.
+     * @param response of your requestSpecification.
      */
     override fun verify(response: Response) {
-        response.then().assertThat().body(path, matcher, *additionalKeyMatcherPairs)
+        response.then().body(path, matcher, *additionalKeyMatcherPairs)
     }
 }

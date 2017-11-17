@@ -3,12 +3,12 @@ package com.github.aivancioglo.resttest.setters
 import com.github.aivancioglo.resttest.http.HTTPRequest
 
 /**
- * Request body setter.
+ * Request port setter.
  *
  * @constructor is creating variable with requestSpecification body value.
- * @param body of your requestSpecification.
+ * @param port of your requestSpecification.
  */
-class Body<in T : HTTPRequest<*>>(private val body: Any) : Setter<T> {
+class Port<in T : HTTPRequest<*>>(private val port: Int) : Setter<T> {
 
     /**
      * Setting body of your requestSpecification.
@@ -16,6 +16,6 @@ class Body<in T : HTTPRequest<*>>(private val body: Any) : Setter<T> {
      * @param request that will be updated.
      */
     override fun update(request: T) {
-        request.requestSpecification.body(body)
+        request.requestSpecification.port(port)
     }
 }

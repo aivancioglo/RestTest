@@ -5,13 +5,13 @@ import com.github.aivancioglo.resttest.http.HTTPRequest
 /**
  * Host setter.
  *
- * @constructor is creating variable with request host value.
- * @param host of your request.
+ * @constructor is creating variable with requestSpecification host value.
+ * @param host of your requestSpecification.
  */
 class Host<in T : HTTPRequest<*>>(private val host: String) : Setter<T> {
 
     /**
-     * Setting host of your request.
+     * Setting host of your requestSpecification.
      *
      * @param request that will be updated.
      */

@@ -6,32 +6,11 @@ import org.junit.jupiter.api.Assertions
 /**
  * NotEquals verifier class.
  */
-class NotEqual : Verifier {
-    private var expected: Any? = null
-    private var actual: Any? = null
-    private var message: String = ""
-
-    /**
-     * @constructor is creating variables of unexpected and actual values.
-     * @param unexpected value.
-     * @param actual array of matchers.
-     */
-    constructor(unexpected: Any, actual: Any) {
-        this.expected = unexpected
-        this.actual = actual
-    }
-
-    /**
-     * @constructor is creating variables of unexpected and actual values.
-     * @param unexpected value.
-     * @param actual array of matchers.
-     * @param message of fail.
-     */
-    constructor(unexpected: Any, actual: Any, message: String) {
-        this.expected = unexpected
-        this.actual = actual
-        this.message = message
-    }
+class NotEqual @JvmOverloads constructor(
+        private var expected: Any?,
+        private var actual: Any?,
+        private var message: String = ""
+) : Verifier {
 
     /**
      * Verify response.

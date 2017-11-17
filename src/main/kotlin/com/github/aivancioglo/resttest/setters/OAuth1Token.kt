@@ -6,12 +6,12 @@ import com.github.aivancioglo.resttest.http.HTTPRequest
  * OAuth 1.0 token setter.
  *
  * @constructor is creating variable with OAuth 1.0 token value.
- * @param token of your request.
+ * @param token of your requestSpecification.
  */
 class OAuth1Token<in T : HTTPRequest<*>>(private val token: String) : Setter<T> {
 
     /**
-     * Setting OAuth 1.0 token to your request.
+     * Setting OAuth 1.0 token to your requestSpecification.
      *
      * @param request that will be updated.
      */

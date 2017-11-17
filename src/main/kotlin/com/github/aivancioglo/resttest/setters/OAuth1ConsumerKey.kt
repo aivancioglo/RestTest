@@ -6,12 +6,12 @@ import com.github.aivancioglo.resttest.http.HTTPRequest
  * OAuth 1.0 consumer key setter.
  *
  * @constructor is creating variable with OAuth 1.0 consumer key value.
- * @param consumerKey of your request.
+ * @param consumerKey of your requestSpecification.
  */
 class OAuth1ConsumerKey<in T : HTTPRequest<*>>(private val consumerKey: String) : Setter<T> {
 
     /**
-     * Setting OAuth 1.0 consumer key to your request.
+     * Setting OAuth 1.0 consumer key to your requestSpecification.
      *
      * @param request that will be updated.
      */

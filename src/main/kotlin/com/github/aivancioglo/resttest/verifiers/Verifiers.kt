@@ -116,5 +116,23 @@ abstract class Verifiers {
          */
         @JvmStatic
         fun isTrue(condition: Boolean, message: String) = IsTrue(condition, message)
+
+        /**
+         * Verify body content type.
+         *
+         * @param contentType of response body.
+         * @return ContentType verifier instance.
+         */
+        @JvmStatic
+        fun contentType(contentType: io.restassured.http.ContentType) = ContentType(contentType.toString())
+
+        /**
+         * Verify body content type.
+         *
+         * @param contentType of response body.
+         * @return ContentType verifier instance.
+         */
+        @JvmStatic
+        fun contentType(contentType: String) = ContentType(contentType)
     }
 }

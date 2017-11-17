@@ -5,7 +5,7 @@ import com.github.aivancioglo.resttest.http.HTTPRequest
 class OAuth2Token<in T : HTTPRequest<*>>(val token: String) : Setter<T> {
 
     /**
-     * Setting OAuth 2 token to your request.
+     * Setting OAuth 2 token to your requestSpecification.
      *
      * @param request that will be updated.
      */

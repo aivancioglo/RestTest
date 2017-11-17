@@ -2,6 +2,7 @@ package com.github.aivancioglo.resttest.setters
 
 import com.github.aivancioglo.resttest.http.HTTPRequest
 import io.restassured.http.ContentType
+import java.io.InputStream
 
 /**
  * Abstract class for using static functions to call setters.
@@ -70,39 +71,70 @@ abstract class Setters {
         fun <T : HTTPRequest<*>> header(name: String, value: String): Header<T> = Header(name, value)
 
         /**
-         * Getting request body setter.
+         * Getting requestSpecification body setter.
          *
-         * @param body of request.
+         * @param body of requestSpecification.
          * @return Body setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> body(body: Any): Body<T> = Body(body)
 
         /**
-         * Getting request protocol setter.
+         * Getting requestSpecification protocol setter.
          *
-         * @param protocol of request.
+         * @param protocol of requestSpecification.
          * @return Protocol setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> protocol(protocol: String): Protocol<T> = Protocol(protocol)
 
         /**
-         * Getting request host setter.
+         * Getting requestSpecification host setter.
          *
-         * @param host of request.
+         * @param host of requestSpecification.
          * @return Host setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> host(host: String): Host<T> = Host(host)
 
         /**
-         * Getting request path setter.
+         * Getting requestSpecification path setter.
          *
-         * @param path of request.
+         * @param path of requestSpecification.
          * @return Path setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> path(path: String): Path<T> = Path(path)
+
+        /**
+         * Getting requestSpecification port setter.
+         *
+         * @param port of requestSpecification.
+         * @return Port setter instance.
+         */
+        @JvmStatic
+        fun <T : HTTPRequest<*>> port(port: Int): Port<T> = Port(port)
+
+        /**
+         * Getting path param setter.
+         *
+         * @param key of path param.
+         * @param value of path param.
+         * @return PathParam setter instance.
+         */
+        @JvmStatic
+        fun <T : HTTPRequest<*>> pathParam(key: String, value: String): PathParam<T> = PathParam(key, value)
+
+        /**
+         * Getting multi part setter.
+         *
+         * @param controlName of the body part. In HTML this is the attribute name of the input tag.
+         * @param fileName of the content you're uploading.
+         * @param stream you want to requestSpecification.
+         * @return MultiPart setter instance.
+         */
+        @JvmStatic
+        fun <T : HTTPRequest<*>> multiPart(controlName: String, fileName: String, stream: InputStream): MultiPart<T> = MultiPart(controlName, fileName, stream)
+
     }
 }

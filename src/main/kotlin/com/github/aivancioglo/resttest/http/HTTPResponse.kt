@@ -9,8 +9,8 @@ import org.hamcrest.Matcher
 /**
  * This class is using for HTTP/HTTPS response validation and processing.
  *
- * @constructor is setting response of request.
- * @param response of your request.
+ * @constructor is setting response of requestSpecification.
+ * @param response of your requestSpecification.
  */
 class HTTPResponse(private val response: Response) {
 
@@ -37,9 +37,7 @@ class HTTPResponse(private val response: Response) {
      * @param verifiers for response validation.
      */
     fun assertThat(code: Int, vararg verifiers: Verifier) {
-        response.then().assertThat()
-                .statusCode(code)
-
+        response.then().statusCode(code)
         verifiers.forEach { it.verify(response) }
     }
 
@@ -50,9 +48,7 @@ class HTTPResponse(private val response: Response) {
      * @param verifiers for response validation.
      */
     fun assertThat(statusCode: StatusCode, vararg verifiers: Verifier) {
-        response.then().assertThat()
-                .statusCode(statusCode.code)
-
+        response.then().statusCode(statusCode.code)
         verifiers.forEach { it.verify(response) }
     }
 
@@ -64,10 +60,7 @@ class HTTPResponse(private val response: Response) {
      * @param verifiers for response validation.
      */
     fun assertThat(code: Int, jsonSchema: String, vararg verifiers: Verifier) {
-        response.then().assertThat()
-                .statusCode(code)
-                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
-
+        response.then().statusCode(code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
         verifiers.forEach { it.verify(response) }
     }
 
@@ -79,10 +72,7 @@ class HTTPResponse(private val response: Response) {
      * @param verifiers for response validation.
      */
     fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: Verifier) {
-        response.then().assertThat()
-                .statusCode(statusCode.code)
-                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
-
+        response.then().statusCode(statusCode.code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
         verifiers.forEach { it.verify(response) }
     }
 
@@ -174,9 +164,8 @@ class HTTPResponse(private val response: Response) {
          * @param statusCode of your response.
          * @return this class instance.
          */
-        fun statusCode(statusCode: Int): LocalVerifier {
+        fun statusCode(statusCode: Int) = apply {
             com.github.aivancioglo.resttest.verifiers.StatusCode(statusCode)
-            return this
         }
 
         /**
@@ -185,9 +174,8 @@ class HTTPResponse(private val response: Response) {
          * @param statusCode of your response.
          * @return this class instance.
          */
-        fun statusCode(statusCode: StatusCode): LocalVerifier {
+        fun statusCode(statusCode: StatusCode) = apply {
             com.github.aivancioglo.resttest.verifiers.StatusCode(statusCode.code)
-            return this
         }
 
         /**
@@ -196,9 +184,8 @@ class HTTPResponse(private val response: Response) {
          * @param jsonSchema of expected response body.
          * @return this class instance.
          */
-        fun jsonSchema(jsonSchema: String): LocalVerifier {
+        fun jsonSchema(jsonSchema: String) = apply {
             JsonSchema(jsonSchema)
-            return this
         }
 
         /**
@@ -209,9 +196,8 @@ class HTTPResponse(private val response: Response) {
          * @param additionalKeyMatcherPairs for verifying.
          * @return this class instance.
          */
-        fun path(path: String, matcher: Matcher<*>, vararg additionalKeyMatcherPairs: Any): LocalVerifier {
+        fun path(path: String, matcher: Matcher<*>, vararg additionalKeyMatcherPairs: Any) = apply {
             Path(path, matcher, additionalKeyMatcherPairs).verify(response)
-            return this
         }
 
         /**
@@ -221,9 +207,8 @@ class HTTPResponse(private val response: Response) {
          * @param additionalMatchers for verifying.
          * @return this class instance.
          */
-        fun body(matcher: Matcher<*>, vararg additionalMatchers: Matcher<*>): LocalVerifier {
+        fun body(matcher: Matcher<*>, vararg additionalMatchers: Matcher<*>) = apply {
             Body(matcher, *additionalMatchers).verify(response)
-            return this
         }
 
         /**
@@ -233,9 +218,8 @@ class HTTPResponse(private val response: Response) {
          * @param actual condition.
          * @return this class instance.
          */
-        fun equals(expected: Any, actual: Any): LocalVerifier {
+        fun equals(expected: Any, actual: Any) = apply {
             Equals(expected, actual)
-            return this
         }
 
         /**
@@ -246,9 +230,8 @@ class HTTPResponse(private val response: Response) {
          * @param message of fail.
          * @return this class instance.
          */
-        fun equals(expected: Any, actual: Any, message: String): LocalVerifier {
+        fun equals(expected: Any, actual: Any, message: String) = apply {
             Equals(expected, actual, message)
-            return this
         }
 
         /**
@@ -258,9 +241,8 @@ class HTTPResponse(private val response: Response) {
          * @param actual condition.
          * @return this class instance.
          */
-        fun notEquals(unexpected: Any, actual: Any): LocalVerifier {
+        fun notEquals(unexpected: Any, actual: Any) = apply {
             NotEqual(unexpected, actual)
-            return this
         }
 
         /**
@@ -271,9 +253,8 @@ class HTTPResponse(private val response: Response) {
          * @param message of fail.
          * @return this class instance.
          */
-        fun notEquals(unexpected: Any, actual: Any, message: String): LocalVerifier {
+        fun notEquals(unexpected: Any, actual: Any, message: String) = apply {
             NotEqual(unexpected, actual, message)
-            return this
         }
 
         /**
@@ -282,9 +263,8 @@ class HTTPResponse(private val response: Response) {
          * @param condition to verify.
          * @return this class instance.
          */
-        fun isTrue(condition: Boolean): LocalVerifier {
+        fun isTrue(condition: Boolean) = apply {
             IsTrue(condition)
-            return this
         }
 
         /**
@@ -294,9 +274,28 @@ class HTTPResponse(private val response: Response) {
          * @param message of fail.
          * @return this class instance.
          */
-        fun isTrue(condition: Boolean, message: String): LocalVerifier {
+        fun isTrue(condition: Boolean, message: String) = apply {
             IsTrue(condition, message)
-            return this
+        }
+
+        /**
+         * Verify body content type.
+         *
+         * @param contentType of response body.
+         * @return ContentType verifier instance.
+         */
+        fun contentType(contentType: io.restassured.http.ContentType) = apply {
+            ContentType(contentType.toString()).verify(response)
+        }
+
+        /**
+         * Verify body content type.
+         *
+         * @param contentType of response body.
+         * @return ContentType verifier instance.
+         */
+        fun contentType(contentType: String) = apply {
+            ContentType(contentType).verify(response)
         }
     }
 }

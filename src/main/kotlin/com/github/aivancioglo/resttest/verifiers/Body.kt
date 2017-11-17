@@ -15,9 +15,9 @@ class Body(private val matcher : Matcher<*>, vararg private val additionalMatche
     /**
      * Verify response.
      *
-     * @param response of your request.
+     * @param response of your requestSpecification.
      */
     override fun verify(response: Response) {
-        response.then().assertThat().body(matcher, *additionalMatchers)
+        response.then().body(matcher, *additionalMatchers)
     }
 }

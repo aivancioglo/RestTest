@@ -16,6 +16,6 @@ class StatusCode(private val statusCode: Int) : Verifier {
      * @param response of your request.
      */
     override fun verify(response: Response) {
-        response.then().assertThat().statusCode(statusCode)
+        response.then().statusCode(statusCode)
     }
 }
