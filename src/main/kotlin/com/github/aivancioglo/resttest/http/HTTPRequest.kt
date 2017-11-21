@@ -14,6 +14,9 @@ open class HTTPRequest<out T> {
     val oAuth1 = OAuth1()
     val oAuth2 = OAuth2()
     var protocol = "http://"
+        set(value) {
+            field = "$value://"
+        }
     var host = ""
 
     companion object {
