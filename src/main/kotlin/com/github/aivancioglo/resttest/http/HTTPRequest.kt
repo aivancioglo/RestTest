@@ -25,6 +25,7 @@ open class HTTPRequest<out T> {
          * Default request settings.
          */
         init {
+            RestAssured.useRelaxedHTTPSValidation()
             RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
             RestAssured.config = RestAssured.config().httpClient(HttpClientConfig.httpClientConfig()
                     .setParam("http.connection.timeout", 20000)

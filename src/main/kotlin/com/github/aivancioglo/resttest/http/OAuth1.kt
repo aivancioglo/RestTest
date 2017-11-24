@@ -1,9 +1,6 @@
 package com.github.aivancioglo.resttest.http
 
-import com.github.aivancioglo.resttest.setters.OAuth1ConsumerKey
-import com.github.aivancioglo.resttest.setters.OAuth1ConsumerSecret
-import com.github.aivancioglo.resttest.setters.OAuth1Token
-import com.github.aivancioglo.resttest.setters.OAuth1TokenSecret
+import com.github.aivancioglo.resttest.setters.*
 
 /**
  * Class for OAuth 1.0 using in requests.
@@ -44,7 +41,11 @@ class OAuth1 {
          * @return consumer key.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> consumerKey(consumerKey: String) = OAuth1ConsumerKey<T>(consumerKey)
+        fun <T : HTTPRequest<*>> consumerKey(consumerKey: String) = object : Setter<T> {
+            override fun update(request: T) {
+                request.oAuth1.consumerKey = consumerKey
+            }
+        }
 
         /**
          * Setter of OAuth 1.0 consumer secret.
@@ -52,7 +53,11 @@ class OAuth1 {
          * @return consumer key.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> consumerSecret(consumerSecret: String) = OAuth1ConsumerSecret<T>(consumerSecret)
+        fun <T : HTTPRequest<*>> consumerSecret(consumerSecret: String) = object : Setter<T> {
+            override fun update(request: T) {
+                request.oAuth1.consumerSecret = consumerSecret
+            }
+        }
 
         /**
          * Setter of OAuth 1.0 token.
@@ -60,7 +65,11 @@ class OAuth1 {
          * @return consumer key.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> token(token: String) = OAuth1Token<T>(token)
+        fun <T : HTTPRequest<*>> token(token: String) = object : Setter<T> {
+            override fun update(request: T) {
+                request.oAuth1.token = token
+            }
+        }
 
         /**
          * Setter of OAuth 1.0 token secret.
@@ -68,6 +77,10 @@ class OAuth1 {
          * @return consumer key.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> tokenSecret(tokenSecret: String) = OAuth1TokenSecret<T>(tokenSecret)
+        fun <T : HTTPRequest<*>> tokenSecret(tokenSecret: String) = object : Setter<T> {
+            override fun update(request: T) {
+                request.oAuth1.tokenSecret = tokenSecret
+            }
+        }
     }
 }

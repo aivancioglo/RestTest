@@ -1,6 +1,9 @@
 package com.github.aivancioglo.resttest.verifiers
 
+import io.restassured.module.jsv.JsonSchemaValidator
+import io.restassured.response.Response
 import org.hamcrest.Matcher
+import org.junit.jupiter.api.Assertions.*
 
 /**
  * Abstract class for using static functions to verify response.
@@ -15,7 +18,12 @@ abstract class Verifiers {
          * @return StatusCode verifier instance.
          */
         @JvmStatic
-        fun statusCode(statusCode: Int) = StatusCode(statusCode)
+        fun statusCode(statusCode: Int) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().statusCode(statusCode)
+            }
+        }
+
 
         /**
          * Verify response status code.
@@ -24,7 +32,12 @@ abstract class Verifiers {
          * @return StatusCode verifier instance.
          */
         @JvmStatic
-        fun statusCode(statusCode: com.github.aivancioglo.resttest.http.StatusCode) = StatusCode(statusCode.code)
+        fun statusCode(statusCode: com.github.aivancioglo.resttest.http.StatusCode) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().statusCode(statusCode.code)
+            }
+        }
+
 
         /**
          * Verify response body.
@@ -33,7 +46,11 @@ abstract class Verifiers {
          * @return JsonSchema verifier instance.
          */
         @JvmStatic
-        fun jsonSchema(jsonSchema: String) = JsonSchema(jsonSchema)
+        fun jsonSchema(jsonSchema: String) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
+            }
+        }
 
         /**
          * Verify response body path.
@@ -44,7 +61,11 @@ abstract class Verifiers {
          * @return Path verifier instance.
          */
         @JvmStatic
-        fun path(path: String, matcher: Matcher<*>, vararg additionalKeyMatcherPairs: Any) = Path(path, matcher, *additionalKeyMatcherPairs)
+        fun path(path: String, matcher: Matcher<*>, vararg additionalKeyMatcherPairs: Any) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().body(path, matcher, *additionalKeyMatcherPairs)
+            }
+        }
 
         /**
          * Verify response body.
@@ -54,7 +75,11 @@ abstract class Verifiers {
          * @return Body verifier instance.
          */
         @JvmStatic
-        fun body(matcher: Matcher<*>, vararg additionalMatchers: Matcher<*>) = Body(matcher, *additionalMatchers)
+        fun body(matcher: Matcher<*>, vararg additionalMatchers: Matcher<*>) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().body(matcher, *additionalMatchers)
+            }
+        }
 
         /**
          * Verify if equals conditions.
@@ -64,7 +89,9 @@ abstract class Verifiers {
          * @return Equals verifier instance.
          */
         @JvmStatic
-        fun equals(expected: Any, actual: Any) = Equals(expected, actual)
+        fun equals(expected: Any, actual: Any) = object : Verifier {
+            override fun verify(response: Response) = assertEquals(expected, actual)
+        }
 
         /**
          * Verify if equals conditions.
@@ -75,7 +102,9 @@ abstract class Verifiers {
          * @return Equals verifier instance.
          */
         @JvmStatic
-        fun equals(expected: Any, actual: Any, message: String) = Equals(expected, actual, message)
+        fun equals(expected: Any, actual: Any, message: String) = object : Verifier {
+            override fun verify(response: Response) = assertEquals(expected, actual, message)
+        }
 
         /**
          * Verify if not equals conditions.
@@ -85,7 +114,9 @@ abstract class Verifiers {
          * @return NotEquals verifier instance.
          */
         @JvmStatic
-        fun notEquals(unexpected: Any, actual: Any) = NotEqual(unexpected, actual)
+        fun notEquals(unexpected: Any, actual: Any) = object : Verifier {
+            override fun verify(response: Response) = assertNotEquals(unexpected, actual)
+        }
 
         /**
          * Verify if not equals conditions.
@@ -96,7 +127,9 @@ abstract class Verifiers {
          * @return NotEquals verifier instance.
          */
         @JvmStatic
-        fun notEquals(unexpected: Any, actual: Any, message: String) = NotEqual(unexpected, actual, message)
+        fun notEquals(unexpected: Any, actual: Any, message: String) = object : Verifier {
+            override fun verify(response: Response) = assertNotEquals(unexpected, actual, message)
+        }
 
         /**
          * Verify if condition is true.
@@ -105,7 +138,9 @@ abstract class Verifiers {
          * @return IsTrue verifier instance.
          */
         @JvmStatic
-        fun isTrue(condition: Boolean) = IsTrue(condition)
+        fun isTrue(condition: Boolean) = object : Verifier {
+            override fun verify(response: Response) = assertTrue(condition)
+        }
 
         /**
          * Verify if condition is true.
@@ -115,24 +150,34 @@ abstract class Verifiers {
          * @return IsTrue verifier instance.
          */
         @JvmStatic
-        fun isTrue(condition: Boolean, message: String) = IsTrue(condition, message)
+        fun isTrue(condition: Boolean, message: String) = object : Verifier {
+            override fun verify(response: Response) = assertTrue(condition, message)
+        }
 
         /**
          * Verify body content type.
          *
-         * @param contentType of response body.
+         * @param type of response body.
          * @return ContentType verifier instance.
          */
         @JvmStatic
-        fun contentType(contentType: io.restassured.http.ContentType) = ContentType(contentType.toString())
+        fun contentType(type: io.restassured.http.ContentType) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().contentType(type)
+            }
+        }
 
         /**
          * Verify body content type.
          *
-         * @param contentType of response body.
+         * @param type of response body.
          * @return ContentType verifier instance.
          */
         @JvmStatic
-        fun contentType(contentType: String) = ContentType(contentType)
+        fun contentType(type: String) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().contentType(type)
+            }
+        }
     }
 }

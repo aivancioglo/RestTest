@@ -1,6 +1,6 @@
 package com.github.aivancioglo.resttest.http
 
-import com.github.aivancioglo.resttest.setters.OAuth2Token
+import com.github.aivancioglo.resttest.setters.Setter
 
 /**
  * Class for OAuth 2 using in requests.
@@ -23,6 +23,10 @@ class OAuth2 {
          * @return consumer key.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> token(token: String): OAuth2Token<T> = OAuth2Token(token)
+        fun <T : HTTPRequest<*>> token(token: String) = object : Setter<T> {
+            override fun update(request: T) {
+                request.oAuth2.token = token
+            }
+        }
     }
 }
