@@ -23,8 +23,8 @@ class OAuth2 {
          * @return consumer key.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> token(token: String) = object : Setter<T> {
-            override fun update(request: T) {
+        fun token(token: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.oAuth2.token = token
             }
         }

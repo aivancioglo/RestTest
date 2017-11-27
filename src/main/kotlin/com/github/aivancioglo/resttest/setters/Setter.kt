@@ -5,12 +5,12 @@ import com.github.aivancioglo.resttest.http.HTTPRequest
 /**
  * Request specification setter interface.
  */
-interface Setter<in T : HTTPRequest<*>> {
+interface Setter {
 
     /**
      * Update your request.
      *
      * @param request that will be updated.
      */
-    fun update(request: T)
+    fun update(request: HTTPRequest)
 }

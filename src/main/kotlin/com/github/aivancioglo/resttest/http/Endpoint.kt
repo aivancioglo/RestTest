@@ -1,25 +1,23 @@
 package com.github.aivancioglo.resttest.http
 
 import com.github.aivancioglo.resttest.setters.Setter
-import com.github.aivancioglo.resttest.setters.Setters
 import com.github.aivancioglo.resttest.setters.Setters.Companion.host
 import com.github.aivancioglo.resttest.setters.Setters.Companion.path
 import com.github.aivancioglo.resttest.setters.Setters.Companion.protocol
 import io.restassured.http.Method.*
-import java.net.MalformedURLException
 import java.net.URL
 
 /**
  * Universal class for any HTTP requestSpecification making.
  */
-class Endpoint : HTTPRequest<Endpoint>() {
+class Endpoint : HTTPRequest() {
     /**
      * Making GET requestSpecification.
      *
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun get(vararg setters: Setter<HTTPRequest<Endpoint>>) = send(GET, *setters)
+    fun get(vararg setters: Setter) = send(GET, *setters)
 
     /**
      * Making GET requestSpecification.
@@ -28,7 +26,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun get(url: String, vararg setters: Setter<HTTPRequest<Endpoint>>): HTTPResponse {
+    fun get(url: String, vararg setters: Setter): HTTPResponse {
         set(url)
         return send(GET, *setters)
     }
@@ -39,7 +37,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun post(vararg setters: Setter<HTTPRequest<Endpoint>>) = send(POST, *setters)
+    fun post(vararg setters: Setter) = send(POST, *setters)
 
     /**
      * Making POST requestSpecification.
@@ -48,7 +46,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun post(url: String, vararg setters: Setter<HTTPRequest<Endpoint>>): HTTPResponse {
+    fun post(url: String, vararg setters: Setter): HTTPResponse {
         set(url)
         return send(POST, *setters)
     }
@@ -59,7 +57,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun put(vararg setters: Setter<HTTPRequest<Endpoint>>) = send(PUT, *setters)
+    fun put(vararg setters: Setter) = send(PUT, *setters)
 
     /**
      * Making PUT requestSpecification.
@@ -68,7 +66,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun put(url: String, vararg setters: Setter<HTTPRequest<Endpoint>>): HTTPResponse {
+    fun put(url: String, vararg setters: Setter): HTTPResponse {
         set(url)
         return send(PUT, *setters)
     }
@@ -79,7 +77,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun patch(vararg setters: Setter<HTTPRequest<Endpoint>>) = send(PATCH, *setters)
+    fun patch(vararg setters: Setter) = send(PATCH, *setters)
 
     /**
      * Making PATCH requestSpecification.
@@ -88,7 +86,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun patch(url: String, vararg setters: Setter<HTTPRequest<Endpoint>>): HTTPResponse {
+    fun patch(url: String, vararg setters: Setter): HTTPResponse {
         set(url)
         return send(PATCH, *setters)
     }
@@ -99,7 +97,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun delete(vararg setters: Setter<HTTPRequest<Endpoint>>) = send(DELETE, *setters)
+    fun delete(vararg setters: Setter) = send(DELETE, *setters)
 
     /**
      * Making DELETE requestSpecification.
@@ -108,7 +106,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun delete(url: String, vararg setters: Setter<HTTPRequest<Endpoint>>): HTTPResponse {
+    fun delete(url: String, vararg setters: Setter): HTTPResponse {
         set(url)
         return send(DELETE, *setters)
     }
@@ -119,7 +117,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun options(vararg setters: Setter<HTTPRequest<Endpoint>>) = send(OPTIONS, *setters)
+    fun options(vararg setters: Setter) = send(OPTIONS, *setters)
 
     /**
      * Making OPTIONS requestSpecification.
@@ -128,7 +126,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun options(url: String, vararg setters: Setter<HTTPRequest<Endpoint>>): HTTPResponse {
+    fun options(url: String, vararg setters: Setter): HTTPResponse {
         set(url)
         return send(OPTIONS, *setters)
     }
@@ -139,7 +137,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun head(vararg setters: Setter<HTTPRequest<Endpoint>>) = send(HEAD, *setters)
+    fun head(vararg setters: Setter) = send(HEAD, *setters)
 
     /**
      * Making HEAD requestSpecification.
@@ -148,7 +146,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun head(url: String, vararg setters: Setter<HTTPRequest<Endpoint>>): HTTPResponse {
+    fun head(url: String, vararg setters: Setter): HTTPResponse {
         set(url)
         return send(HEAD, *setters)
     }
@@ -159,7 +157,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun trace(vararg setters: Setter<HTTPRequest<Endpoint>>) = send(TRACE, *setters)
+    fun trace(vararg setters: Setter) = send(TRACE, *setters)
 
     /**
      * Making TRACE requestSpecification.
@@ -168,7 +166,7 @@ class Endpoint : HTTPRequest<Endpoint>() {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse instance.
      */
-    fun trace(url: String, vararg setters: Setter<HTTPRequest<Endpoint>>): HTTPResponse {
+    fun trace(url: String, vararg setters: Setter): HTTPResponse {
         set(url)
         return send(TRACE, *setters)
     }

@@ -1,10 +1,9 @@
 package com.github.aivancioglo.resttest.http
 
-import com.github.aivancioglo.resttest.verifiers.*
+import com.github.aivancioglo.resttest.verifiers.Verifier
 import io.restassured.http.Header
 import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
-import org.hamcrest.Matcher
 
 /**
  * This class is using for HTTP/HTTPS response validation and processing.

@@ -9,10 +9,7 @@ class RegexMatcher(private val regex: String) : TypeSafeMatcher<String>() {
         description.appendText("Regular expression = \"$regex\"")
     }
 
-    override fun matchesSafely(text: String): Boolean {
-        val m = Pattern.compile(regex).matcher(text)
-        return m.find()
-    }
+    override fun matchesSafely(text: String) = Pattern.compile(regex).matcher(text).find()
 
     companion object {
         fun regex(regex: Any) = RegexMatcher(regex as String)

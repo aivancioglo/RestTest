@@ -9,7 +9,7 @@ import io.restassured.http.Method
 /**
  * Class for creating requestSpecification. You can extend it using your own endpoint class.
  */
-open class HTTPRequest<out T> {
+open class HTTPRequest {
     val requestSpecification = RestAssured.given().contentType(ContentType.JSON)!!
     val oAuth1 = OAuth1()
     val oAuth2 = OAuth2()
@@ -38,7 +38,7 @@ open class HTTPRequest<out T> {
      *
      * @param setters for your request.
      */
-    protected fun set(vararg setters: Setter<HTTPRequest<T>>) {
+    protected fun set(vararg setters: Setter) {
         for (setter in setters)
             setter.update(this)
     }
@@ -50,7 +50,7 @@ open class HTTPRequest<out T> {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse class instance.
      */
-    protected fun send(method: Method, vararg setters: Setter<HTTPRequest<T>>): HTTPResponse {
+    protected fun send(method: Method, vararg setters: Setter): HTTPResponse {
         for (setter in setters)
             setter.update(this)
 
@@ -76,7 +76,7 @@ open class HTTPRequest<out T> {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse class instance.
      */
-    protected fun send(method: Method, path: String, vararg setters: Setter<HTTPRequest<T>>): HTTPResponse {
+    protected fun send(method: Method, path: String, vararg setters: Setter): HTTPResponse {
         for (setter in setters)
             setter.update(this)
 

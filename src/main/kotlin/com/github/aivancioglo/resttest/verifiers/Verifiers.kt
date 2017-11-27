@@ -157,26 +157,69 @@ abstract class Verifiers {
         /**
          * Verify body content type.
          *
-         * @param type of response body.
+         * @param matcher of response body content type.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun contentType(type: io.restassured.http.ContentType) = object : Verifier {
+        fun contentType(matcher: Matcher<String>) = object : Verifier {
             override fun verify(response: Response) {
-                response.then().contentType(type)
+                response.then().contentType(matcher)
             }
         }
 
         /**
-         * Verify body content type.
+         * Verify response header.
          *
-         * @param type of response body.
+         * @param name of header.
+         * @param matcher of response header.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun contentType(type: String) = object : Verifier {
+        fun header(name: String, matcher: Matcher<*>) = object : Verifier {
             override fun verify(response: Response) {
-                response.then().contentType(type)
+                response.then().header(name, matcher)
+            }
+        }
+
+        /**
+         * Verify response header.
+         *
+         * @param name of header.
+         * @param expectedValue of response header.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun header(name: String, expectedValue: String) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().header(name, expectedValue)
+            }
+        }
+
+        /**
+         * Verify response headers.
+         *
+         * @param expectedHeaders of response.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun headers(expectedHeaders: Map<String,*>) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().headers(expectedHeaders)
+            }
+        }
+
+        /**
+         * Verify response headers.
+         *
+         * @param firstExpectedHeaderName of response.
+         * @param firstExpectedHeaderValue of response.
+         * @param expectedHeaders list of response (expected "header name" - "header value" pairs).
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun headers(firstExpectedHeaderName: String, firstExpectedHeaderValue: Any, vararg expectedHeaders: Any) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().headers(firstExpectedHeaderName, firstExpectedHeaderValue, *expectedHeaders)
             }
         }
     }

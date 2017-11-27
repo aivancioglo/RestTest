@@ -4,6 +4,7 @@ import com.github.aivancioglo.resttest.http.HTTPRequest
 import io.restassured.http.ContentType
 import java.io.File
 import java.io.InputStream
+import java.io.Serializable
 import java.net.URLDecoder
 import java.util.regex.Pattern
 
@@ -20,8 +21,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> contentType(type: ContentType) = object : Setter<T> {
-            override fun update(request: T) {
+        fun contentType(type: ContentType) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.contentType(type)
             }
         }
@@ -33,8 +34,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> contentType(type: String) = object : Setter<T> {
-            override fun update(request: T) {
+        fun contentType(type: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.contentType(type)
             }
         }
@@ -47,8 +48,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> param(key: String, value: Any) = object : Setter<T> {
-            override fun update(request: T) {
+        fun param(key: String, value: Any) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.param(key, value)
             }
         }
@@ -61,8 +62,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> queryParam(key: String, value: Any) = object : Setter<T> {
-            override fun update(request: T) {
+        fun queryParam(key: String, value: Any) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.queryParam(key, value)
             }
         }
@@ -75,8 +76,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> formParam(key: String, value: Any) = object : Setter<T> {
-            override fun update(request: T) {
+        fun formParam(key: String, value: Any) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.formParam(key, value)
             }
         }
@@ -89,8 +90,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> header(name: String, value: String) = object : Setter<T> {
-            override fun update(request: T) {
+        fun header(name: String, value: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.header(name, value)
             }
         }
@@ -102,8 +103,21 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> body(body: Any) = object : Setter<T> {
-            override fun update(request: T) {
+        fun body(body: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
+                request.requestSpecification.body(body)
+            }
+        }
+
+        /**
+         * Getting requestSpecification body setter.
+         *
+         * @param body of requestSpecification.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun body(body: Serializable) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.body(body)
             }
         }
@@ -115,8 +129,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> protocol(protocol: String) = object : Setter<T> {
-            override fun update(request: T) {
+        fun protocol(protocol: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.protocol = protocol
             }
         }
@@ -128,8 +142,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> host(host: String) = object : Setter<T> {
-            override fun update(request: T) {
+        fun host(host: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.host = host
             }
         }
@@ -141,8 +155,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> path(path: String) = object : Setter<T> {
-            override fun update(request: T) {
+        fun path(path: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 val m = Pattern.compile("[?&]([^&=]+)=([^&=]+)").matcher(path)
 
                 while (m.find())
@@ -159,8 +173,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> port(port: Int) = object : Setter<T> {
-            override fun update(request: T) {
+        fun port(port: Int) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.port(port)
             }
         }
@@ -173,8 +187,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> pathParam(key: String, value: String) = object : Setter<T> {
-            override fun update(request: T) {
+        fun pathParam(key: String, value: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.pathParam(key, value)
             }
         }
@@ -188,8 +202,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> multiPart(controlName: String, fileName: String, stream: InputStream) = object : Setter<T> {
-            override fun update(request: T) {
+        fun multiPart(controlName: String, fileName: String, stream: InputStream) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.multiPart(controlName, fileName, stream)
             }
         }
@@ -204,8 +218,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> multiPart(controlName: String, fileName: String, stream: InputStream, mimeType: String) = object : Setter<T> {
-            override fun update(request: T) {
+        fun multiPart(controlName: String, fileName: String, stream: InputStream, mimeType: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.multiPart(controlName, fileName, stream, mimeType)
             }
         }
@@ -217,8 +231,8 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> multiPart(file: File) = object : Setter<T> {
-            override fun update(request: T) {
+        fun multiPart(file: File) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.multiPart(file)
             }
         }
@@ -231,9 +245,35 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun <T : HTTPRequest<*>> multiPart(controlName: String, file: File) = object : Setter<T> {
-            override fun update(request: T) {
+        fun multiPart(controlName: String, file: File) = object : Setter {
+            override fun update(request: HTTPRequest) {
                 request.requestSpecification.multiPart(controlName, file)
+            }
+        }
+
+        /**
+         * Getting redirect setter.
+         *
+         * @param max count of redirects.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun redirects(max: Int) = object : Setter {
+            override fun update(request: HTTPRequest) {
+                request.requestSpecification.redirects().max(max)
+            }
+        }
+
+        /**
+         * Getting redirect setter.
+         *
+         * @param follow redirects.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun redirects(follow: Boolean) = object : Setter {
+            override fun update(request: HTTPRequest) {
+                request.requestSpecification.redirects().follow(follow)
             }
         }
     }
