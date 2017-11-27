@@ -5,7 +5,6 @@ import org.hamcrest.TypeSafeMatcher
 import java.util.regex.Pattern
 
 class RegexMatcher(private val regex: String) : TypeSafeMatcher<String>() {
-
     override fun describeTo(description: Description) {
         description.appendText("Regular expression = \"$regex\"")
     }

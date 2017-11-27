@@ -2,6 +2,7 @@ package com.github.aivancioglo.resttest.setters
 
 import com.github.aivancioglo.resttest.http.HTTPRequest
 import io.restassured.http.ContentType
+import java.io.File
 import java.io.InputStream
 import java.net.URLDecoder
 import java.util.regex.Pattern
@@ -16,7 +17,7 @@ abstract class Setters {
          * Getting content type setter.
          *
          * @param type of content.
-         * @return ContentType setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> contentType(type: ContentType) = object : Setter<T> {
@@ -29,7 +30,7 @@ abstract class Setters {
          * Getting content type setter.
          *
          * @param type of content.
-         * @return ContentType setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> contentType(type: String) = object : Setter<T> {
@@ -43,7 +44,7 @@ abstract class Setters {
          *
          * @param key of param.
          * @param value of param.
-         * @return Param setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> param(key: String, value: Any) = object : Setter<T> {
@@ -57,7 +58,7 @@ abstract class Setters {
          *
          * @param key of query param.
          * @param value of query param.
-         * @return QueryParam setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> queryParam(key: String, value: Any) = object : Setter<T> {
@@ -71,7 +72,7 @@ abstract class Setters {
          *
          * @param key of form param.
          * @param value of form param.
-         * @return FormParam setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> formParam(key: String, value: Any) = object : Setter<T> {
@@ -85,7 +86,7 @@ abstract class Setters {
          *
          * @param name of header.
          * @param value of header.
-         * @return Header setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> header(name: String, value: String) = object : Setter<T> {
@@ -98,7 +99,7 @@ abstract class Setters {
          * Getting requestSpecification body setter.
          *
          * @param body of requestSpecification.
-         * @return Body setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> body(body: Any) = object : Setter<T> {
@@ -111,7 +112,7 @@ abstract class Setters {
          * Getting requestSpecification protocol setter.
          *
          * @param protocol of requestSpecification.
-         * @return Protocol setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> protocol(protocol: String) = object : Setter<T> {
@@ -124,7 +125,7 @@ abstract class Setters {
          * Getting requestSpecification host setter.
          *
          * @param host of requestSpecification.
-         * @return Host setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> host(host: String) = object : Setter<T> {
@@ -137,7 +138,7 @@ abstract class Setters {
          * Getting requestSpecification path setter.
          *
          * @param path of requestSpecification.
-         * @return Path setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> path(path: String) = object : Setter<T> {
@@ -155,7 +156,7 @@ abstract class Setters {
          * Getting requestSpecification port setter.
          *
          * @param port of requestSpecification.
-         * @return Port setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> port(port: Int) = object : Setter<T> {
@@ -169,7 +170,7 @@ abstract class Setters {
          *
          * @param key of path param.
          * @param value of path param.
-         * @return PathParam setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> pathParam(key: String, value: String) = object : Setter<T> {
@@ -184,7 +185,7 @@ abstract class Setters {
          * @param controlName of the body part. In HTML this is the attribute name of the input tag.
          * @param fileName of the content you're uploading.
          * @param stream you want to requestSpecification.
-         * @return MultiPart setter instance.
+         * @return Setter instance.
          */
         @JvmStatic
         fun <T : HTTPRequest<*>> multiPart(controlName: String, fileName: String, stream: InputStream) = object : Setter<T> {
@@ -193,5 +194,47 @@ abstract class Setters {
             }
         }
 
+        /**
+         * Getting multi part setter.
+         *
+         * @param controlName of the body part. In HTML this is the attribute name of the input tag.
+         * @param fileName of the content you're uploading.
+         * @param stream you want to requestSpecification.
+         * @param mimeType    The mime-type
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun <T : HTTPRequest<*>> multiPart(controlName: String, fileName: String, stream: InputStream, mimeType: String) = object : Setter<T> {
+            override fun update(request: T) {
+                request.requestSpecification.multiPart(controlName, fileName, stream, mimeType)
+            }
+        }
+
+        /**
+         * Getting multi part setter.
+         *
+         * @param file The file to upload
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun <T : HTTPRequest<*>> multiPart(file: File) = object : Setter<T> {
+            override fun update(request: T) {
+                request.requestSpecification.multiPart(file)
+            }
+        }
+
+        /**
+         * Getting multi part setter.
+         *
+         * @param file The file to upload
+         * @param controlName Defines the control name of the body part. In HTML this is the attribute name of the input tag.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun <T : HTTPRequest<*>> multiPart(controlName: String, file: File) = object : Setter<T> {
+            override fun update(request: T) {
+                request.requestSpecification.multiPart(controlName, file)
+            }
+        }
     }
 }
