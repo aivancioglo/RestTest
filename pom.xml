@@ -54,13 +54,13 @@
     <properties>
         <junit.jupiter.version>5.1.0-M1</junit.jupiter.version>
         <selenium.version>3.4.0</selenium.version>
-        <rest.assured>3.0.5</rest.assured>
-        <json.path.version>3.0.5</json.path.version>
-        <json.schema.validator.version>3.0.5</json.schema.validator.version>
+        <rest.assured>3.0.6</rest.assured>
+        <json.path.version>3.0.6</json.path.version>
+        <json.schema.validator.version>3.0.6</json.schema.validator.version>
         <scribejava.apis.version>2.5.3</scribejava.apis.version>
         <groovy.all.version>2.4.5</groovy.all.version>
         <hamcrest.version>2.0.0.0</hamcrest.version>
-        <kotlin.version>1.1.60</kotlin.version>
+        <kotlin.version>1.2.0</kotlin.version>
         <dokka.version>0.9.15</dokka.version>
     </properties>
 
@@ -228,26 +228,6 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.0.0</version>
-
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/main/kotlin</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

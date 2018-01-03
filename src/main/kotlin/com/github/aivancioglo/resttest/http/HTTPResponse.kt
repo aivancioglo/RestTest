@@ -1,6 +1,5 @@
 package com.github.aivancioglo.resttest.http
 
-import com.github.aivancioglo.resttest.verifiers.Verifier
 import io.restassured.http.Header
 import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
@@ -18,8 +17,8 @@ class HTTPResponse(private val response: Response) {
      *
      * @param verifiers for response validation.
      */
-    fun assertThat(vararg verifiers: Verifier) {
-        verifiers.forEach { it.verify(response) }
+    fun assertThat(vararg verifiers: (Response) -> Unit) {
+        verifiers.forEach { it(response) }
     }
 
     /**
@@ -28,9 +27,9 @@ class HTTPResponse(private val response: Response) {
      * @param code of response.
      * @param verifiers for response validation.
      */
-    fun assertThat(code: Int, vararg verifiers: Verifier) {
+    fun assertThat(code: Int, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(code)
-        verifiers.forEach { it.verify(response) }
+        verifiers.forEach { it(response) }
     }
 
     /**
@@ -39,9 +38,9 @@ class HTTPResponse(private val response: Response) {
      * @param statusCode of response.
      * @param verifiers for response validation.
      */
-    fun assertThat(statusCode: StatusCode, vararg verifiers: Verifier) {
+    fun assertThat(statusCode: StatusCode, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(statusCode.code)
-        verifiers.forEach { it.verify(response) }
+        verifiers.forEach { it(response) }
     }
 
     /**
@@ -51,9 +50,9 @@ class HTTPResponse(private val response: Response) {
      * @param jsonSchema for response validation.
      * @param verifiers for response validation.
      */
-    fun assertThat(code: Int, jsonSchema: String, vararg verifiers: Verifier) {
+    fun assertThat(code: Int, jsonSchema: String, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
-        verifiers.forEach { it.verify(response) }
+        verifiers.forEach { it(response) }
     }
 
     /**
@@ -63,9 +62,9 @@ class HTTPResponse(private val response: Response) {
      * @param jsonSchema for response validation.
      * @param verifiers for response validation.
      */
-    fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: Verifier) {
+    fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(statusCode.code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
-        verifiers.forEach { it.verify(response) }
+        verifiers.forEach { it(response) }
     }
 
     /**
@@ -73,7 +72,7 @@ class HTTPResponse(private val response: Response) {
      *
      * @return this class instance.
      */
-    fun log(): HTTPResponse {
+    fun log() = apply {
         response.then().log().all()
         return this
     }
@@ -84,9 +83,8 @@ class HTTPResponse(private val response: Response) {
      * @param isPretty is setting if log is pretty.
      * @return this class instance.
      */
-    fun log(isPretty: Boolean): HTTPResponse {
+    fun log(isPretty: Boolean) = apply {
         response.then().log().all(isPretty)
-        return this
     }
 
     /**
@@ -110,7 +108,8 @@ class HTTPResponse(private val response: Response) {
      * @param T is response model.
      * @return deserialized body as your model class.
      */
-    fun <T> `as`(cls: Class<T>) = response.`as`(cls)
+    @JvmName("as")
+    fun <T> to(cls: Class<T>) = response.`as`(cls)
 
     /**
      * Extract value by JSON path.

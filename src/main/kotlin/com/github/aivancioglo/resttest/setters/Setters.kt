@@ -14,6 +14,8 @@ import java.util.regex.Pattern
 abstract class Setters {
     companion object {
 
+        // For Java
+
         /**
          * Getting content type setter.
          *
@@ -274,6 +276,32 @@ abstract class Setters {
         fun redirects(follow: Boolean) = object : Setter {
             override fun update(request: HTTPRequest) {
                 request.requestSpecification.redirects().follow(follow)
+            }
+        }
+
+        /**
+         * Getting media type setter.
+         *
+         * @param mediaType of request.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun accept(mediaType: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
+                request.requestSpecification.accept(mediaType)
+            }
+        }
+
+        /**
+         * Getting media type setter.
+         *
+         * @param contentType of request.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun accept(contentType: ContentType) = object : Setter {
+            override fun update(request: HTTPRequest) {
+                request.requestSpecification.accept(contentType)
             }
         }
     }

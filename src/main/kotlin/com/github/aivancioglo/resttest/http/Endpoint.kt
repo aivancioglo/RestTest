@@ -3,6 +3,7 @@ package com.github.aivancioglo.resttest.http
 import com.github.aivancioglo.resttest.setters.Setter
 import com.github.aivancioglo.resttest.setters.Setters.Companion.host
 import com.github.aivancioglo.resttest.setters.Setters.Companion.path
+import com.github.aivancioglo.resttest.setters.Setters.Companion.port
 import com.github.aivancioglo.resttest.setters.Setters.Companion.protocol
 import io.restassured.http.Method.*
 import java.net.URL
@@ -179,6 +180,15 @@ class Endpoint : HTTPRequest() {
     private fun set(endpoint: String) {
         val url = URL(endpoint)
 
-        set(protocol(url.protocol), host(url.host), path("${url.path}?${url.query}"))
+        if (url.port == -1)
+            set(port(80))
+        else
+            set(port(url.port))
+
+        set(
+                protocol(url.protocol),
+                host(url.host),
+                path("${url.path}?${url.query}")
+        )
     }
 }
