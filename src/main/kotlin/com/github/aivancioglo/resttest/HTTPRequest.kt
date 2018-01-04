@@ -1,6 +1,5 @@
-package com.github.aivancioglo.resttest.http
+package com.github.aivancioglo.resttest
 
-import com.github.aivancioglo.resttest.setters.Setter
 import io.restassured.RestAssured
 import io.restassured.config.HttpClientConfig
 import io.restassured.http.ContentType
@@ -38,9 +37,9 @@ open class HTTPRequest {
      *
      * @param setters for your request.
      */
-    protected fun set(vararg setters: Setter) {
+    protected fun set(vararg setters: (HTTPRequest) -> Unit) {
         for (setter in setters)
-            setter.update(this)
+            setter(this)
     }
 
     /**
@@ -50,9 +49,9 @@ open class HTTPRequest {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse class instance.
      */
-    protected fun send(method: Method, vararg setters: Setter): HTTPResponse {
+    protected fun send(method: Method, vararg setters: (HTTPRequest) -> Unit): HTTPResponse {
         for (setter in setters)
-            setter.update(this)
+            setter(this)
 
         if (oAuth1.used && oAuth2.used)
             throw RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same requestSpecification!")
@@ -76,9 +75,9 @@ open class HTTPRequest {
      * @param setters are setting up requestSpecification specification.
      * @return HTTPResponse class instance.
      */
-    protected fun send(method: Method, path: String, vararg setters: Setter): HTTPResponse {
+    protected fun send(method: Method, path: String, vararg setters: (HTTPRequest) -> Unit): HTTPResponse {
         for (setter in setters)
-            setter.update(this)
+            setter(this)
 
         if (oAuth1.used && oAuth2.used)
             throw RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same requestSpecification!")

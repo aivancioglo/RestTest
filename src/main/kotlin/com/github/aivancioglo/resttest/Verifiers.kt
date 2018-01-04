@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest.verifiers
+package com.github.aivancioglo.resttest
 
 import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
@@ -27,7 +27,7 @@ abstract class Verifiers {
          * @return Verifier instance.
          */
         @JvmStatic
-        fun statusCode(statusCode: com.github.aivancioglo.resttest.http.StatusCode): (Response) -> Unit = { it.then().statusCode(statusCode.code) }
+        fun statusCode(statusCode: StatusCode): (Response) -> Unit = { it.then().statusCode(statusCode.code) }
 
         /**
          * Verify response body.

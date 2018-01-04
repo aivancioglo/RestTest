@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest.http
+package com.github.aivancioglo.resttest
 
 /**
  * Enum class with all base response status codes.

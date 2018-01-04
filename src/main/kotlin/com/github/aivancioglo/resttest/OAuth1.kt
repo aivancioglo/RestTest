@@ -1,6 +1,4 @@
-package com.github.aivancioglo.resttest.http
-
-import com.github.aivancioglo.resttest.setters.Setter
+package com.github.aivancioglo.resttest
 
 /**
  * Class for OAuth 1.0 using in requests.
@@ -41,11 +39,7 @@ class OAuth1 {
          * @return consumer key.
          */
         @JvmStatic
-        fun consumerKey(consumerKey: String) = object : Setter {
-            override fun update(request: HTTPRequest) {
-                request.oAuth1.consumerKey = consumerKey
-            }
-        }
+        fun consumerKey(consumerKey: String): (HTTPRequest) -> Unit = { it.oAuth1.consumerKey = consumerKey }
 
         /**
          * Setter of OAuth 1.0 consumer secret.
@@ -53,11 +47,7 @@ class OAuth1 {
          * @return consumer key.
          */
         @JvmStatic
-        fun consumerSecret(consumerSecret: String) = object : Setter {
-            override fun update(request: HTTPRequest) {
-                request.oAuth1.consumerSecret = consumerSecret
-            }
-        }
+        fun consumerSecret(consumerSecret: String): (HTTPRequest) -> Unit = { it.oAuth1.consumerSecret = consumerSecret }
 
         /**
          * Setter of OAuth 1.0 token.
@@ -65,11 +55,7 @@ class OAuth1 {
          * @return consumer key.
          */
         @JvmStatic
-        fun token(token: String) = object : Setter {
-            override fun update(request: HTTPRequest) {
-                request.oAuth1.token = token
-            }
-        }
+        fun token(token: String): (HTTPRequest) -> Unit = { it.oAuth1.token = token }
 
         /**
          * Setter of OAuth 1.0 token secret.
@@ -77,10 +63,6 @@ class OAuth1 {
          * @return consumer key.
          */
         @JvmStatic
-        fun tokenSecret(tokenSecret: String) = object : Setter {
-            override fun update(request: HTTPRequest) {
-                request.oAuth1.tokenSecret = tokenSecret
-            }
-        }
+        fun tokenSecret(tokenSecret: String): (HTTPRequest) -> Unit = { it.oAuth1.tokenSecret = tokenSecret }
     }
 }
