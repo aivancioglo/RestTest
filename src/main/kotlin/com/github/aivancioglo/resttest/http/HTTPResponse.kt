@@ -109,7 +109,7 @@ class HTTPResponse(private val response: Response) {
      * @return deserialized body as your model class.
      */
     @JvmName("as")
-    fun <T> to(cls: Class<T>) = response.`as`(cls)
+    fun <T> to(cls: Class<T>) = response.`as`(cls)!!
 
     /**
      * Extract value by JSON path.

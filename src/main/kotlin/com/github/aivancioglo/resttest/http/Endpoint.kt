@@ -178,12 +178,15 @@ class Endpoint : HTTPRequest() {
      * @param endpoint of requestSpecification.
      */
     private fun set(endpoint: String) {
-        val url = URL(endpoint)
+        var link = endpoint
 
-        if (url.port == -1)
-            set(port(80))
-        else
-            set(port(url.port))
+        if (!endpoint.matches(Regex("^\\w+?://.*?")))
+            link = "http://" + link
+
+        val url = URL(link)
+
+        if (url.port != -1)
+            set(port(url.port));
 
         set(
                 protocol(url.protocol),
