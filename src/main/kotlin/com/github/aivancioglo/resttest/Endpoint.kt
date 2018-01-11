@@ -179,9 +179,8 @@ class Endpoint : HTTPRequest() {
     private fun set(endpoint: String) {
         var link = endpoint
 
-        if (!endpoint.matches(Regex("^\\w+?://.*?"))) {
+        if (!endpoint.matches(Regex("^\\w+?://.*?")))
             link = "http://" + link
-        }
 
         val url = URL(link)
 

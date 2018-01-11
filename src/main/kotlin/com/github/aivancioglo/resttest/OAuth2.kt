@@ -20,7 +20,6 @@ class OAuth2 {
          *
          * @return consumer key.
          */
-        @JvmStatic
         fun token(token: String) : (HTTPRequest) -> Unit = { it.oAuth2.token = token }
     }
 }

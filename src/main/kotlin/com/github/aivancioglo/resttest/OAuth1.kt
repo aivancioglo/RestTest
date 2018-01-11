@@ -38,7 +38,6 @@ class OAuth1 {
          *
          * @return consumer key.
          */
-        @JvmStatic
         fun consumerKey(consumerKey: String): (HTTPRequest) -> Unit = { it.oAuth1.consumerKey = consumerKey }
 
         /**
@@ -46,7 +45,6 @@ class OAuth1 {
          *
          * @return consumer key.
          */
-        @JvmStatic
         fun consumerSecret(consumerSecret: String): (HTTPRequest) -> Unit = { it.oAuth1.consumerSecret = consumerSecret }
 
         /**
@@ -54,7 +52,6 @@ class OAuth1 {
          *
          * @return consumer key.
          */
-        @JvmStatic
         fun token(token: String): (HTTPRequest) -> Unit = { it.oAuth1.token = token }
 
         /**
@@ -62,7 +59,6 @@ class OAuth1 {
          *
          * @return consumer key.
          */
-        @JvmStatic
         fun tokenSecret(tokenSecret: String): (HTTPRequest) -> Unit = { it.oAuth1.tokenSecret = tokenSecret }
     }
 }

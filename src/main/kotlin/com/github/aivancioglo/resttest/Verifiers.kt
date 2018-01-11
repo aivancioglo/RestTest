@@ -17,7 +17,6 @@ abstract class Verifiers {
          * @param statusCode of your response.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun statusCode(statusCode: Int): (Response) -> Unit = { it.then().statusCode(statusCode) }
 
         /**
@@ -26,7 +25,6 @@ abstract class Verifiers {
          * @param statusCode of your response.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun statusCode(statusCode: StatusCode): (Response) -> Unit = { it.then().statusCode(statusCode.code) }
 
         /**
@@ -35,7 +33,6 @@ abstract class Verifiers {
          * @param jsonSchema of expected response body.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun jsonSchema(jsonSchema: String): (Response) -> Unit = { it.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema)) }
 
         /**
@@ -46,7 +43,6 @@ abstract class Verifiers {
          * @param additionalKeyMatcherPairs for verifying.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun path(path: String, matcher: Matcher<*>, vararg additionalKeyMatcherPairs: Any): (Response) -> Unit = { it.then().body(path, matcher, *additionalKeyMatcherPairs) }
 
         /**
@@ -56,7 +52,6 @@ abstract class Verifiers {
          * @param additionalMatchers for verifying.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun body(matcher: Matcher<*>, vararg additionalMatchers: Matcher<*>): (Response) -> Unit = { it.then().body(matcher, *additionalMatchers) }
 
         /**
@@ -66,7 +61,6 @@ abstract class Verifiers {
          * @param actual condition.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun equals(expected: Any, actual: Any): (Response) -> Unit = { assertEquals(expected, actual) }
 
         /**
@@ -77,7 +71,6 @@ abstract class Verifiers {
          * @param message of fail.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun equals(expected: Any, actual: Any, message: String): (Response) -> Unit = { assertEquals(expected, actual, message) }
 
         /**
@@ -87,7 +80,6 @@ abstract class Verifiers {
          * @param actual condition.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun notEquals(unexpected: Any, actual: Any): (Response) -> Unit = { assertNotEquals(unexpected, actual) }
 
         /**
@@ -98,7 +90,6 @@ abstract class Verifiers {
          * @param message of fail.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun notEquals(unexpected: Any, actual: Any, message: String): (Response) -> Unit = { assertNotEquals(unexpected, actual, message) }
 
         /**
@@ -107,7 +98,6 @@ abstract class Verifiers {
          * @param condition to verify.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun isTrue(condition: Boolean): (Response) -> Unit = { assertTrue(condition) }
 
         /**
@@ -117,7 +107,6 @@ abstract class Verifiers {
          * @param message of fail.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun isTrue(condition: Boolean, message: String): (Response) -> Unit = { assertTrue(condition, message) }
 
         /**
@@ -126,7 +115,6 @@ abstract class Verifiers {
          * @param matcher of response body content type.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun contentType(matcher: Matcher<String>): (Response) -> Unit = { it.then().contentType(matcher) }
 
         /**
@@ -136,7 +124,6 @@ abstract class Verifiers {
          * @param matcher of response header.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun header(name: String, matcher: Matcher<*>) : (Response) -> Unit = { it.then().header(name, matcher) }
 
         /**
@@ -146,7 +133,6 @@ abstract class Verifiers {
          * @param expectedValue of response header.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun header(name: String, expectedValue: String) : (Response) -> Unit = { it.then().header(name, expectedValue) }
 
         /**
@@ -155,7 +141,6 @@ abstract class Verifiers {
          * @param expectedHeaders of response.
          * @return Verifier instance.
          */
-        @JvmStatic
         fun headers(expectedHeaders: Map<String, *>) : (Response) -> Unit = { it.then().headers(expectedHeaders) }
 
         /**
@@ -166,7 +151,6 @@ abstract class Verifiers {
          * @param expectedHeaders list of response (expected "header name" - "header value" pairs).
          * @return Verifier instance.
          */
-        @JvmStatic
         fun headers(firstExpectedHeaderName: String, firstExpectedHeaderValue: Any, vararg expectedHeaders: Any) : (Response) -> Unit = {
             it.then().headers(firstExpectedHeaderName, firstExpectedHeaderValue, *expectedHeaders)
         }

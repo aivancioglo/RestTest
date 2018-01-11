@@ -3,6 +3,7 @@ package com.github.aivancioglo.resttest
 import io.restassured.http.Header
 import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
+import kotlin.reflect.KClass
 
 /**
  * This class is using for HTTP/HTTPS response validation and processing.
@@ -109,7 +110,7 @@ class HTTPResponse(private val response: Response) {
      * @return deserialized body as your model class.
      */
     @JvmName("as")
-    fun <T> to(cls: Class<T>) = response.`as`(cls)
+    fun <T : Any> to(cls: KClass<T>) = response.`as`(cls.java)!!
 
     /**
      * Extract value by JSON path.

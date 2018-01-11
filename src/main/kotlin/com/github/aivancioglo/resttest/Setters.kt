@@ -3,7 +3,6 @@ package com.github.aivancioglo.resttest
 import io.restassured.http.ContentType
 import java.io.File
 import java.io.InputStream
-import java.io.Serializable
 import java.net.URLDecoder
 import java.util.regex.Pattern
 
@@ -80,7 +79,7 @@ abstract class Setters {
          * @param body of requestSpecification.
          * @return Setter instance.
          */
-        fun body(body: Serializable): (HTTPRequest) -> Unit = { it.requestSpecification.body(body) }
+        fun body(body: Any): (HTTPRequest) -> Unit = { it.requestSpecification.body(body) }
 
         /**
          * Getting requestSpecification protocol setter.
@@ -194,7 +193,6 @@ abstract class Setters {
          * @param mediaType of request.
          * @return Setter instance.
          */
-        @JvmStatic
         fun accept(mediaType: String): (HTTPRequest) -> Unit = { it.requestSpecification.accept(mediaType) }
 
         /**
@@ -203,7 +201,6 @@ abstract class Setters {
          * @param contentType of request.
          * @return Setter instance.
          */
-        @JvmStatic
         fun accept(contentType: ContentType): (HTTPRequest) -> Unit = { it.requestSpecification.accept(contentType) }
     }
 }
