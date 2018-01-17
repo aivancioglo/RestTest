@@ -1,11 +1,11 @@
 package com.github.aivancioglo.resttest.http
 
 /**
- * Enum class with all base response status codes.
+ * Enum class with all base responseSpecification status codes.
  *
  * @constructor creates enum item.
- * @param code of response.
- * @param message of response code.
+ * @param code of responseSpecification.
+ * @param message of responseSpecification code.
  */
 enum class StatusCode(val code: Int, val message: String) {
     // Information

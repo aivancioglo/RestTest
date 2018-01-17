@@ -5,27 +5,27 @@ import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
 
 /**
- * This class is using for HTTP/HTTPS response validation and processing.
+ * This class is using for HTTP/HTTPS responseSpecification validation and processing.
  *
- * @constructor is setting response of requestSpecification.
+ * @constructor is setting responseSpecification of requestSpecification.
  * @param response of your requestSpecification.
  */
 class HTTPResponse(private val response: Response) {
 
     /**
-     * Making response validation.
+     * Making responseSpecification validation.
      *
-     * @param verifiers for response validation.
+     * @param verifiers for responseSpecification validation.
      */
     fun assertThat(vararg verifiers: (Response) -> Unit) {
         verifiers.forEach { it(response) }
     }
 
     /**
-     * Making response validation.
+     * Making responseSpecification validation.
      *
-     * @param code of response.
-     * @param verifiers for response validation.
+     * @param code of responseSpecification.
+     * @param verifiers for responseSpecification validation.
      */
     fun assertThat(code: Int, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(code)
@@ -33,10 +33,10 @@ class HTTPResponse(private val response: Response) {
     }
 
     /**
-     * Making response validation.
+     * Making responseSpecification validation.
      *
-     * @param statusCode of response.
-     * @param verifiers for response validation.
+     * @param statusCode of responseSpecification.
+     * @param verifiers for responseSpecification validation.
      */
     fun assertThat(statusCode: StatusCode, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(statusCode.code)
@@ -44,11 +44,11 @@ class HTTPResponse(private val response: Response) {
     }
 
     /**
-     * Making response validation.
+     * Making responseSpecification validation.
      *
-     * @param code of response.
-     * @param jsonSchema for response validation.
-     * @param verifiers for response validation.
+     * @param code of responseSpecification.
+     * @param jsonSchema for responseSpecification validation.
+     * @param verifiers for responseSpecification validation.
      */
     fun assertThat(code: Int, jsonSchema: String, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
@@ -56,11 +56,11 @@ class HTTPResponse(private val response: Response) {
     }
 
     /**
-     * Making response validation.
+     * Making responseSpecification validation.
      *
-     * @param statusCode of response.
-     * @param jsonSchema for response validation.
-     * @param verifiers for response validation.
+     * @param statusCode of responseSpecification.
+     * @param jsonSchema for responseSpecification validation.
+     * @param verifiers for responseSpecification validation.
      */
     fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(statusCode.code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
@@ -88,30 +88,35 @@ class HTTPResponse(private val response: Response) {
     }
 
     /**
-     * For getting response code of last response.
+     * For getting responseSpecification code of last responseSpecification.
      *
-     * @return response code.
+     * @return responseSpecification code.
      */
     fun getStatusCode() = response.statusCode
 
     /**
-     * For getting body of last response as string.
+     * For getting body of last responseSpecification as string.
      *
      * @return body as string.
      */
     fun getBody() = response.body.asString()!!
 
     /**
-     * Deserialize response body as your model class.
+     * Deserialize responseSpecification body as your model class.
      *
      * @param cls that of your module.
-     * @param T is response model.
+     * @param T is responseSpecification model.
      * @return deserialize body as your model class.
      */
     @JvmName("as")
-    fun <T : Model> to(cls: Class<T>): T {
-        val model =  response.`as`(cls)!!
-        model.response = response
+    fun <T> to(cls: Class<T>): T {
+        val model = response.`as`(cls)!!
+
+        if (cls is Model) {
+            (model as Model).responseSpecification = response
+            (model as Model).response = this
+        }
+
         return model
     }
 
@@ -126,7 +131,7 @@ class HTTPResponse(private val response: Response) {
     fun <T> path(path1: String, vararg path2: String): T = response.path(path1, *path2)
 
     /**
-     * Get response header by name.
+     * Get responseSpecification header by name.
      *
      * @param name of header.
      * @return header value.
