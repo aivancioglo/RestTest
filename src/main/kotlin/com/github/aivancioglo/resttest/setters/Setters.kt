@@ -14,8 +14,6 @@ import java.util.regex.Pattern
 abstract class Setters {
     companion object {
 
-        // For Java
-
         /**
          * Getting content type setter.
          *

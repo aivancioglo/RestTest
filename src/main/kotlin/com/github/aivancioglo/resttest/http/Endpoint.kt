@@ -5,6 +5,7 @@ import com.github.aivancioglo.resttest.setters.Setters.Companion.host
 import com.github.aivancioglo.resttest.setters.Setters.Companion.path
 import com.github.aivancioglo.resttest.setters.Setters.Companion.port
 import com.github.aivancioglo.resttest.setters.Setters.Companion.protocol
+import io.restassured.http.Method
 import io.restassured.http.Method.*
 import java.net.URL
 
