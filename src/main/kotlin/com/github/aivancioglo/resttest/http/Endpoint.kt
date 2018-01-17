@@ -1,9 +1,9 @@
-package com.github.aivancioglo.resttest
+package com.github.aivancioglo.resttest.http
 
-import com.github.aivancioglo.resttest.Setters.Companion.host
-import com.github.aivancioglo.resttest.Setters.Companion.path
-import com.github.aivancioglo.resttest.Setters.Companion.port
-import com.github.aivancioglo.resttest.Setters.Companion.protocol
+import com.github.aivancioglo.resttest.http.Setters.Companion.host
+import com.github.aivancioglo.resttest.http.Setters.Companion.path
+import com.github.aivancioglo.resttest.http.Setters.Companion.port
+import com.github.aivancioglo.resttest.http.Setters.Companion.protocol
 import io.restassured.http.Method.*
 import java.net.URL
 

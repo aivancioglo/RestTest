@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest
+package com.github.aivancioglo.resttest.http
 
 import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response

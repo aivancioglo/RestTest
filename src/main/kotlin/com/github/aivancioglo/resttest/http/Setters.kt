@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest
+package com.github.aivancioglo.resttest.http
 
 import io.restassured.http.ContentType
 import java.io.File

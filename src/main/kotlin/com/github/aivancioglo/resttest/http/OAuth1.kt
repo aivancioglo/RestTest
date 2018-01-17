@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest
+package com.github.aivancioglo.resttest.http
 
 /**
  * Class for OAuth 1.0 using in requests.

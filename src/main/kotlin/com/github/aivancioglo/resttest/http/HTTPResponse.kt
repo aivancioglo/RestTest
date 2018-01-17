@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest
+package com.github.aivancioglo.resttest.http
 
 import io.restassured.http.Header
 import io.restassured.module.jsv.JsonSchemaValidator
@@ -110,7 +110,16 @@ class HTTPResponse(private val response: Response) {
      * @return deserialized body as your model class.
      */
     @JvmName("as")
-    fun <T : Any> to(cls: KClass<T>) = response.`as`(cls.java)!!
+    fun <T> to(cls: Class<T>): T {
+        val model = response.`as`(cls)!!
+
+        if (cls is Model) {
+            (model as Model).responseSpecification = response
+            (model as Model).response = this
+        }
+
+        return model
+    }
 
     /**
      * Extract value by JSON path.

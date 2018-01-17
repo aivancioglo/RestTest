@@ -1,4 +1,4 @@
-package com.github.aivancioglo.resttest
+package com.github.aivancioglo.resttest.http
 
 /**
  * Class for OAuth 2 using in requests.
