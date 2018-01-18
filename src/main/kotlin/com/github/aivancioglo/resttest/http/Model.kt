@@ -13,6 +13,7 @@ abstract class Model {
      *
      * @param verifiers for responseSpecification validation.
      */
+    @SafeVarargs
     fun assertThat(vararg verifiers: (Response) -> Unit) {
         verifiers.forEach { it(responseSpecification) }
     }
@@ -23,6 +24,7 @@ abstract class Model {
      * @param code of responseSpecification.
      * @param verifiers for responseSpecification validation.
      */
+    @SafeVarargs
     fun assertThat(code: Int, vararg verifiers: (Response) -> Unit) {
         responseSpecification.then().statusCode(code)
         verifiers.forEach { it(responseSpecification) }
@@ -34,6 +36,7 @@ abstract class Model {
      * @param statusCode of responseSpecification.
      * @param verifiers for responseSpecification validation.
      */
+    @SafeVarargs
     fun assertThat(statusCode: StatusCode, vararg verifiers: (Response) -> Unit) {
         responseSpecification.then().statusCode(statusCode.code)
         verifiers.forEach { it(responseSpecification) }
@@ -46,6 +49,7 @@ abstract class Model {
      * @param jsonSchema for responseSpecification validation.
      * @param verifiers for responseSpecification validation.
      */
+    @SafeVarargs
     fun assertThat(code: Int, jsonSchema: String, vararg verifiers: (Response) -> Unit) {
         responseSpecification.then().statusCode(code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
         verifiers.forEach { it(responseSpecification) }
@@ -58,6 +62,7 @@ abstract class Model {
      * @param jsonSchema for responseSpecification validation.
      * @param verifiers for responseSpecification validation.
      */
+    @SafeVarargs
     fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: (Response) -> Unit) {
         responseSpecification.then().statusCode(statusCode.code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
         verifiers.forEach { it(responseSpecification) }
@@ -74,7 +79,7 @@ abstract class Model {
     fun <T> to(cls: Class<T>): T {
         val model = responseSpecification.`as`(cls)!!
 
-        if (cls is Model) {
+        if (Model::class.java.isAssignableFrom(cls)) {
             (model as Model).responseSpecification = responseSpecification
             (model as Model).response = response
         }

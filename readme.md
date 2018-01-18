@@ -5,6 +5,6 @@ Use this dependency for your **Java** tests:
 <dependency>
     <groupId>com.github.aivancioglo</groupId>
     <artifactId>resttest</artifactId>
-    <version>2.1.3</version>
+    <version>2.1.4</version>
 </dependency>
 ``` 

@@ -17,6 +17,7 @@ class HTTPResponse(private val response: Response) {
      *
      * @param verifiers for responseSpecification validation.
      */
+    @SafeVarargs
     fun assertThat(vararg verifiers: (Response) -> Unit) {
         verifiers.forEach { it(response) }
     }
@@ -27,6 +28,7 @@ class HTTPResponse(private val response: Response) {
      * @param code of responseSpecification.
      * @param verifiers for responseSpecification validation.
      */
+    @SafeVarargs
     fun assertThat(code: Int, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(code)
         verifiers.forEach { it(response) }
@@ -38,6 +40,7 @@ class HTTPResponse(private val response: Response) {
      * @param statusCode of responseSpecification.
      * @param verifiers for responseSpecification validation.
      */
+    @SafeVarargs
     fun assertThat(statusCode: StatusCode, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(statusCode.code)
         verifiers.forEach { it(response) }
@@ -50,6 +53,7 @@ class HTTPResponse(private val response: Response) {
      * @param jsonSchema for responseSpecification validation.
      * @param verifiers for responseSpecification validation.
      */
+    @SafeVarargs
     fun assertThat(code: Int, jsonSchema: String, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
         verifiers.forEach { it(response) }
@@ -62,6 +66,7 @@ class HTTPResponse(private val response: Response) {
      * @param jsonSchema for responseSpecification validation.
      * @param verifiers for responseSpecification validation.
      */
+    @SafeVarargs
     fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: (Response) -> Unit) {
         response.then().statusCode(statusCode.code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
         verifiers.forEach { it(response) }
@@ -112,7 +117,7 @@ class HTTPResponse(private val response: Response) {
     fun <T> to(cls: Class<T>): T {
         val model = response.`as`(cls)!!
 
-        if (cls is Model) {
+        if (Model::class.java.isAssignableFrom(cls)) {
             (model as Model).responseSpecification = response
             (model as Model).response = this
         }
