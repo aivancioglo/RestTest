@@ -5,6 +5,6 @@ Use this dependency for your **Kotlin** tests:
 <dependency>
     <groupId>com.github.aivancioglo</groupId>
     <artifactId>resttest</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
 </dependency>
 ``` 

@@ -110,10 +110,10 @@ class HTTPResponse(private val response: Response) {
      * @return deserialized body as your model class.
      */
     @JvmName("as")
-    fun <T> to(cls: Class<T>): T {
-        val model = response.`as`(cls)!!
+    fun <T : Any> to(cls: KClass<T>): T {
+        val model = response.`as`(cls.java)!!
 
-        if (cls is Model) {
+        if (Model::class.java.isAssignableFrom(cls.java)) {
             (model as Model).responseSpecification = response
             (model as Model).response = this
         }

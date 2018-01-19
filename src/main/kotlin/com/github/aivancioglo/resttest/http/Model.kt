@@ -2,6 +2,7 @@ package com.github.aivancioglo.resttest.http
 
 import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
+import kotlin.reflect.KClass
 
 abstract class Model {
     internal lateinit var responseSpecification: Response
@@ -71,10 +72,10 @@ abstract class Model {
      * @return deserialize body as your model class.
      */
     @JvmName("as")
-    fun <T> to(cls: Class<T>): T {
-        val model = responseSpecification.`as`(cls)!!
+    fun <T : Any> to(cls: KClass<T>): T {
+        val model = responseSpecification.`as`(cls.java)!!
 
-        if (cls is Model) {
+        if (Model::class.java.isAssignableFrom(cls.java)) {
             (model as Model).responseSpecification = responseSpecification
             (model as Model).response = response
         }
