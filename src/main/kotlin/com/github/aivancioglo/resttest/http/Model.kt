@@ -80,7 +80,10 @@ abstract class Model {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>): T {
-        val model = responseSpecification.`as`(cls)!!
+        val model = if (responseSpecification.body.asString().trim().isEmpty())
+            cls.newInstance()!!
+        else
+            responseSpecification.`as`(cls)!!
 
         if (Model::class.java.isAssignableFrom(cls)) {
             (model as Model).responseSpecification = responseSpecification
@@ -100,7 +103,10 @@ abstract class Model {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapper: ObjectMapper): T {
-        val model = responseSpecification.`as`(cls, objectMapper)!!
+        val model = if (responseSpecification.body.asString().trim().isEmpty())
+            cls.newInstance()!!
+        else
+            responseSpecification.`as`(cls, objectMapper)!!
 
         if (Model::class.java.isAssignableFrom(cls)) {
             (model as Model).responseSpecification = responseSpecification
@@ -120,7 +126,10 @@ abstract class Model {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapperType: ObjectMapperType): T {
-        val model = responseSpecification.`as`(cls, objectMapperType)!!
+        val model = if (responseSpecification.body.asString().trim().isEmpty())
+            cls.newInstance()!!
+        else
+            responseSpecification.`as`(cls, objectMapperType)!!
 
         if (Model::class.java.isAssignableFrom(cls)) {
             (model as Model).responseSpecification = responseSpecification

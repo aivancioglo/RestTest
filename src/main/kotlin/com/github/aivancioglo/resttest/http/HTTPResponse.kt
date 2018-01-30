@@ -118,7 +118,10 @@ class HTTPResponse(private val response: Response) {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>): T {
-        val model = response.`as`(cls)!!
+        val model = if (response.body.asString().trim().isEmpty())
+            cls.newInstance()!!
+        else
+            response.`as`(cls)!!
 
         if (Model::class.java.isAssignableFrom(cls)) {
             (model as Model).responseSpecification = response
@@ -138,7 +141,10 @@ class HTTPResponse(private val response: Response) {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapper: ObjectMapper): T {
-        val model = response.`as`(cls, objectMapper)!!
+        val model = if (response.body.asString().trim().isEmpty())
+            cls.newInstance()!!
+        else
+            response.`as`(cls, objectMapper)!!
 
         if (Model::class.java.isAssignableFrom(cls)) {
             (model as Model).responseSpecification = response
@@ -158,7 +164,10 @@ class HTTPResponse(private val response: Response) {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapperType: ObjectMapperType): T {
-        val model = response.`as`(cls, objectMapperType)!!
+        val model = if (response.body.asString().trim().isEmpty())
+            cls.newInstance()!!
+        else
+            response.`as`(cls, objectMapperType)!!
 
         if (Model::class.java.isAssignableFrom(cls)) {
             (model as Model).responseSpecification = response
