@@ -1,5 +1,8 @@
 package com.github.aivancioglo.resttest.http
 
+import com.github.aivancioglo.resttest.verifiers.Verifier
+import io.restassured.mapper.ObjectMapper
+import io.restassured.mapper.ObjectMapperType
 import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
 
@@ -14,8 +17,8 @@ abstract class Model {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(vararg verifiers: (Response) -> Unit) {
-        verifiers.forEach { it(responseSpecification) }
+    fun assertThat(vararg verifiers: Verifier) {
+        verifiers.forEach { it.verify(responseSpecification) }
     }
 
     /**
@@ -25,9 +28,9 @@ abstract class Model {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(code: Int, vararg verifiers: (Response) -> Unit) {
+    fun assertThat(code: Int, vararg verifiers: Verifier) {
         responseSpecification.then().statusCode(code)
-        verifiers.forEach { it(responseSpecification) }
+        verifiers.forEach { it.verify(responseSpecification) }
     }
 
     /**
@@ -37,9 +40,9 @@ abstract class Model {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(statusCode: StatusCode, vararg verifiers: (Response) -> Unit) {
+    fun assertThat(statusCode: StatusCode, vararg verifiers: Verifier) {
         responseSpecification.then().statusCode(statusCode.code)
-        verifiers.forEach { it(responseSpecification) }
+        verifiers.forEach { it.verify(responseSpecification) }
     }
 
     /**
@@ -50,9 +53,9 @@ abstract class Model {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(code: Int, jsonSchema: String, vararg verifiers: (Response) -> Unit) {
+    fun assertThat(code: Int, jsonSchema: String, vararg verifiers: Verifier) {
         responseSpecification.then().statusCode(code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
-        verifiers.forEach { it(responseSpecification) }
+        verifiers.forEach { it.verify(responseSpecification) }
     }
 
     /**
@@ -63,9 +66,9 @@ abstract class Model {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: (Response) -> Unit) {
+    fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: Verifier) {
         responseSpecification.then().statusCode(statusCode.code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
-        verifiers.forEach { it(responseSpecification) }
+        verifiers.forEach { it.verify(responseSpecification) }
     }
 
     /**
@@ -78,6 +81,46 @@ abstract class Model {
     @JvmName("as")
     fun <T> to(cls: Class<T>): T {
         val model = responseSpecification.`as`(cls)!!
+
+        if (Model::class.java.isAssignableFrom(cls)) {
+            (model as Model).responseSpecification = responseSpecification
+            (model as Model).response = response
+        }
+
+        return model
+    }
+
+    /**
+     * Deserialize responseSpecification body as your model class.
+     *
+     * @param cls that of your module.
+     * @param objectMapper for response body deserializing.
+     * @param T is responseSpecification model.
+     * @return deserialize body as your model class.
+     */
+    @JvmName("as")
+    fun <T> to(cls: Class<T>, objectMapper: ObjectMapper): T {
+        val model = responseSpecification.`as`(cls, objectMapper)!!
+
+        if (Model::class.java.isAssignableFrom(cls)) {
+            (model as Model).responseSpecification = responseSpecification
+            (model as Model).response = response
+        }
+
+        return model
+    }
+
+    /**
+     * Deserialize responseSpecification body as your model class.
+     *
+     * @param cls that of your module.
+     * @param objectMapperType for response body deserializing.
+     * @param T is responseSpecification model.
+     * @return deserialize body as your model class.
+     */
+    @JvmName("as")
+    fun <T> to(cls: Class<T>, objectMapperType: ObjectMapperType): T {
+        val model = responseSpecification.`as`(cls, objectMapperType)!!
 
         if (Model::class.java.isAssignableFrom(cls)) {
             (model as Model).responseSpecification = responseSpecification

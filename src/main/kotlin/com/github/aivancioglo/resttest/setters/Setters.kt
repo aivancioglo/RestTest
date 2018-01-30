@@ -2,6 +2,7 @@ package com.github.aivancioglo.resttest.setters
 
 import com.github.aivancioglo.resttest.http.HTTPRequest
 import io.restassured.http.ContentType
+import io.restassured.specification.MultiPartSpecification
 import java.io.File
 import java.io.InputStream
 import java.io.Serializable
@@ -214,7 +215,7 @@ abstract class Setters {
          * @param controlName of the body part. In HTML this is the attribute name of the input tag.
          * @param fileName of the content you're uploading.
          * @param stream you want to requestSpecification.
-         * @param mimeType    The mime-type
+         * @param mimeType The mime-type
          * @return Setter instance.
          */
         @JvmStatic
@@ -227,7 +228,7 @@ abstract class Setters {
         /**
          * Getting multi part setter.
          *
-         * @param file The file to upload
+         * @param file to upload
          * @return Setter instance.
          */
         @JvmStatic
@@ -240,7 +241,7 @@ abstract class Setters {
         /**
          * Getting multi part setter.
          *
-         * @param file The file to upload
+         * @param file to upload
          * @param controlName Defines the control name of the body part. In HTML this is the attribute name of the input tag.
          * @return Setter instance.
          */
@@ -248,6 +249,19 @@ abstract class Setters {
         fun multiPart(controlName: String, file: File) = object : Setter {
             override fun update(request: HTTPRequest) {
                 request.requestSpecification.multiPart(controlName, file)
+            }
+        }
+
+        /**
+         * Getting multi part setter.
+         *
+         * @param multiPartSpecification of yur request.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun multiPart(multiPartSpecification: MultiPartSpecification) = object : Setter {
+            override fun update(request: HTTPRequest) {
+                request.requestSpecification.multiPart(multiPartSpecification)
             }
         }
 
