@@ -29,7 +29,7 @@
         <url>http://github.com/aivancioglo/RestTest/tree/master</url>
         <connection>scm:git:git://github.com/aivancioglo/RestTest.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/aivancioglo/RestTest.git</developerConnection>
-        <tag>resttest-2.1.4</tag>
+        <tag>resttest-2.2.0</tag>
     </scm>
 
     <distributionManagement>
