@@ -112,13 +112,13 @@ class HTTPResponse(private val response: Response) {
      * @return deserialize body as your model class.
      */
     @JvmName("as")
-    fun <T> to(cls: Class<T>): T {
+    fun <T: Any> to(cls: KClass<T>): T {
         val model = if (response.body.asString().trim().isEmpty())
-            cls.newInstance()!!
+            cls.java.newInstance()!!
         else
-            response.`as`(cls)!!
+            response.`as`(cls.java)!!
 
-        if (Model::class.java.isAssignableFrom(cls)) {
+        if (Model::class.java.isAssignableFrom(cls.java)) {
             (model as Model).responseSpecification = response
             (model as Model).response = this
         }
@@ -135,13 +135,13 @@ class HTTPResponse(private val response: Response) {
      * @return deserialize body as your model class.
      */
     @JvmName("as")
-    fun <T> to(cls: Class<T>, objectMapper: ObjectMapper): T {
+    fun <T: Any> to(cls: KClass<T>, objectMapper: ObjectMapper): T {
         val model = if (response.body.asString().trim().isEmpty())
-            cls.newInstance()!!
+            cls.java.newInstance()!!
         else
-            response.`as`(cls, objectMapper)!!
+            response.`as`(cls.java, objectMapper)!!
 
-        if (Model::class.java.isAssignableFrom(cls)) {
+        if (Model::class.java.isAssignableFrom(cls.java)) {
             (model as Model).responseSpecification = response
             (model as Model).response = this
         }
@@ -158,13 +158,13 @@ class HTTPResponse(private val response: Response) {
      * @return deserialize body as your model class.
      */
     @JvmName("as")
-    fun <T> to(cls: Class<T>, objectMapperType: ObjectMapperType): T {
+    fun <T: Any> to(cls: KClass<T>, objectMapperType: ObjectMapperType): T {
         val model = if (response.body.asString().trim().isEmpty())
-            cls.newInstance()!!
+            cls.java.newInstance()!!
         else
-            response.`as`(cls, objectMapperType)!!
+            response.`as`(cls.java, objectMapperType)!!
 
-        if (Model::class.java.isAssignableFrom(cls)) {
+        if (Model::class.java.isAssignableFrom(cls.java)) {
             (model as Model).responseSpecification = response
             (model as Model).response = this
         }

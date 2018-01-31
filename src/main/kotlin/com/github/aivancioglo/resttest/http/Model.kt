@@ -75,13 +75,13 @@ abstract class Model {
      * @return deserialize body as your model class.
      */
     @JvmName("as")
-    fun <T> to(cls: Class<T>): T {
+    fun <T: Any> to(cls: KClass<T>): T {
         val model = if (responseSpecification.body.asString().trim().isEmpty())
-            cls.newInstance()!!
+            cls.java.newInstance()!!
         else
-            responseSpecification.`as`(cls)!!
+            responseSpecification.`as`(cls.java)!!
 
-        if (Model::class.java.isAssignableFrom(cls)) {
+        if (Model::class.java.isAssignableFrom(cls.java)) {
             (model as Model).responseSpecification = responseSpecification
             (model as Model).response = response
         }
@@ -98,13 +98,13 @@ abstract class Model {
      * @return deserialize body as your model class.
      */
     @JvmName("as")
-    fun <T> to(cls: Class<T>, objectMapper: ObjectMapper): T {
+    fun <T: Any> to(cls: KClass<T>, objectMapper: ObjectMapper): T {
         val model = if (responseSpecification.body.asString().trim().isEmpty())
-            cls.newInstance()!!
+            cls.java.newInstance()!!
         else
-            responseSpecification.`as`(cls, objectMapper)!!
+            responseSpecification.`as`(cls.java, objectMapper)!!
 
-        if (Model::class.java.isAssignableFrom(cls)) {
+        if (Model::class.java.isAssignableFrom(cls.java)) {
             (model as Model).responseSpecification = responseSpecification
             (model as Model).response = response
         }
@@ -121,13 +121,13 @@ abstract class Model {
      * @return deserialize body as your model class.
      */
     @JvmName("as")
-    fun <T> to(cls: Class<T>, objectMapperType: ObjectMapperType): T {
+    fun <T: Any> to(cls: KClass<T>, objectMapperType: ObjectMapperType): T {
         val model = if (responseSpecification.body.asString().trim().isEmpty())
-            cls.newInstance()!!
+            cls.java.newInstance()!!
         else
-            responseSpecification.`as`(cls, objectMapperType)!!
+            responseSpecification.`as`(cls.java, objectMapperType)!!
 
-        if (Model::class.java.isAssignableFrom(cls)) {
+        if (Model::class.java.isAssignableFrom(cls.java)) {
             (model as Model).responseSpecification = responseSpecification
             (model as Model).response = response
         }
