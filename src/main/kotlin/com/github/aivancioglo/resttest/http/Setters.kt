@@ -172,7 +172,8 @@ abstract class Setters {
          * Getting multi part setter.
          *
          * @param file The file to upload
-         * @param controlName Defines the control name of the body part. In HTML this is the attribute name of the input tag.
+         * @param controlName Defines the control name of the body part.
+         *                    In HTML this is the attribute name of the input tag.
          * @return Setter instance.
          */
         fun multiPart(controlName: String,
@@ -209,5 +210,18 @@ abstract class Setters {
          * @return Setter instance.
          */
         fun accept(contentType: ContentType): (HTTPRequest) -> Unit = { it.requestSpecification.accept(contentType) }
+
+        /**
+         * Specifies if RestTest should url encode the URL automatically. Usually this is a recommended
+         * but in some cases e.g. the query parameters are already be encoded before you provide them to RestTest
+         * then it's useful to disable URL encoding.
+         *
+         * @param isEnabled URL encoding or disabled.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun urlEncodingEnabled(isEnabled: Boolean = true): (HTTPRequest) -> Unit = {
+            it.requestSpecification.urlEncodingEnabled(isEnabled)
+        }
     }
 }
