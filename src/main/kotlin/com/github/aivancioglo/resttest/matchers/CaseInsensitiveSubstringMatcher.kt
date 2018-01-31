@@ -9,11 +9,13 @@ class CaseInsensitiveSubstringMatcher(private val subString: String) : TypeSafeM
         description.appendText("containing substring \"${this.subString}\"")
     }
 
-    override fun matchesSafely(actualString: String) = actualString.toLowerCase().contains(this.subString.toLowerCase())
+    override fun matchesSafely(actualString: String) =
+            actualString.toLowerCase().contains(this.subString.toLowerCase())
 
     companion object {
         @Factory
         @JvmStatic
-        fun containsIgnoringCase(subString: String) = CaseInsensitiveSubstringMatcher(subString)
+        fun containsIgnoringCase(subString: String) =
+                CaseInsensitiveSubstringMatcher(subString)
     }
 }

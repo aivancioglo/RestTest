@@ -57,7 +57,9 @@ open class HTTPRequest {
             throw RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same requestSpecification!")
 
         if (oAuth1.used)
-            requestSpecification.auth().oauth(oAuth1.consumerKey, oAuth1.consumerSecret, oAuth1.token, oAuth1.tokenSecret)
+            requestSpecification
+                    .auth()
+                    .oauth(oAuth1.consumerKey, oAuth1.consumerSecret, oAuth1.token, oAuth1.tokenSecret)
 
         if (oAuth2.used)
             requestSpecification.auth().oauth2(oAuth2.token)
@@ -83,7 +85,9 @@ open class HTTPRequest {
             throw RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same requestSpecification!")
 
         if (oAuth1.used)
-            requestSpecification.auth().oauth(oAuth1.consumerKey, oAuth1.consumerSecret, oAuth1.token, oAuth1.tokenSecret)
+            requestSpecification
+                    .auth()
+                    .oauth(oAuth1.consumerKey, oAuth1.consumerSecret, oAuth1.token, oAuth1.tokenSecret)
 
         if (oAuth2.used)
             requestSpecification.auth().oauth2(oAuth2.token)

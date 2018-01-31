@@ -4,6 +4,7 @@ import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
 import org.hamcrest.Matcher
 import org.junit.jupiter.api.Assertions.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Abstract class for using static functions to verify response.
@@ -33,7 +34,9 @@ abstract class Verifiers {
          * @param jsonSchema of expected response body.
          * @return Verifier instance.
          */
-        fun jsonSchema(jsonSchema: String): (Response) -> Unit = { it.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema)) }
+        fun jsonSchema(jsonSchema: String): (Response) -> Unit = {
+            it.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
+        }
 
         /**
          * Verify response body path.
@@ -43,7 +46,11 @@ abstract class Verifiers {
          * @param additionalKeyMatcherPairs for verifying.
          * @return Verifier instance.
          */
-        fun path(path: String, matcher: Matcher<*>, vararg additionalKeyMatcherPairs: Any): (Response) -> Unit = { it.then().body(path, matcher, *additionalKeyMatcherPairs) }
+        fun path(path: String,
+                 matcher: Matcher<*>,
+                 vararg additionalKeyMatcherPairs: Any): (Response) -> Unit = {
+            it.then().body(path, matcher, *additionalKeyMatcherPairs)
+        }
 
         /**
          * Verify response body.
@@ -52,7 +59,10 @@ abstract class Verifiers {
          * @param additionalMatchers for verifying.
          * @return Verifier instance.
          */
-        fun body(matcher: Matcher<*>, vararg additionalMatchers: Matcher<*>): (Response) -> Unit = { it.then().body(matcher, *additionalMatchers) }
+        fun body(matcher: Matcher<*>,
+                 vararg additionalMatchers: Matcher<*>): (Response) -> Unit = {
+            it.then().body(matcher, *additionalMatchers)
+        }
 
         /**
          * Verify if equals conditions.
@@ -71,7 +81,9 @@ abstract class Verifiers {
          * @param message of fail.
          * @return Verifier instance.
          */
-        fun equals(expected: Any, actual: Any, message: String): (Response) -> Unit = { assertEquals(expected, actual, message) }
+        fun equals(expected: Any,
+                   actual: Any,
+                   message: String): (Response) -> Unit = { assertEquals(expected, actual, message) }
 
         /**
          * Verify if not equals conditions.
@@ -90,7 +102,9 @@ abstract class Verifiers {
          * @param message of fail.
          * @return Verifier instance.
          */
-        fun notEquals(unexpected: Any, actual: Any, message: String): (Response) -> Unit = { assertNotEquals(unexpected, actual, message) }
+        fun notEquals(unexpected: Any,
+                      actual: Any,
+                      message: String): (Response) -> Unit = { assertNotEquals(unexpected, actual, message) }
 
         /**
          * Verify if condition is true.
@@ -124,7 +138,7 @@ abstract class Verifiers {
          * @param matcher of response header.
          * @return Verifier instance.
          */
-        fun header(name: String, matcher: Matcher<*>) : (Response) -> Unit = { it.then().header(name, matcher) }
+        fun header(name: String, matcher: Matcher<*>): (Response) -> Unit = { it.then().header(name, matcher) }
 
         /**
          * Verify response header.
@@ -133,7 +147,7 @@ abstract class Verifiers {
          * @param expectedValue of response header.
          * @return Verifier instance.
          */
-        fun header(name: String, expectedValue: String) : (Response) -> Unit = { it.then().header(name, expectedValue) }
+        fun header(name: String, expectedValue: String): (Response) -> Unit = { it.then().header(name, expectedValue) }
 
         /**
          * Verify response headers.
@@ -141,7 +155,7 @@ abstract class Verifiers {
          * @param expectedHeaders of response.
          * @return Verifier instance.
          */
-        fun headers(expectedHeaders: Map<String, *>) : (Response) -> Unit = { it.then().headers(expectedHeaders) }
+        fun headers(expectedHeaders: Map<String, *>): (Response) -> Unit = { it.then().headers(expectedHeaders) }
 
         /**
          * Verify response headers.
@@ -151,8 +165,30 @@ abstract class Verifiers {
          * @param expectedHeaders list of response (expected "header name" - "header value" pairs).
          * @return Verifier instance.
          */
-        fun headers(firstExpectedHeaderName: String, firstExpectedHeaderValue: Any, vararg expectedHeaders: Any) : (Response) -> Unit = {
+        fun headers(firstExpectedHeaderName: String,
+                    firstExpectedHeaderValue: Any,
+                    vararg expectedHeaders: Any): (Response) -> Unit = {
             it.then().headers(firstExpectedHeaderName, firstExpectedHeaderValue, *expectedHeaders)
         }
+
+        /**
+         * Verify responseSpecification headers.
+         *
+         * @param matcher request response time.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun time(matcher: Matcher<Long>): (Response) -> Unit = { it.then().time(matcher) }
+
+
+        /**
+         * Verify responseSpecification headers.
+         *
+         * @param matcher request response time.
+         * @param timeUnit of response.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun time(matcher: Matcher<Long>, timeUnit: TimeUnit): (Response) -> Unit = { it.then().time(matcher, timeUnit) }
     }
 }

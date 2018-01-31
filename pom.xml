@@ -5,7 +5,7 @@
 
     <groupId>com.github.aivancioglo</groupId>
     <artifactId>resttest</artifactId>
-    <version>3.0.3</version>
+    <version>3.0.4</version>
 
     <name>RestTest</name>
     <description>Lib for REST API testing</description>
@@ -29,7 +29,7 @@
         <url>http://github.com/aivancioglo/RestTest/tree/master</url>
         <connection>scm:git:git://github.com/aivancioglo/RestTest.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/aivancioglo/RestTest.git</developerConnection>
-        <tag>resttest-3.0.3</tag>
+        <tag>resttest-3.0.4</tag>
     </scm>
 
     <distributionManagement>
@@ -52,7 +52,7 @@
     </pluginRepositories>
 
     <properties>
-        <junit.jupiter.version>5.1.0-M1</junit.jupiter.version>
+        <junit.jupiter.version>5.0.3</junit.jupiter.version>
         <selenium.version>3.4.0</selenium.version>
         <rest.assured>3.0.6</rest.assured>
         <json.path.version>3.0.6</json.path.version>

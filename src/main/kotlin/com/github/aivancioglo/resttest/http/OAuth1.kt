@@ -45,7 +45,9 @@ class OAuth1 {
          *
          * @return consumer key.
          */
-        fun consumerSecret(consumerSecret: String): (HTTPRequest) -> Unit = { it.oAuth1.consumerSecret = consumerSecret }
+        fun consumerSecret(consumerSecret: String): (HTTPRequest) -> Unit = {
+            it.oAuth1.consumerSecret = consumerSecret
+        }
 
         /**
          * Setter of OAuth 1.0 token.

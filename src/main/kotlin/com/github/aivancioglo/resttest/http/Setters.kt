@@ -45,7 +45,8 @@ abstract class Setters {
          * @param value of query param.
          * @return Setter instance.
          */
-        fun queryParam(key: String, value: Any): (HTTPRequest) -> Unit = { it.requestSpecification.queryParam(key, value) }
+        fun queryParam(key: String,
+                       value: Any): (HTTPRequest) -> Unit = { it.requestSpecification.queryParam(key, value) }
 
         /**
          * Getting form param setter.
@@ -54,7 +55,8 @@ abstract class Setters {
          * @param value of form param.
          * @return Setter instance.
          */
-        fun formParam(key: String, value: Any): (HTTPRequest) -> Unit = { it.requestSpecification.formParam(key, value) }
+        fun formParam(key: String,
+                      value: Any): (HTTPRequest) -> Unit = { it.requestSpecification.formParam(key, value) }
 
         /**
          * Getting header setter.
@@ -127,7 +129,8 @@ abstract class Setters {
          * @param value of path param.
          * @return Setter instance.
          */
-        fun pathParam(key: String, value: String): (HTTPRequest) -> Unit = { it.requestSpecification.pathParam(key, value) }
+        fun pathParam(key: String,
+                      value: String): (HTTPRequest) -> Unit = { it.requestSpecification.pathParam(key, value) }
 
         /**
          * Getting multi part setter.
@@ -150,7 +153,10 @@ abstract class Setters {
          * @param mimeType    The mime-type
          * @return Setter instance.
          */
-        fun multiPart(controlName: String, fileName: String, stream: InputStream, mimeType: String): (HTTPRequest) -> Unit = {
+        fun multiPart(controlName: String,
+                      fileName: String,
+                      stream: InputStream,
+                      mimeType: String): (HTTPRequest) -> Unit = {
             it.requestSpecification.multiPart(controlName, fileName, stream, mimeType)
         }
 
@@ -169,7 +175,8 @@ abstract class Setters {
          * @param controlName Defines the control name of the body part. In HTML this is the attribute name of the input tag.
          * @return Setter instance.
          */
-        fun multiPart(controlName: String, file: File): (HTTPRequest) -> Unit = { it.requestSpecification.multiPart(controlName, file) }
+        fun multiPart(controlName: String,
+                      file: File): (HTTPRequest) -> Unit = { it.requestSpecification.multiPart(controlName, file) }
 
         /**
          * Getting redirect setter.

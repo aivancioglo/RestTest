@@ -1,6 +1,8 @@
 package com.github.aivancioglo.resttest.http
 
 import io.restassured.http.Header
+import io.restassured.mapper.ObjectMapper
+import io.restassured.mapper.ObjectMapperType
 import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
 import kotlin.reflect.KClass
@@ -103,17 +105,66 @@ class HTTPResponse(private val response: Response) {
     fun getBody() = response.body.asString()
 
     /**
-     * Deserialize response body as your model class.
+     * Deserialize responseSpecification body as your model class.
      *
      * @param cls that of your module.
-     * @param T is response model.
-     * @return deserialized body as your model class.
+     * @param T is responseSpecification model.
+     * @return deserialize body as your model class.
      */
     @JvmName("as")
-    fun <T : Any> to(cls: KClass<T>): T {
-        val model = response.`as`(cls.java)!!
+    fun <T> to(cls: Class<T>): T {
+        val model = if (response.body.asString().trim().isEmpty())
+            cls.newInstance()!!
+        else
+            response.`as`(cls)!!
 
-        if (Model::class.java.isAssignableFrom(cls.java)) {
+        if (Model::class.java.isAssignableFrom(cls)) {
+            (model as Model).responseSpecification = response
+            (model as Model).response = this
+        }
+
+        return model
+    }
+
+    /**
+     * Deserialize responseSpecification body as your model class.
+     *
+     * @param cls that of your module.
+     * @param objectMapper for response body deserializing.
+     * @param T is responseSpecification model.
+     * @return deserialize body as your model class.
+     */
+    @JvmName("as")
+    fun <T> to(cls: Class<T>, objectMapper: ObjectMapper): T {
+        val model = if (response.body.asString().trim().isEmpty())
+            cls.newInstance()!!
+        else
+            response.`as`(cls, objectMapper)!!
+
+        if (Model::class.java.isAssignableFrom(cls)) {
+            (model as Model).responseSpecification = response
+            (model as Model).response = this
+        }
+
+        return model
+    }
+
+    /**
+     * Deserialize responseSpecification body as your model class.
+     *
+     * @param cls that of your module.
+     * @param objectMapperType for response body deserializing.
+     * @param T is responseSpecification model.
+     * @return deserialize body as your model class.
+     */
+    @JvmName("as")
+    fun <T> to(cls: Class<T>, objectMapperType: ObjectMapperType): T {
+        val model = if (response.body.asString().trim().isEmpty())
+            cls.newInstance()!!
+        else
+            response.`as`(cls, objectMapperType)!!
+
+        if (Model::class.java.isAssignableFrom(cls)) {
             (model as Model).responseSpecification = response
             (model as Model).response = this
         }

@@ -185,7 +185,7 @@ class Endpoint : HTTPRequest() {
         val url = URL(link)
 
         if (url.port != -1)
-            set(port(url.port));
+            set(port(url.port))
 
         set(
                 protocol(url.protocol),
