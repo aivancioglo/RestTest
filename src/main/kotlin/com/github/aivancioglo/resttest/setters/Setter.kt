@@ -3,7 +3,7 @@ package com.github.aivancioglo.resttest.setters
 import com.github.aivancioglo.resttest.http.HTTPRequest
 
 /**
- * Session specification setter interface.
+ * Request specification setter interface.
  */
 interface Setter {
 

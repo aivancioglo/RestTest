@@ -59,7 +59,9 @@ abstract class Verifiers {
          * @return Verifier instance.
          */
         @JvmStatic
-        fun path(path: String, matcher: Matcher<*>, vararg additionalKeyMatcherPairs: Any): Verifier = object : Verifier {
+        fun path(path: String,
+                 matcher: Matcher<*>,
+                 vararg additionalKeyMatcherPairs: Any): Verifier = object : Verifier {
             override fun verify(response: Response) {
                 response.then().body(path, matcher, *additionalKeyMatcherPairs)
             }
@@ -142,7 +144,9 @@ abstract class Verifiers {
          * @return Verifier instance.
          */
         @JvmStatic
-        fun headers(firstExpectedHeaderName: String, firstExpectedHeaderValue: Any, vararg expectedHeaders: Any): Verifier = object : Verifier {
+        fun headers(firstExpectedHeaderName: String,
+                    firstExpectedHeaderValue: Any,
+                    vararg expectedHeaders: Any): Verifier = object : Verifier {
             override fun verify(response: Response) {
                 response.then().headers(firstExpectedHeaderName, firstExpectedHeaderValue, *expectedHeaders)
             }

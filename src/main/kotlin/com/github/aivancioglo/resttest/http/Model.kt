@@ -66,8 +66,11 @@ abstract class Model {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: Verifier) {
-        responseSpecification.then().statusCode(statusCode.code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
+    fun assertThat(statusCode: StatusCode,
+                   jsonSchema: String,
+                   vararg verifiers: Verifier) {
+        responseSpecification.then()
+                .statusCode(statusCode.code).body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
         verifiers.forEach { it.verify(responseSpecification) }
     }
 

@@ -161,7 +161,8 @@ abstract class Setters {
                 val m = Pattern.compile("[?&]([^&=]+)=([^&=]+)").matcher(path)
 
                 while (m.find())
-                    request.requestSpecification.queryParam(m.group(1), URLDecoder.decode(m.group(2), "UTF-8"))
+                    request.requestSpecification
+                            .queryParam(m.group(1), URLDecoder.decode(m.group(2), "UTF-8"))
 
                 request.requestSpecification.basePath(path)
             }
@@ -219,7 +220,10 @@ abstract class Setters {
          * @return Setter instance.
          */
         @JvmStatic
-        fun multiPart(controlName: String, fileName: String, stream: InputStream, mimeType: String) = object : Setter {
+        fun multiPart(controlName: String,
+                      fileName: String,
+                      stream: InputStream,
+                      mimeType: String) = object : Setter {
             override fun update(request: HTTPRequest) {
                 request.requestSpecification.multiPart(controlName, fileName, stream, mimeType)
             }
@@ -314,6 +318,21 @@ abstract class Setters {
         fun accept(contentType: ContentType) = object : Setter {
             override fun update(request: HTTPRequest) {
                 request.requestSpecification.accept(contentType)
+            }
+        }
+
+        /**
+         * Specifies if RestTest should url encode the URL automatically. Usually this is a recommended but in some cases
+         * e.g. the query parameters are already be encoded before you provide them to RestTest then it's useful to disable
+         * URL encoding.
+         *
+         * @param isEnabled URL encoding or disabled.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun urlEncodingEnabled(isEnabled: Boolean = true) = object : Setter {
+            override fun update(request: HTTPRequest) {
+                request.requestSpecification.urlEncodingEnabled(isEnabled)
             }
         }
     }
