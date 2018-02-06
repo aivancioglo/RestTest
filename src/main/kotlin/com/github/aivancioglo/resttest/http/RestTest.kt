@@ -81,7 +81,7 @@ abstract class RestTest {
                         throw AssertionError(e)
                     }
 
-                    if (timeoutMls > 0 && Date().time - currentTime < timeoutMls) {
+                    if (timeoutMls > 0 && Date().time - currentTime > timeoutMls) {
                         throw AssertionError("Timeout! ${e.message}")
                     }
 
