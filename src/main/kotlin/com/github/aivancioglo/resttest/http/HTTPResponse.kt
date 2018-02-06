@@ -118,7 +118,9 @@ class HTTPResponse(private val response: Response) {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>): T {
-        val model = if (response.body.asString().trim().isEmpty())
+        val model = if (response.body.asString().trim().isEmpty() ||
+                (!response.contentType.contains("JSON", true) &&
+                        !response.contentType.contains("XML", true)))
             cls.newInstance()!!
         else
             response.`as`(cls)!!
@@ -141,7 +143,9 @@ class HTTPResponse(private val response: Response) {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapper: ObjectMapper): T {
-        val model = if (response.body.asString().trim().isEmpty())
+        val model = if (response.body.asString().trim().isEmpty() ||
+                (!response.contentType.contains("JSON", true) &&
+                        !response.contentType.contains("XML", true)))
             cls.newInstance()!!
         else
             response.`as`(cls, objectMapper)!!
@@ -164,7 +168,9 @@ class HTTPResponse(private val response: Response) {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapperType: ObjectMapperType): T {
-        val model = if (response.body.asString().trim().isEmpty())
+        val model = if (response.body.asString().trim().isEmpty() ||
+                (!response.contentType.contains("JSON", true) &&
+                        !response.contentType.contains("XML", true)))
             cls.newInstance()!!
         else
             response.`as`(cls, objectMapperType)!!

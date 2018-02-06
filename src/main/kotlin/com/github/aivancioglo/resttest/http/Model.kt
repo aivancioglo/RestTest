@@ -83,7 +83,9 @@ abstract class Model {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>): T {
-        val model = if (responseSpecification.body.asString().trim().isEmpty())
+        val model = if (responseSpecification.body.asString().trim().isEmpty() ||
+                (!responseSpecification.contentType.contains("JSON", true) &&
+                        !responseSpecification.contentType.contains("XML", true)))
             cls.newInstance()!!
         else
             responseSpecification.`as`(cls)!!
@@ -106,7 +108,9 @@ abstract class Model {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapper: ObjectMapper): T {
-        val model = if (responseSpecification.body.asString().trim().isEmpty())
+        val model = if (responseSpecification.body.asString().trim().isEmpty() ||
+                (!responseSpecification.contentType.contains("JSON", true) &&
+                        !responseSpecification.contentType.contains("XML", true)))
             cls.newInstance()!!
         else
             responseSpecification.`as`(cls, objectMapper)!!
@@ -129,7 +133,9 @@ abstract class Model {
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapperType: ObjectMapperType): T {
-        val model = if (responseSpecification.body.asString().trim().isEmpty())
+        val model = if (responseSpecification.body.asString().trim().isEmpty() ||
+                (!responseSpecification.contentType.contains("JSON", true) &&
+                        !responseSpecification.contentType.contains("XML", true)))
             cls.newInstance()!!
         else
             responseSpecification.`as`(cls, objectMapperType)!!

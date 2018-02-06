@@ -335,5 +335,19 @@ abstract class Setters {
                 request.requestSpecification.urlEncodingEnabled(isEnabled)
             }
         }
+
+        /**
+         * Use http basic authentication.
+         *
+         * @param userName of your account.
+         * @param password of your account.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun basicAuth(userName: String, password: String) = object : Setter {
+            override fun update(request: HTTPRequest) {
+                request.requestSpecification.auth().basic(userName, password)
+            }
+        }
     }
 }
