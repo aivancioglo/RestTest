@@ -74,9 +74,10 @@ abstract class Model {
      * @param T is responseSpecification model.
      * @return deserialize body as your model class.
      */
-    @JvmName("as")
     fun <T: Any> to(cls: KClass<T>): T {
-        val model = if (responseSpecification.body.asString().trim().isEmpty())
+        val model = if (responseSpecification.body.asString().trim().isEmpty() ||
+                (!responseSpecification.contentType.contains("JSON", true) &&
+                        !responseSpecification.contentType.contains("XML", true)))
             cls.java.newInstance()!!
         else
             responseSpecification.`as`(cls.java)!!
@@ -97,9 +98,10 @@ abstract class Model {
      * @param T is responseSpecification model.
      * @return deserialize body as your model class.
      */
-    @JvmName("as")
     fun <T: Any> to(cls: KClass<T>, objectMapper: ObjectMapper): T {
-        val model = if (responseSpecification.body.asString().trim().isEmpty())
+        val model = if (responseSpecification.body.asString().trim().isEmpty() ||
+                (!responseSpecification.contentType.contains("JSON", true) &&
+                        !responseSpecification.contentType.contains("XML", true)))
             cls.java.newInstance()!!
         else
             responseSpecification.`as`(cls.java, objectMapper)!!
@@ -120,9 +122,10 @@ abstract class Model {
      * @param T is responseSpecification model.
      * @return deserialize body as your model class.
      */
-    @JvmName("as")
     fun <T: Any> to(cls: KClass<T>, objectMapperType: ObjectMapperType): T {
-        val model = if (responseSpecification.body.asString().trim().isEmpty())
+        val model = if (responseSpecification.body.asString().trim().isEmpty() ||
+                (!responseSpecification.contentType.contains("JSON", true) &&
+                        !responseSpecification.contentType.contains("XML", true)))
             cls.java.newInstance()!!
         else
             responseSpecification.`as`(cls.java, objectMapperType)!!

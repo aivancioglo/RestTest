@@ -219,9 +219,19 @@ abstract class Setters {
          * @param isEnabled URL encoding or disabled.
          * @return Setter instance.
          */
-        @JvmStatic
         fun urlEncodingEnabled(isEnabled: Boolean = true): (HTTPRequest) -> Unit = {
             it.requestSpecification.urlEncodingEnabled(isEnabled)
+        }
+
+        /**
+         * Use http basic authentication.
+         *
+         * @param userName of your account.
+         * @param password of your account.
+         * @return Setter instance.
+         */
+        fun basicAuth(userName: String, password:String): (HTTPRequest) -> Unit = {
+            it.requestSpecification.auth().basic(userName, password)
         }
     }
 }

@@ -111,9 +111,10 @@ class HTTPResponse(private val response: Response) {
      * @param T is responseSpecification model.
      * @return deserialize body as your model class.
      */
-    @JvmName("as")
     fun <T: Any> to(cls: KClass<T>): T {
-        val model = if (response.body.asString().trim().isEmpty())
+        val model = if (response.body.asString().trim().isEmpty() ||
+                (!response.contentType.contains("JSON", true) &&
+                        !response.contentType.contains("XML", true)))
             cls.java.newInstance()!!
         else
             response.`as`(cls.java)!!
@@ -134,9 +135,10 @@ class HTTPResponse(private val response: Response) {
      * @param T is responseSpecification model.
      * @return deserialize body as your model class.
      */
-    @JvmName("as")
     fun <T: Any> to(cls: KClass<T>, objectMapper: ObjectMapper): T {
-        val model = if (response.body.asString().trim().isEmpty())
+        val model = if (response.body.asString().trim().isEmpty() ||
+                (!response.contentType.contains("JSON", true) &&
+                        !response.contentType.contains("XML", true)))
             cls.java.newInstance()!!
         else
             response.`as`(cls.java, objectMapper)!!
@@ -157,9 +159,10 @@ class HTTPResponse(private val response: Response) {
      * @param T is responseSpecification model.
      * @return deserialize body as your model class.
      */
-    @JvmName("as")
     fun <T: Any> to(cls: KClass<T>, objectMapperType: ObjectMapperType): T {
-        val model = if (response.body.asString().trim().isEmpty())
+        val model = if (response.body.asString().trim().isEmpty() ||
+                (!response.contentType.contains("JSON", true) &&
+                        !response.contentType.contains("XML", true)))
             cls.java.newInstance()!!
         else
             response.`as`(cls.java, objectMapperType)!!
