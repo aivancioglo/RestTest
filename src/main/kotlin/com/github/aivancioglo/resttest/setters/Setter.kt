@@ -1,6 +1,6 @@
 package com.github.aivancioglo.resttest.setters
 
-import com.github.aivancioglo.resttest.http.HTTPRequest
+import com.github.aivancioglo.resttest.http.Request
 
 /**
  * Request specification setter interface.
@@ -12,5 +12,5 @@ interface Setter {
      *
      * @param request that will be updated.
      */
-    fun update(request: HTTPRequest)
+    fun update(request: Request)
 }

@@ -1,97 +1,198 @@
 package com.github.aivancioglo.resttest.http
 
-import java.util.*
+import com.github.aivancioglo.resttest.setters.Setter
 
 abstract class RestTest {
     companion object {
+        var logIfFailedEnabled = true
+            private set
+
+        var logAllRequestsEnabled = false
+            private set
+
+        var logOnlyFirstFailure = false
+            private set
+
+        /**
+         * Enable log of all your requests.
+         */
+        @JvmStatic
+        fun enableLogAll() {
+            logAllRequestsEnabled = true
+        }
+
+        /**
+         * Disable log of all failed requests.
+         */
+        @JvmStatic
+        fun disableLogIfFailed() {
+            logIfFailedEnabled = false
+        }
+
+        /**
+         * Disable log of all failures.
+         */
+        @JvmStatic
+        fun enableLogOnlyFirstFailure() {
+            logOnlyFirstFailure = true
+        }
 
         /**
          * Use this function, to creates Session of request repeating.
          */
         @JvmStatic
         fun perform() = Session()
-    }
-
-    /**
-     * Request repeating session.
-     */
-    class Session {
-        private var loopsCount = 0
-        private var timeoutMls = 0
-        private var delayMls = 0
 
         /**
-         * Set maximum loops.
+         * Making GET requestSpecification.
          *
-         * @param loopsCount of your requests.
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
          */
-        fun tries(loopsCount: Int) = apply {
-            if (loopsCount < 1)
-                throw Exception("Loop count should be more than 0!")
-
-            this.loopsCount = loopsCount
-        }
+        @JvmStatic
+        fun get(vararg setters: Setter) = Endpoint().get(*setters)
 
         /**
-         * Set your timeout.
+         * Making GET requestSpecification.
          *
-         * @param sec to finish your request
-         * @param mls to finish your request
+         * @param url of your requestSpecification.
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
          */
-        @JvmOverloads
-        fun timeout(sec: Int, mls: Int = 0) = apply {
-            if (sec <= 0 && mls <= 0)
-                throw Exception("Timeout should be more than 0!")
-
-            timeoutMls = mls + sec * 1000
-        }
+        @JvmStatic
+        fun get(url: String, vararg setters: Setter) = Endpoint().get(url, *setters)
 
         /**
-         * Set your request delay.
+         * Making POST requestSpecification.
          *
-         * @param sec that should wait after request.
-         * @param mls that should wait after request.
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
          */
-        @JvmOverloads
-        fun every(sec: Int, mls: Int = 0) = apply {
-            if (sec < 0)
-                throw Exception("Seconds should not be less than 0!")
-
-            if (mls < 0)
-                throw Exception("Milliseconds should not be less than 0!")
-
-            delayMls = mls + sec * 1000
-        }
+        @JvmStatic
+        fun post(vararg setters: Setter) = Endpoint().post(*setters)
 
         /**
-         * This function is executing your request until passing or timeout.
+         * Making POST requestSpecification.
          *
-         * @param request to execute.
+         * @param url of your requestSpecification.
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
          */
-        fun until(request: Runnable) {
-            var loop = loopsCount
-            val currentTime = Date().time
+        @JvmStatic
+        fun post(url: String, vararg setters: Setter) = Endpoint().post(url, *setters)
 
-            while (true) {
-                try {
-                    request.run()
-                    return
-                } catch (e: AssertionError) {
-                    if (loopsCount > 0 && --loop == 0) {
-                        throw AssertionError(e)
-                    }
+        /**
+         * Making PUT requestSpecification.
+         *
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun put(vararg setters: Setter) = Endpoint().put(*setters)
 
-                    if (timeoutMls > 0 && Date().time - currentTime > timeoutMls) {
-                        throw AssertionError("Timeout! ${e.message}")
-                    }
+        /**
+         * Making PUT requestSpecification.
+         *
+         * @param url of your requestSpecification.
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun put(url: String, vararg setters: Setter) = Endpoint().put(url, *setters)
 
-                    if (delayMls > 0)
-                        try {
-                            Thread.sleep(delayMls.toLong())
-                        } catch (e1: Exception) {
-                        }
-                }
-            }
-        }
+        /**
+         * Making PATCH requestSpecification.
+         *
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun patch(vararg setters: Setter) = Endpoint().patch(*setters)
+
+        /**
+         * Making PATCH requestSpecification.
+         *
+         * @param url of your requestSpecification.
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun patch(url: String, vararg setters: Setter) = Endpoint().patch(url, *setters)
+
+        /**
+         * Making DELETE requestSpecification.
+         *
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun delete(vararg setters: Setter) = Endpoint().delete(*setters)
+
+        /**
+         * Making DELETE requestSpecification.
+         *
+         * @param url of your requestSpecification.
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun delete(url: String, vararg setters: Setter) = Endpoint().delete(url, *setters)
+
+        /**
+         * Making OPTIONS requestSpecification.
+         *
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun options(vararg setters: Setter) = Endpoint().options(*setters)
+
+        /**
+         * Making OPTIONS requestSpecification.
+         *
+         * @param url of your requestSpecification.
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun options(url: String, vararg setters: Setter) = Endpoint().options(url, *setters)
+
+        /**
+         * Making HEAD requestSpecification.
+         *
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun head(vararg setters: Setter) = Endpoint().head(*setters)
+
+        /**
+         * Making HEAD requestSpecification.
+         *
+         * @param url of your requestSpecification.
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun head(url: String, vararg setters: Setter) = Endpoint().head(url, *setters)
+
+        /**
+         * Making TRACE requestSpecification.
+         *
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun trace(vararg setters: Setter) = Endpoint().trace(*setters)
+
+        /**
+         * Making TRACE requestSpecification.
+         *
+         * @param url of your requestSpecification.
+         * @param setters are setting up requestSpecification specification.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun trace(url: String, vararg setters: Setter) = Endpoint().trace(url, *setters)
     }
 }

@@ -1,5 +1,6 @@
 package com.github.aivancioglo.resttest.verifiers
 
+import io.restassured.http.ContentType
 import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
 import org.hamcrest.Matcher
@@ -53,17 +54,17 @@ abstract class Verifiers {
         /**
          * Verify responseSpecification body path.
          *
-         * @param path of your responseSpecification body.
+         * @param key of your responseSpecification body.
          * @param matcher for verifying.
          * @param additionalKeyMatcherPairs for verifying.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun path(path: String,
+        fun path(key: String,
                  matcher: Matcher<*>,
                  vararg additionalKeyMatcherPairs: Any): Verifier = object : Verifier {
             override fun verify(response: Response) {
-                response.then().body(path, matcher, *additionalKeyMatcherPairs)
+                response.then().body(key, matcher, *additionalKeyMatcherPairs)
             }
         }
 
@@ -84,13 +85,26 @@ abstract class Verifiers {
         /**
          * Verify body content type.
          *
-         * @param matcher of response body content type.
+         * @param contentType of response body content type.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun contentType(matcher: Matcher<String>): Verifier = object : Verifier {
+        fun contentTypeIs(contentType: String): Verifier = object : Verifier {
             override fun verify(response: Response) {
-                response.then().contentType(matcher)
+                response.then().contentType(contentType)
+            }
+        }
+
+        /**
+         * Verify body content type.
+         *
+         * @param contentType of response body content type.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun contentTypeIs(contentType: ContentType): Verifier = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().contentType(contentType)
             }
         }
 
@@ -105,20 +119,6 @@ abstract class Verifiers {
         fun header(name: String, matcher: Matcher<*>): Verifier = object : Verifier {
             override fun verify(response: Response) {
                 response.then().header(name, matcher)
-            }
-        }
-
-        /**
-         * Verify responseSpecification header.
-         *
-         * @param name of header.
-         * @param expectedValue of responseSpecification header.
-         * @return Verifier instance.
-         */
-        @JvmStatic
-        fun header(name: String, expectedValue: String): Verifier = object : Verifier {
-            override fun verify(response: Response) {
-                response.then().header(name, expectedValue)
             }
         }
 

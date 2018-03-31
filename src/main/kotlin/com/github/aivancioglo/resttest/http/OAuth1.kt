@@ -42,7 +42,7 @@ class OAuth1 {
          */
         @JvmStatic
         fun consumerKey(consumerKey: String) = object : Setter {
-            override fun update(request: HTTPRequest) {
+            override fun update(request: Request) {
                 request.oAuth1.consumerKey = consumerKey
             }
         }
@@ -54,7 +54,7 @@ class OAuth1 {
          */
         @JvmStatic
         fun consumerSecret(consumerSecret: String) = object : Setter {
-            override fun update(request: HTTPRequest) {
+            override fun update(request: Request) {
                 request.oAuth1.consumerSecret = consumerSecret
             }
         }
@@ -66,7 +66,7 @@ class OAuth1 {
          */
         @JvmStatic
         fun token(token: String) = object : Setter {
-            override fun update(request: HTTPRequest) {
+            override fun update(request: Request) {
                 request.oAuth1.token = token
             }
         }
@@ -78,7 +78,7 @@ class OAuth1 {
          */
         @JvmStatic
         fun tokenSecret(tokenSecret: String) = object : Setter {
-            override fun update(request: HTTPRequest) {
+            override fun update(request: Request) {
                 request.oAuth1.tokenSecret = tokenSecret
             }
         }

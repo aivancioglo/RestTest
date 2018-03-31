@@ -5,11 +5,12 @@ import io.restassured.RestAssured
 import io.restassured.config.HttpClientConfig
 import io.restassured.http.ContentType
 import io.restassured.http.Method
+import io.restassured.internal.RequestSpecificationImpl
 
 /**
- * Class for creating requestSpecification. You can extend it using your own endpoint class.
+ * Class for creating request. You can extend it using your own endpoint class.
  */
-open class HTTPRequest {
+open class Request {
     val requestSpecification = RestAssured.given().contentType(ContentType.JSON)!!
     val oAuth1 = OAuth1()
     val oAuth2 = OAuth2()
@@ -26,7 +27,7 @@ open class HTTPRequest {
          */
         init {
             RestAssured.useRelaxedHTTPSValidation()
-            RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
+//            RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
             RestAssured.config = RestAssured.config().httpClient(HttpClientConfig.httpClientConfig()
                     .setParam("http.connection.timeout", 20000)
                     .setParam("http.socket.timeout", 60000))
@@ -48,14 +49,14 @@ open class HTTPRequest {
      *
      * @param method of your requestSpecification.
      * @param setters are setting up requestSpecification specification.
-     * @return HTTPResponse class instance.
+     * @return Response class instance.
      */
-    protected fun send(method: Method, vararg setters: Setter): HTTPResponse {
+    protected fun send(method: Method, vararg setters: Setter): Response {
         for (setter in setters)
             setter.update(this)
 
         if (oAuth1.used && oAuth2.used)
-            throw RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same requestSpecification!")
+            throw RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same request!")
 
         if (oAuth1.used)
             requestSpecification
@@ -65,25 +66,27 @@ open class HTTPRequest {
         if (oAuth2.used)
             requestSpecification.auth().oauth2(oAuth2.token)
 
-        requestSpecification.baseUri(protocol + host)
+        requestSpecification.baseUri("$protocol$host")
 
-        return HTTPResponse(requestSpecification.request(method))
+        val response = requestSpecification.request(method)!!
+
+        return ResponseImpl(requestSpecification as RequestSpecificationImpl, response)
     }
 
     /**
      * Sending your requestSpecification.
      *
-     * @param method of your requestSpecification.
+     * @param method of your request.
      * @param path is a path param.
-     * @param setters are setting up requestSpecification specification.
-     * @return HTTPResponse class instance.
+     * @param setters are setting up request specification.
+     * @return Response class instance.
      */
-    protected fun send(method: Method, path: String, vararg setters: Setter): HTTPResponse {
+    protected fun send(method: Method, path: String, vararg setters: Setter): Response {
         for (setter in setters)
             setter.update(this)
 
         if (oAuth1.used && oAuth2.used)
-            throw RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same requestSpecification!")
+            throw RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same request!")
 
         if (oAuth1.used)
             requestSpecification
@@ -93,8 +96,10 @@ open class HTTPRequest {
         if (oAuth2.used)
             requestSpecification.auth().oauth2(oAuth2.token)
 
-        requestSpecification.baseUri(protocol + host)
+        requestSpecification.baseUri("$protocol$host")
 
-        return HTTPResponse(requestSpecification.request(method, path))
+        val response = requestSpecification.request(method, path)!!
+
+        return ResponseImpl(requestSpecification as RequestSpecificationImpl, response)
     }
 }
