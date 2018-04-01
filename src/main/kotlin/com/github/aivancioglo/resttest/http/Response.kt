@@ -1,5 +1,8 @@
 package com.github.aivancioglo.resttest.http
 
+import com.github.aivancioglo.resttest.http.Settings.Companion.logAllRequestsEnabled
+import com.github.aivancioglo.resttest.http.Settings.Companion.logIfFailedEnabled
+import com.github.aivancioglo.resttest.http.Settings.Companion.logOnlyFirstFailure
 import com.github.aivancioglo.resttest.logger.LogType
 import com.github.aivancioglo.resttest.logger.LogType.ALL
 import com.github.aivancioglo.resttest.logger.Logger
@@ -25,7 +28,7 @@ abstract class Response() {
         this.response = response
         logger = Logger(request, response)
 
-        if (RestTest.logAllRequestsEnabled)
+        if (logAllRequestsEnabled)
             log()
     }
 
@@ -306,10 +309,10 @@ abstract class Response() {
 
     private fun printFailuresIfExist() {
         if (errors.size > 0) {
-            if (!RestTest.logAllRequestsEnabled && RestTest.logIfFailedEnabled)
+            if (!logAllRequestsEnabled && logIfFailedEnabled)
                 log()
 
-            if (RestTest.logOnlyFirstFailure)
+            if (logOnlyFirstFailure)
                 throw AssertionError("\n\n============= F A I L U R E S =============\n" + errors[0] + "\n===========================================")
             else
                 throw AssertionError("\n\n============= F A I L U R E S =============\n" + errors.map {

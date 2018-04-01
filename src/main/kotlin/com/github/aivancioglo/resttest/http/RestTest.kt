@@ -1,67 +1,9 @@
 package com.github.aivancioglo.resttest.http
 
 import com.github.aivancioglo.resttest.setters.Setter
-import io.restassured.RestAssured
-import io.restassured.config.HttpClientConfig
 
 abstract class RestTest {
     companion object {
-        var logIfFailedEnabled = true
-            private set
-
-        var logAllRequestsEnabled = false
-            private set
-
-        var logOnlyFirstFailure = false
-            private set
-
-        private var httpClientConfig = HttpClientConfig.httpClientConfig()
-
-        /**
-         * Enable log of all your requests.
-         */
-        @JvmStatic
-        fun enableLogAll() {
-            logAllRequestsEnabled = true
-        }
-
-        /**
-         * Disable log of all failed requests.
-         */
-        @JvmStatic
-        fun disableLogIfFailed() {
-            logIfFailedEnabled = false
-        }
-
-        /**
-         * Disable log of all failures.
-         */
-        @JvmStatic
-        fun enableLogOnlyFirstFailure() {
-            logOnlyFirstFailure = true
-        }
-
-        /**
-         * Set connection timeout.
-         */
-        @JvmStatic
-        fun setConnectionTimeout(timeout: Int) {
-            RestAssured.config = RestAssured.config().httpClient(httpClientConfig
-                    .setParam("http.connection.timeout", timeout))
-
-        }
-
-
-         /**
-         * Set socket timeout.
-         */
-        @JvmStatic
-        fun setSocketTimeout(timeout: Int) {
-            RestAssured.config = RestAssured.config().httpClient(httpClientConfig
-                    .setParam("http.socket.timeout", timeout))
-
-        }
-
         /**
          * Use this function, to creates Session of request repeating.
          */

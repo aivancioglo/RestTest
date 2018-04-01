@@ -1,7 +1,7 @@
 package com.github.aivancioglo.resttest.setters
 
+import com.github.aivancioglo.resttest.http.ContentType
 import com.github.aivancioglo.resttest.http.Request
-import io.restassured.http.ContentType
 import io.restassured.specification.MultiPartSpecification
 import java.io.File
 import java.io.InputStream
@@ -24,7 +24,7 @@ abstract class Setters {
         @JvmStatic
         fun contentType(type: ContentType) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.contentType(type)
+                request.requestSpecification.contentType(type.type)
             }
         }
 
@@ -317,7 +317,7 @@ abstract class Setters {
         @JvmStatic
         fun accept(contentType: ContentType) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.accept(contentType)
+                request.requestSpecification.accept(contentType.type)
             }
         }
 
@@ -351,7 +351,7 @@ abstract class Setters {
         }
 
         /**
-         * Clear all authentication params.
+         * Clear all authentication settings.
          *
          * @return Setter instance.
          */

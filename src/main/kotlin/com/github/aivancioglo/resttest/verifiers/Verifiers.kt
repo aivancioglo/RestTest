@@ -1,6 +1,6 @@
 package com.github.aivancioglo.resttest.verifiers
 
-import io.restassured.http.ContentType
+import com.github.aivancioglo.resttest.http.ContentType
 import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
 import org.hamcrest.Matcher
@@ -13,7 +13,7 @@ abstract class Verifiers {
     companion object {
 
         /**
-         * Verify responseSpecification status code.
+         * Verify response status code.
          *
          * @param statusCode of your responseSpecification.
          * @return Verifier instance.
@@ -26,7 +26,7 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify responseSpecification status code.
+         * Verify response status code.
          *
          * @param statusCode of your responseSpecification.
          * @return Verifier instance.
@@ -39,7 +39,7 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify responseSpecification body.
+         * Verify response body using JSON schema validation.
          *
          * @param jsonSchema of expected responseSpecification body.
          * @return Verifier instance.
@@ -52,7 +52,7 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify responseSpecification body path.
+         * Verify response body path.
          *
          * @param key of your responseSpecification body.
          * @param matcher for verifying.
@@ -83,7 +83,7 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify body content type.
+         * Verify response body content type.
          *
          * @param contentType of response body content type.
          * @return Verifier instance.
@@ -96,7 +96,7 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify body content type.
+         * Verify response body content type.
          *
          * @param contentType of response body content type.
          * @return Verifier instance.
@@ -104,12 +104,12 @@ abstract class Verifiers {
         @JvmStatic
         fun contentTypeIs(contentType: ContentType): Verifier = object : Verifier {
             override fun verify(response: Response) {
-                response.then().contentType(contentType)
+                response.then().contentType(contentType.type)
             }
         }
 
         /**
-         * Verify responseSpecification header.
+         * Verify response header.
          *
          * @param name of header.
          * @param matcher of responseSpecification header.
@@ -123,7 +123,7 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify responseSpecification headers.
+         * Verify response headers.
          *
          * @param expectedHeaders of responseSpecification.
          * @return Verifier instance.
@@ -136,7 +136,7 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify responseSpecification headers.
+         * Verify response headers.
          *
          * @param firstExpectedHeaderName of responseSpecification.
          * @param firstExpectedHeaderValue of responseSpecification.
@@ -153,7 +153,7 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify responseSpecification headers.
+         * Verify the response time (in milliseconds).
          *
          * @param matcher request response time.
          * @return Verifier instance.
@@ -166,7 +166,7 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify responseSpecification headers.
+         * Verify the response time (in milliseconds).
          *
          * @param matcher request response time.
          * @param timeUnit of response.

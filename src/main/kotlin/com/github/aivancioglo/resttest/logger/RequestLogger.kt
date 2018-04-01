@@ -3,20 +3,22 @@ package com.github.aivancioglo.resttest.logger
 import io.restassured.internal.RequestSpecificationImpl
 import io.restassured.internal.support.Prettifier
 import io.restassured.parsing.Parser
+import java.text.SimpleDateFormat
 import java.util.*
 
 class RequestLogger(private var request: RequestSpecificationImpl) {
-    private val method = request.method!!
-    private val uri = request.uri!!
     private val headers = request.headers!!
     private val pathParams = arrayListOf<String>()
     private val requestParams = arrayListOf<String>()
     private val queryParams = arrayListOf<String>()
     private val formParams = arrayListOf<String>()
     private val multiPartParams = request.multiPartParams!!
-    private val contentType = request.contentType!!
-    private val requestTime = Date().toString()
-    private var body: String? = if (request.getBody<Any>() is String) Prettifier().prettify(request.getBody(), Parser.fromContentType(contentType)) else null
+    private val requestTime: String by lazy {
+        val format = SimpleDateFormat("EEE, dd MMM YYYY HH:mm:ss z")
+        format.timeZone = TimeZone.getTimeZone("UTC")
+        format.format(Date())!!
+    }
+    private var body: String? = if (request.getBody<Any>() is String) Prettifier().prettify(request.getBody(), Parser.fromContentType(request.contentType)) else null
 
     init {
         for (i in request.pathParams)
@@ -33,8 +35,8 @@ class RequestLogger(private var request: RequestSpecificationImpl) {
     }
 
     fun print() {
-        println("Request method: $method")
-        println("Request URI:    $uri")
+        println("Request method: ${request.method}")
+        println("Request URI:    ${request.uri}")
         println("Date:           $requestTime")
 
         if (request.headers.exist()) {

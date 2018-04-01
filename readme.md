@@ -8,3 +8,5 @@ Use this dependency for your **Java** tests:
     <version>1.0.0</version>
 </dependency>
 ``` 
+
+## [Documentation](https://github.com/aivancioglo/RestTest/wiki/RestTest-Wiki)

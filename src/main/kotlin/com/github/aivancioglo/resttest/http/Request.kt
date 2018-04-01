@@ -1,9 +1,8 @@
 package com.github.aivancioglo.resttest.http
 
+import com.github.aivancioglo.resttest.http.Settings.Companion.contentType
 import com.github.aivancioglo.resttest.setters.Setter
-import io.restassured.RestAssured
-import io.restassured.config.HttpClientConfig
-import io.restassured.http.ContentType
+import io.restassured.RestAssured.given
 import io.restassured.http.Method
 import io.restassured.internal.RequestSpecificationImpl
 
@@ -11,24 +10,11 @@ import io.restassured.internal.RequestSpecificationImpl
  * Class for creating request. You can extend it using your own endpoint class.
  */
 open class Request {
-    val requestSpecification = RestAssured.given().contentType(ContentType.JSON)!!
+    val requestSpecification = given().contentType(contentType)!!
     val oAuth1 = OAuth1()
     val oAuth2 = OAuth2()
-    var protocol = "http://"
-        set(value) {
-            field = "$value://"
-        }
+    var protocol = "http"
     var host = ""
-
-    companion object {
-
-        /**
-         * Default request settings.
-         */
-        init {
-            RestAssured.useRelaxedHTTPSValidation()
-        }
-    }
 
     /**
      * Set your own setters.
@@ -62,7 +48,7 @@ open class Request {
         if (oAuth2.used)
             requestSpecification.auth().oauth2(oAuth2.token)
 
-        requestSpecification.baseUri("$protocol$host")
+        requestSpecification.baseUri("$protocol://$host")
 
         val response = requestSpecification.request(method)!!
 
@@ -92,7 +78,7 @@ open class Request {
         if (oAuth2.used)
             requestSpecification.auth().oauth2(oAuth2.token)
 
-        requestSpecification.baseUri("$protocol$host")
+        requestSpecification.baseUri("$protocol://$host")
 
         val response = requestSpecification.request(method, path)!!
 
