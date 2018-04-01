@@ -27,10 +27,6 @@ open class Request {
          */
         init {
             RestAssured.useRelaxedHTTPSValidation()
-//            RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
-            RestAssured.config = RestAssured.config().httpClient(HttpClientConfig.httpClientConfig()
-                    .setParam("http.connection.timeout", 20000)
-                    .setParam("http.socket.timeout", 60000))
         }
     }
 

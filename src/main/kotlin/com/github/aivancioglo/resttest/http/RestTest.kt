@@ -1,6 +1,8 @@
 package com.github.aivancioglo.resttest.http
 
 import com.github.aivancioglo.resttest.setters.Setter
+import io.restassured.RestAssured
+import io.restassured.config.HttpClientConfig
 
 abstract class RestTest {
     companion object {
@@ -12,6 +14,8 @@ abstract class RestTest {
 
         var logOnlyFirstFailure = false
             private set
+
+        private var httpClientConfig = HttpClientConfig.httpClientConfig()
 
         /**
          * Enable log of all your requests.
@@ -35,6 +39,27 @@ abstract class RestTest {
         @JvmStatic
         fun enableLogOnlyFirstFailure() {
             logOnlyFirstFailure = true
+        }
+
+        /**
+         * Set connection timeout.
+         */
+        @JvmStatic
+        fun setConnectionTimeout(timeout: Int) {
+            RestAssured.config = RestAssured.config().httpClient(httpClientConfig
+                    .setParam("http.connection.timeout", timeout))
+
+        }
+
+
+         /**
+         * Set socket timeout.
+         */
+        @JvmStatic
+        fun setSocketTimeout(timeout: Int) {
+            RestAssured.config = RestAssured.config().httpClient(httpClientConfig
+                    .setParam("http.socket.timeout", timeout))
+
         }
 
         /**
