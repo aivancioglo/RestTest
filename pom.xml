@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.aivancioglo</groupId>
-    <artifactId>resttest</artifactId>
-    <version>2.2.4</version>
+    <artifactId>resttest-java</artifactId>
+    <version>1.0.0</version>
 
     <name>RestTest</name>
     <description>Lib for REST API testing</description>
@@ -29,7 +29,7 @@
         <url>http://github.com/aivancioglo/RestTest/tree/master</url>
         <connection>scm:git:git://github.com/aivancioglo/RestTest.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/aivancioglo/RestTest.git</developerConnection>
-        <tag>resttest-2.2.4</tag>
+        <tag>resttest-java-1.0.0</tag>
     </scm>
 
     <distributionManagement>
@@ -52,31 +52,15 @@
     </pluginRepositories>
 
     <properties>
-        <junit.jupiter.version>5.0.3</junit.jupiter.version>
-        <selenium.version>3.4.0</selenium.version>
-        <rest.assured>3.0.6</rest.assured>
-        <json.path.version>3.0.6</json.path.version>
-        <json.schema.validator.version>3.0.6</json.schema.validator.version>
+        <rest.assured>3.0.7</rest.assured>
         <scribejava.apis.version>2.5.3</scribejava.apis.version>
         <groovy.all.version>2.4.5</groovy.all.version>
         <hamcrest.version>2.0.0.0</hamcrest.version>
-        <kotlin.version>1.2.20</kotlin.version>
+        <kotlin.version>1.2.31</kotlin.version>
         <dokka.version>0.9.15</dokka.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.jupiter.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -86,13 +70,13 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>json-path</artifactId>
-            <version>${json.path.version}</version>
+            <version>${rest.assured}</version>
         </dependency>
 
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>json-schema-validator</artifactId>
-            <version>${json.schema.validator.version}</version>
+            <version>${rest.assured}</version>
         </dependency>
 
         <dependency>
@@ -115,7 +99,7 @@
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jre8</artifactId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
         <dependency>
@@ -156,18 +140,7 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>

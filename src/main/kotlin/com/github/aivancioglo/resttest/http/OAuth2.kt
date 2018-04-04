@@ -24,7 +24,7 @@ class OAuth2 {
          */
         @JvmStatic
         fun token(token: String) = object : Setter {
-            override fun update(request: HTTPRequest) {
+            override fun update(request: Request) {
                 request.oAuth2.token = token
             }
         }
