@@ -6,7 +6,7 @@ import io.restassured.response.Response
 
 class ResponseLogger(private val response: Response) {
     private val responseTime = if (response.time >= 0) "${response.time / 1000.toDouble()} sec" else "${response.time}"
-    private val body: String? = Prettifier().prettify(response.body.asString(), Parser.fromContentType(response.contentType))
+    private val body: String? = if (response.body != null) Prettifier().prettify(response.body.asString(), Parser.fromContentType(response.contentType)) else null
 
     fun print() {
         println(response.statusLine!!)
@@ -15,7 +15,7 @@ class ResponseLogger(private val response: Response) {
             println(it.name + ": " + it.value)
         }
 
-        if (body != null) {
+        if (body != null && response.headers.get("Content-Length").value.toInt() > 0) {
             println("Body:")
             println()
             println(body)
