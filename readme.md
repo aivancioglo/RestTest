@@ -5,8 +5,10 @@ Use this dependency for your **Java** tests:
 <dependency>
     <groupId>com.github.aivancioglo</groupId>
     <artifactId>resttest-java</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ``` 
 
 ## [Documentation](https://github.com/aivancioglo/RestTest/wiki/RestTest-Wiki)
+
+#### [Change Log](https://github.com/aivancioglo/RestTest/blob/master/changeLog.md)
