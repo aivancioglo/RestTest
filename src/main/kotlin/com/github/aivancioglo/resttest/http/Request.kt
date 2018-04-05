@@ -50,9 +50,7 @@ open class Request {
 
         requestSpecification.baseUri("$protocol://$host")
 
-        val response = requestSpecification.request(method)!!
-
-        return ResponseImpl(requestSpecification as RequestSpecificationImpl, response)
+        return ResponseImpl(requestSpecification as RequestSpecificationImpl, requestSpecification.request(method)!!)
     }
 
     /**
@@ -80,8 +78,6 @@ open class Request {
 
         requestSpecification.baseUri("$protocol://$host")
 
-        val response = requestSpecification.request(method, path)!!
-
-        return ResponseImpl(requestSpecification as RequestSpecificationImpl, response)
+        return ResponseImpl(requestSpecification as RequestSpecificationImpl, requestSpecification.request(method, path)!!)
     }
 }

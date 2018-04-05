@@ -2,16 +2,17 @@ package com.github.aivancioglo.resttest.http
 
 import com.github.aivancioglo.resttest.http.Settings.Companion.logAllRequestsEnabled
 import com.github.aivancioglo.resttest.http.Settings.Companion.logIfFailedEnabled
-import com.github.aivancioglo.resttest.http.Settings.Companion.logOnlyFirstFailure
+import com.github.aivancioglo.resttest.http.Settings.Companion.softAssertionEnabled
 import com.github.aivancioglo.resttest.logger.LogType
 import com.github.aivancioglo.resttest.logger.LogType.ALL
 import com.github.aivancioglo.resttest.logger.Logger
 import com.github.aivancioglo.resttest.verifiers.Verifier
+import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.jsonSchema
+import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.statusCode
 import io.restassured.http.Header
 import io.restassured.internal.RequestSpecificationImpl
 import io.restassured.mapper.ObjectMapper
 import io.restassured.mapper.ObjectMapperType
-import io.restassured.module.jsv.JsonSchemaValidator
 import io.restassured.response.Response
 
 /**
@@ -38,19 +39,7 @@ abstract class Response() {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(vararg verifiers: Verifier): Logger {
-        verifiers.forEach {
-            try {
-                it.verify(response)
-            } catch (e: AssertionError) {
-                errors.add(e)
-            }
-        }
-
-        printFailuresIfExist()
-
-        return logger
-    }
+    fun assertThat(verifier: Verifier, vararg verifiers: Verifier) = printFailuresIfExist(verifier, *verifiers)
 
     /**
      * Making responseSpecification validation.
@@ -59,25 +48,7 @@ abstract class Response() {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(code: Int, vararg verifiers: Verifier): Logger {
-        try {
-            response.then().statusCode(code)
-        } catch (e: AssertionError) {
-            errors.add(e)
-        }
-
-        verifiers.forEach {
-            try {
-                it.verify(response)
-            } catch (e: AssertionError) {
-                errors.add(e)
-            }
-        }
-
-        printFailuresIfExist()
-
-        return logger
-    }
+    fun assertThat(code: Int, vararg verifiers: Verifier) = printFailuresIfExist(statusCode(code), *verifiers)
 
     /**
      * Making responseSpecification validation.
@@ -86,25 +57,8 @@ abstract class Response() {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(statusCode: StatusCode, vararg verifiers: Verifier): Logger {
-        try {
-            response.then().statusCode(statusCode.code)
-        } catch (e: AssertionError) {
-            errors.add(e)
-        }
-
-        verifiers.forEach {
-            try {
-                it.verify(response)
-            } catch (e: AssertionError) {
-                errors.add(e)
-            }
-        }
-
-        printFailuresIfExist()
-
-        return logger
-    }
+    fun assertThat(statusCode: StatusCode, vararg verifiers: Verifier) = printFailuresIfExist(
+            statusCode(statusCode), *verifiers)
 
     /**
      * Making responseSpecification validation.
@@ -114,31 +68,8 @@ abstract class Response() {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(code: Int, jsonSchema: String, vararg verifiers: Verifier): Logger {
-        try {
-            response.then().statusCode(code)
-        } catch (e: AssertionError) {
-            errors.add(e)
-        }
-
-        try {
-            response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
-        } catch (e: AssertionError) {
-            errors.add(e)
-        }
-
-        verifiers.forEach {
-            try {
-                it.verify(response)
-            } catch (e: AssertionError) {
-                errors.add(e)
-            }
-        }
-
-        printFailuresIfExist()
-
-        return logger
-    }
+    fun assertThat(code: Int, jsonSchema: String, vararg verifiers: Verifier) = printFailuresIfExist(
+            statusCode(code), jsonSchema(jsonSchema), *verifiers)
 
     /**
      * Making responseSpecification validation.
@@ -148,31 +79,8 @@ abstract class Response() {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: Verifier): Logger {
-        try {
-            response.then().statusCode(statusCode.code)
-        } catch (e: AssertionError) {
-            errors.add(e)
-        }
-
-        try {
-            response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
-        } catch (e: AssertionError) {
-            errors.add(e)
-        }
-
-        verifiers.forEach {
-            try {
-                it.verify(response)
-            } catch (e: AssertionError) {
-                errors.add(e)
-            }
-        }
-
-        printFailuresIfExist()
-
-        return logger
-    }
+    fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: Verifier) = printFailuresIfExist(
+            statusCode(statusCode), jsonSchema(jsonSchema), *verifiers)
 
     /**
      * Response logging.
@@ -307,18 +215,31 @@ abstract class Response() {
      */
     fun isHeaderExist(name: String) = response.headers.hasHeaderWithName(name)
 
-    private fun printFailuresIfExist() {
+    private fun printFailuresIfExist(vararg verifiers: Verifier): Logger {
+        verifiers.forEach {
+            try {
+                it.verify(response)
+            } catch (e: AssertionError) {
+                if (softAssertionEnabled)
+                    throw e
+                else
+                    errors.add(e)
+            }
+        }
+
         if (errors.size > 0) {
             if (!logAllRequestsEnabled && logIfFailedEnabled)
                 log()
 
-            if (logOnlyFirstFailure)
-                throw AssertionError("\n\n============= F A I L U R E S =============\n" + errors[0] + "\n===========================================")
+            if (softAssertionEnabled)
+                throw AssertionError("\n\n============= F A I L U R E S =============\n${errors[0]}\n===========================================")
             else
                 throw AssertionError("\n\n============= F A I L U R E S =============\n" + errors.map {
                     it.message!!.replace(Regex("^1 expectation failed\\."), "")
                 }.joinToString("\n-------------------------------------------\n") + "\n===========================================")
 
         }
+
+        return logger
     }
 }
