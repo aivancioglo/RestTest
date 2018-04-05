@@ -15,7 +15,7 @@ class ResponseLogger(private val response: Response) {
             println(it.name + ": " + it.value)
         }
 
-        if (body != null && response.headers.get("Content-Length").value.toInt() > 0) {
+        if (body != null && body.trim().isNotEmpty()) {
             println("Body:")
             println()
             println(body)

@@ -13,7 +13,7 @@ class Settings {
         var logAllRequestsEnabled = getProperty("log_all", "false").toBoolean()
             private set
 
-        var logOnlyFirstFailure = getProperty("soft_assertions", "false").toBoolean()
+        var softAssertionEnabled = getProperty("soft_assertions", "false").toBoolean()
             private set
 
         var contentType = getProperty("content_type", "application/json")
