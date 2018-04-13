@@ -1,14 +1,11 @@
-import com.github.aivancioglo.resttest.http.ContentType.MULTIPART
 import com.github.aivancioglo.resttest.http.Response
 import com.github.aivancioglo.resttest.http.RestTest.Companion.get
 import com.github.aivancioglo.resttest.http.RestTest.Companion.post
 import com.github.aivancioglo.resttest.http.StatusCode.OK
 import com.github.aivancioglo.resttest.setters.Setters.Companion.body
-import com.github.aivancioglo.resttest.setters.Setters.Companion.contentType
 import com.github.aivancioglo.resttest.setters.Setters.Companion.formParam
 import com.github.aivancioglo.resttest.setters.Setters.Companion.header
 import com.github.aivancioglo.resttest.setters.Setters.Companion.host
-import com.github.aivancioglo.resttest.setters.Setters.Companion.multiPart
 import com.github.aivancioglo.resttest.setters.Setters.Companion.param
 import com.github.aivancioglo.resttest.setters.Setters.Companion.path
 import com.github.aivancioglo.resttest.setters.Setters.Companion.pathParam
@@ -17,13 +14,11 @@ import com.github.aivancioglo.resttest.setters.Setters.Companion.queryParam
 import com.github.aivancioglo.resttest.setters.Setters.Companion.redirects
 import com.github.aivancioglo.resttest.setters.Setters.Companion.urlEncodingEnabled
 import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.header
-import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.body
 import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.path
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.equalTo
 import org.junit.Ignore
 import org.junit.Test
-import java.io.File
 import java.io.Serializable
 
 class SettersTest {
@@ -90,17 +85,20 @@ class SettersTest {
         response.assertThat(OK)
     }
 
+    /**
+     * Test will be added on the next version
     @Test
     @Ignore("The httpbin.org does not allow to test 'multi part'.")
     fun multiPrat() {
-        response = post("httpbin.org/post",
-                contentType(MULTIPART),
-                multiPart("file", "../resources/invalid.png",
-                        File("video.mp4").inputStream()))
+    response = post("httpbin.org/post",
+    contentType(MULTIPART),
+    multiPart("file", "../resources/invalid.png",
+    File("video.mp4").inputStream()))
 
-        response.assertThat(
-                path("args.multiPart", equalTo("video.mp4")))
+    response.assertThat(
+    path("args.multiPart", equalTo("video.mp4")))
     }
+     */
 
     @Test
     fun header() {

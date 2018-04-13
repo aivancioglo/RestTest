@@ -83,10 +83,10 @@ class ContentTypeTest {
     fun contentTypeWithCharsetRequest() {
         response = get("httpbin.org/get",
                 contentType("application/json; charset=UTF-16"),
-                accept(ANY))
+                accept(JSON))
 
         response.assertThat(OK,
-                path("headers.Accept", equalTo(ANY.type)),
-                path("headers.Content-Type", containsString("*/*")))
+                path("headers.Accept", equalTo(JSON.type)),
+                path("headers.Content-Type", containsString("application/json; charset=UTF-16")))
     }
 }
