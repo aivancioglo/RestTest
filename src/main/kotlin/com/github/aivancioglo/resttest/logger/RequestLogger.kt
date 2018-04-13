@@ -75,7 +75,7 @@ class RequestLogger(private var request: RequestSpecificationImpl) {
         if (!request.formParams.isEmpty()) {
             println("Form params:    ${formParams[0]}")
 
-            if (request.queryParams.size > 1)
+            if (request.formParams.size > 1)
                 for (i in 1 until formParams.size)
                     println("                ${formParams[i]}")
         }
