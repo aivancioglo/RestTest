@@ -13,7 +13,14 @@ object Property {
         }
     }
 
-    fun getProperty(name: String) = prop.getProperty(name)!!
+    fun getProperty(name: String): String {
+        val property: String? = prop.getProperty(name)
+
+        if (property == null)
+            throw Exception("Can not find \"$name\" in \"resttest.properties\" file.")
+        else
+            return property
+    }
 
     fun getProperty(name: String, default: String) = prop.getProperty(name, default)!!
 }

@@ -13,8 +13,23 @@ open class Request {
     val requestSpecification = given().contentType(contentType)!!
     val oAuth1 = OAuth1()
     val oAuth2 = OAuth2()
+    /**
+     * This feature will be added on the next version.
+     *
+    var protocol = getProperty("protocol", "http")
+    var host = getProperty("host", "")
+     */
     var protocol = "http"
     var host = ""
+
+    /**
+     * Initiate your default settings.
+     */
+    companion object {
+        init {
+            Settings
+        }
+    }
 
     /**
      * Set your own setters.
