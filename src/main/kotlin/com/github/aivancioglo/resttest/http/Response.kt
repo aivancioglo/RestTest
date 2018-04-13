@@ -1,8 +1,8 @@
 package com.github.aivancioglo.resttest.http
 
-import com.github.aivancioglo.resttest.http.Settings.Companion.logAllRequestsEnabled
+import com.github.aivancioglo.resttest.http.Settings.Companion.logAllEnabled
 import com.github.aivancioglo.resttest.http.Settings.Companion.logIfFailedEnabled
-import com.github.aivancioglo.resttest.http.Settings.Companion.softAssertionEnabled
+import com.github.aivancioglo.resttest.http.Settings.Companion.softAssertionsEnabled
 import com.github.aivancioglo.resttest.logger.LogType
 import com.github.aivancioglo.resttest.logger.LogType.ALL
 import com.github.aivancioglo.resttest.logger.Logger
@@ -29,7 +29,7 @@ abstract class Response() {
         this.response = response
         logger = Logger(request, response)
 
-        if (logAllRequestsEnabled)
+        if (logAllEnabled)
             log()
     }
 
@@ -216,27 +216,26 @@ abstract class Response() {
     fun isHeaderExist(name: String) = response.headers.hasHeaderWithName(name)
 
     private fun printFailuresIfExist(vararg verifiers: Verifier): Logger {
-        verifiers.forEach {
+        verifiers.find {
             try {
                 it.verify(response)
-            } catch (e: AssertionError) {
-                if (softAssertionEnabled)
-                    throw e
-                else
-                    errors.add(e)
+            } catch (e: Throwable) {
+                errors.add(AssertionError(e))
+
+                if (!softAssertionsEnabled)
+                    return@find true
             }
+
+            false
         }
 
         if (errors.size > 0) {
-            if (!logAllRequestsEnabled && logIfFailedEnabled)
+            if (!logAllEnabled && logIfFailedEnabled)
                 log()
 
-            if (softAssertionEnabled)
-                throw AssertionError("\n\n============= F A I L U R E S =============\n${errors[0]}\n===========================================")
-            else
-                throw AssertionError("\n\n============= F A I L U R E S =============\n" + errors.map {
-                    it.message!!.replace(Regex("^1 expectation failed\\."), "")
-                }.joinToString("\n-------------------------------------------\n") + "\n===========================================")
+            throw AssertionError("\n\n============= F A I L U R E S =============\n" + errors.map {
+                it.message!!.replace(Regex("^1 expectation failed\\."), "")
+            }.joinToString("\n-------------------------------------------\n") + "\n===========================================")
 
         }
 

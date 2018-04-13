@@ -1,0 +1,14 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "invalid": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "invalid"
+  ]
+
+}
