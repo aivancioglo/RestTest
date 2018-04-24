@@ -24,9 +24,7 @@ abstract class Settings {
                     .setParam("http.connection.timeout", getProperty("connection_timeout", "20000").toInt())
                     .setParam("http.socket.timeout", getProperty("socket_timeout", "60000").toInt()))
 
-            /**
-             * This feature will be added on the next version.
-            if (getProperty("decoder_charset", "").trim() == "")
+            if (getProperty("decoder_charset", "").trim() != "")
                 config.decoderConfig.defaultContentCharset(getProperty("decoder_charset"))
 
             if (getProperty("encoder_charset", "").trim() == "")
@@ -34,7 +32,6 @@ abstract class Settings {
             else
                 config.encoderConfig.defaultContentCharset(getProperty("encoder_charset"))
 
-             */
             if (getProperty("use_relaxed_https_validation", "true").toBoolean())
                 useRelaxedHTTPSValidation()
         }

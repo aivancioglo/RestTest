@@ -6,11 +6,12 @@ import com.github.aivancioglo.resttest.http.Settings.Companion.softAssertionsEna
 import com.github.aivancioglo.resttest.logger.LogType
 import com.github.aivancioglo.resttest.logger.LogType.ALL
 import com.github.aivancioglo.resttest.logger.Logger
+import com.github.aivancioglo.resttest.logger.RequestLogger
+import com.github.aivancioglo.resttest.logger.ResponseLogger
 import com.github.aivancioglo.resttest.verifiers.Verifier
 import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.jsonSchema
 import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.statusCode
 import io.restassured.http.Header
-import io.restassured.internal.RequestSpecificationImpl
 import io.restassured.mapper.ObjectMapper
 import io.restassured.mapper.ObjectMapperType
 import io.restassured.response.Response
@@ -19,15 +20,21 @@ import io.restassured.response.Response
  * This class is using for HTTP/HTTPS response validation and processing.
  */
 abstract class Response() {
-    protected lateinit var request: RequestSpecificationImpl
     protected lateinit var response: Response
     protected lateinit var logger: Logger
     private val errors: ArrayList<AssertionError> = ArrayList()
 
-    constructor(request: RequestSpecificationImpl, response: Response) : this() {
-        this.request = request
+    constructor(requestLogger: RequestLogger, response: Response) : this() {
         this.response = response
-        logger = Logger(request, response)
+        logger = Logger(requestLogger, ResponseLogger(response))
+
+        if (logAllEnabled)
+            log()
+    }
+
+    constructor(logger: Logger, response: Response) : this() {
+        this.logger = logger
+        this.response = response
 
         if (logAllEnabled)
             log()
@@ -124,7 +131,7 @@ abstract class Response() {
             response.`as`(cls)!!
 
         if (Model::class.java.isAssignableFrom(cls))
-            (model as Model).set(request, response)
+            (model as Model).set(logger, response)
 
         return model
     }
@@ -147,7 +154,7 @@ abstract class Response() {
             response.`as`(cls, objectMapper)!!
 
         if (Model::class.java.isAssignableFrom(cls))
-            (model as Model).set(request, response)
+            (model as Model).set(logger, response)
 
         return model
     }
@@ -170,7 +177,7 @@ abstract class Response() {
             response.`as`(cls, objectMapperType)!!
 
         if (Model::class.java.isAssignableFrom(cls))
-            (model as Model).set(request, response)
+            (model as Model).set(logger, response)
 
         return model
     }

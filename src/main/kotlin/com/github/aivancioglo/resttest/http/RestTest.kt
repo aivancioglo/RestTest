@@ -8,7 +8,126 @@ abstract class RestTest {
          * Use this function, to creates Session of request repeating.
          */
         @JvmStatic
-        fun perform() = Session()
+        @JvmOverloads
+        fun perform(timeout: Int = 0,
+                    every: Int = 0,
+                    tries: Int = 0) = Repeater().timeout(timeout).every(every).tries(tries)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Int = 0,
+                    every: Int = 0,
+                    tries: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Int = 0,
+                    every: Double = 0.0) = Repeater().timeout(timeout).every(every)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).until(request)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Int = 0,
+                    every: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Int = 0,
+                    every: Double = 0.0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Int = 0,
+                    every: Double = 0.0,
+                    tries: Int = 0) = Repeater().timeout(timeout).every(every).tries(tries)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Int = 0,
+                    every: Double = 0.0,
+                    tries: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Double = 0.0) = Repeater().timeout(timeout)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Double = 0.0,
+                    request: Runnable) = Repeater().timeout(timeout).until(request)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Double = 0.0,
+                    every: Int = 0) = Repeater().timeout(timeout).every(every)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Double = 0.0,
+                    every: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Double = 0.0,
+                    every: Double = 0.0) = Repeater().timeout(timeout).every(every)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Double = 0.0,
+                    every: Double = 0.0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Double = 0.0,
+                    every: Double = 0.0,
+                    tries: Int = 0) = Repeater().timeout(timeout).every(every).tries(tries)
+
+        /**
+         * Use this function, to creates Session of request repeating.
+         */
+        @JvmStatic
+        fun perform(timeout: Double = 0.0,
+                    every: Double = 0.0,
+                    tries: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
 
         /**
          * Making GET requestSpecification.

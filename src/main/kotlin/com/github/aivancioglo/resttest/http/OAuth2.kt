@@ -7,7 +7,6 @@ import com.github.aivancioglo.resttest.setters.Setter
  */
 class OAuth2 {
     var used = false
-        private set
 
     var token: String = ""
         set(value) {

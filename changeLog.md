@@ -1,8 +1,17 @@
-## Next planned version
+## V. 1.1.0
 ##### Features:
+* New setters: `cookie`, `oauth1`, `oauth2`.
+* New verifier: `cookie`.
 * New properties: `protocol`, `host`, `decoder_charset` and `encoder_charset`.
 * New content type: `MULTIPART`.
-* New dependency `xml-path` for xml response validation. 
+* The `perform` method in `RestTest` class is overloaded now.
+* New dependency `xml-path` for xml response validation.
+
+##### Fixes:
+* The request log was not working when Error/Exception was thrown before request execution.
+* Connection/socket timeout lead to request log not working.
+* The `noAuth` setter was not resetting OAuth 1.0/2.0.
+* Repeater timeout do not interrupt unfinished request.
 
 ## V. 1.0.3
 ##### Fixes:

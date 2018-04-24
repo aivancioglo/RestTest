@@ -13,12 +13,16 @@ class RequestLogger(private var request: RequestSpecificationImpl) {
     private val queryParams = arrayListOf<String>()
     private val formParams = arrayListOf<String>()
     private val multiPartParams = request.multiPartParams!!
+    private val cookies = arrayListOf<String>()
     private val requestTime: String by lazy {
         val format = SimpleDateFormat("EEE, dd MMM YYYY HH:mm:ss z")
         format.timeZone = TimeZone.getTimeZone("UTC")
         format.format(Date())!!
     }
     private var body: String? = if (request.getBody<Any>() is String) Prettifier().prettify(request.getBody(), Parser.fromContentType(request.contentType)) else null
+
+    var printed = false
+        private set
 
     init {
         for (i in request.pathParams)
@@ -32,66 +36,58 @@ class RequestLogger(private var request: RequestSpecificationImpl) {
 
         for (i in request.formParams)
             formParams.add(i.toString())
+
+        for (i in request.cookies.asList())
+            cookies.add(i.toString())
     }
 
     fun print() {
-        println("Request method: ${request.method}")
-        println("Request URI:    ${request.uri}")
-        println("Date:           $requestTime")
+        var requestLog = "Request method: ${request.method}\n" +
+                "Request URI:    ${request.uri}\n" +
+                "Date:           $requestTime\n"
 
         if (request.headers.exist()) {
-            println("Headers:        ${headers.asList()[0]}")
+            requestLog += "Headers:        ${headers.asList()[0]}\n"
 
             if (request.headers.size() > 1)
                 for (i in 1 until headers.size())
-                    println("                ${headers.asList()[i]}")
+                    requestLog += "                ${headers.asList()[i]}\n"
 
         }
 
-        if (!request.pathParams.isEmpty()) {
-            println("Path params:    ${pathParams[0]}")
+        fun addToPrint(title: String, values: List<String>) {
+            if (!values.isEmpty())
+                requestLog += "\n" + title + values.joinToString("\n                ").trim()
 
-            if (pathParams.size > 1)
-                for (i in 1 until pathParams.size)
-                    println("                ${pathParams[i]}")
         }
 
-        if (!request.requestParams.isEmpty()) {
-            println("Request params: ${requestParams[0]}")
-
-            if (requestParams.size > 1)
-                for (i in 1 until requestParams.size)
-                    println("                ${requestParams[i]}")
-        }
-
-        if (!request.queryParams.isEmpty()) {
-            println("Query params:   ${queryParams[0]}")
-
-            if (request.queryParams.size > 1)
-                for (i in 1 until queryParams.size)
-                    println("                ${queryParams[i]}")
-        }
-
-        if (!request.formParams.isEmpty()) {
-            println("Form params:    ${formParams[0]}")
-
-            if (request.formParams.size > 1)
-                for (i in 1 until formParams.size)
-                    println("                ${formParams[i]}")
-        }
+        addToPrint("Path params:    ", pathParams)
+        addToPrint("Request params: ", requestParams)
+        addToPrint("Query params:   ", queryParams)
+        addToPrint("Form params:    ", formParams)
+        addToPrint("Cookies:        ", cookies)
 
         if (!request.multiPartParams.isEmpty()) {
-            println("Multi parts:    ${multiPartParams[0]}")
+            requestLog += "Multi parts:    ${multiPartParams[0]}\n"
 
             if (request.multiPartParams.size > 1)
                 for (i in 1 until multiPartParams.size)
-                    println("                ${multiPartParams[i]}")
+                    requestLog += "                ${multiPartParams[i]}\n"
         }
 
         if (body != null) {
-            println("Body:")
-            println()
-            println(body)
+            requestLog += "Body:\n\n"
+            requestLog += "$body\n\n\n"
+        } else {
+            requestLog += "\n\n"
         }
+
+        print(requestLog)
+        printed = true
+    }
+
+    fun printIfNotPrinted() {
+        if (!printed)
+            print()
     }
 }

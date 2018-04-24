@@ -1,6 +1,5 @@
 import com.github.aivancioglo.resttest.http.ContentType.JSON
 import com.github.aivancioglo.resttest.http.ContentType.XML
-import com.github.aivancioglo.resttest.http.Property
 import com.github.aivancioglo.resttest.http.Response
 import com.github.aivancioglo.resttest.http.RestTest.Companion.get
 import com.github.aivancioglo.resttest.http.StatusCode.BAD_REQUEST
@@ -13,13 +12,9 @@ import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.jsonSchema
 import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.path
 import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.statusCode
 import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.time
-import io.restassured.RestAssured
-import io.restassured.config.HttpClientConfig
-import io.restassured.config.RestAssuredConfig
 import org.hamcrest.Matchers.*
 import org.junit.Test
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeUnit.*
+import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class VerifiersTest {
     private lateinit var response: Response

@@ -1,11 +1,15 @@
+import com.github.aivancioglo.resttest.http.ContentType.MULTIPART
 import com.github.aivancioglo.resttest.http.Response
 import com.github.aivancioglo.resttest.http.RestTest.Companion.get
 import com.github.aivancioglo.resttest.http.RestTest.Companion.post
 import com.github.aivancioglo.resttest.http.StatusCode.OK
 import com.github.aivancioglo.resttest.setters.Setters.Companion.body
+import com.github.aivancioglo.resttest.setters.Setters.Companion.contentType
+import com.github.aivancioglo.resttest.setters.Setters.Companion.cookie
 import com.github.aivancioglo.resttest.setters.Setters.Companion.formParam
 import com.github.aivancioglo.resttest.setters.Setters.Companion.header
 import com.github.aivancioglo.resttest.setters.Setters.Companion.host
+import com.github.aivancioglo.resttest.setters.Setters.Companion.multiPart
 import com.github.aivancioglo.resttest.setters.Setters.Companion.param
 import com.github.aivancioglo.resttest.setters.Setters.Companion.path
 import com.github.aivancioglo.resttest.setters.Setters.Companion.pathParam
@@ -19,6 +23,7 @@ import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.equalTo
 import org.junit.Ignore
 import org.junit.Test
+import java.io.File
 import java.io.Serializable
 
 class SettersTest {
@@ -85,20 +90,26 @@ class SettersTest {
         response.assertThat(OK)
     }
 
-    /**
-     * Test will be added on the next version
-    @Test
     @Ignore("The httpbin.org does not allow to test 'multi part'.")
+    @Test
     fun multiPrat() {
-    response = post("httpbin.org/post",
-    contentType(MULTIPART),
-    multiPart("file", "../resources/invalid.png",
-    File("video.mp4").inputStream()))
+        response = post("httpbin.org/post",
+                contentType(MULTIPART),
+                multiPart("file", "../resources/invalid.png",
+                        File("video.mp4").inputStream()))
 
-    response.assertThat(
-    path("args.multiPart", equalTo("video.mp4")))
+        response.assertThat(
+                path("args.multiPart", equalTo("video.mp4")))
     }
-     */
+
+    @Test
+    fun cookie() {
+        response = get("httpbin.org/get",
+                cookie("name", "value"))
+
+        response.assertThat(
+                path("headers.Cookie", equalTo("name=value")))
+    }
 
     @Test
     fun header() {

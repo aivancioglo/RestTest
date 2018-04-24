@@ -84,6 +84,48 @@ abstract class Setters {
         }
 
         /**
+         * Getting cookie setter.
+         *
+         * @param name of header.
+         * @param value of header.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun cookie(name: String, value: String, vararg additionalValues: String) = object : Setter {
+            override fun update(request: Request) {
+                request.requestSpecification.cookie(name, value, *additionalValues)
+            }
+        }
+
+        /**
+         * Getting cookie setter.
+         *
+         * @param name of header.
+         * @param value of header.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun cookie(name: String, value: String) = object : Setter {
+            override fun update(request: Request) {
+                request.requestSpecification.cookie(name, value)
+            }
+        }
+
+        /**
+         * Getting cookie setter.
+         *
+         * @param name of header.
+         * @param value of header.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun cookie(name: String) = object : Setter {
+            override fun update(request: Request) {
+                request.requestSpecification.cookie(name)
+            }
+        }
+
+        /**
          * Getting header setter.
          *
          * @param name of header.
@@ -351,6 +393,35 @@ abstract class Setters {
         }
 
         /**
+         * Set all OAuth 1.0 authentication settings.
+         *
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun oauth1(consumerKey: String, consumerSecret: String, token: String, tokenSecret: String) = object : Setter {
+            override fun update(request: Request) {
+                request.oAuth1.used = true
+                request.oAuth1.consumerKey = consumerKey
+                request.oAuth1.consumerSecret = consumerSecret
+                request.oAuth1.token = token
+                request.oAuth1.tokenSecret = tokenSecret
+            }
+        }
+
+        /**
+         * Set all OAuth 2.0 authentication settings.
+         *
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun oauth2(token: String) = object : Setter {
+            override fun update(request: Request) {
+                request.oAuth2.used = true
+                request.oAuth2.token = token
+            }
+        }
+
+        /**
          * Clear all authentication settings.
          *
          * @return Setter instance.
@@ -358,6 +429,8 @@ abstract class Setters {
         @JvmStatic
         fun noAuth() = object : Setter {
             override fun update(request: Request) {
+                request.oAuth1.used = false
+                request.oAuth2.used = false
                 request.requestSpecification.auth().none()
             }
         }
