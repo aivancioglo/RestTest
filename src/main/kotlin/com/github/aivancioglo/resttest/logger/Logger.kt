@@ -4,26 +4,44 @@ import com.github.aivancioglo.resttest.logger.LogType.*
 import io.restassured.internal.RequestSpecificationImpl
 import io.restassured.response.Response
 
-class Logger(request: RequestSpecificationImpl, response: Response) {
-    private var requestLogger = RequestLogger(request)
-    private var responseLogger = ResponseLogger(response)
-    private var logged = false
+class Logger() {
+    private var requestLogger: RequestLogger? = null
+    private var responseLogger: ResponseLogger? = null
+
+    constructor(request: RequestSpecificationImpl, response: Response) : this() {
+        requestLogger = RequestLogger(request)
+        responseLogger = ResponseLogger(response)
+    }
+
+    constructor(requestLogger: RequestLogger, responseLogger: ResponseLogger) : this() {
+        this.requestLogger = requestLogger
+        this.responseLogger = responseLogger
+    }
+
+    fun setRequest(request: RequestSpecificationImpl) {
+        if (requestLogger == null)
+            requestLogger = RequestLogger(request)
+    }
+
+    fun setResponse(response: Response) {
+        if (responseLogger == null)
+            responseLogger = ResponseLogger(response)
+    }
 
     @JvmOverloads
     fun log(logType: LogType = ALL) {
-        if (!logged) {
-            when (logType) {
-                ALL -> {
-                    requestLogger.print()
+        when (logType) {
+            ALL -> {
+                if (!requestLogger!!.printed) {
+                    requestLogger!!.print()
                     println()
                     println()
-                    responseLogger.print()
                 }
-                REQUEST -> requestLogger.print()
-                RESPONSE -> responseLogger.print()
+                responseLogger!!.printIfNotPrinted()
             }
-
-            logged = true
+            REQUEST -> requestLogger!!.printIfNotPrinted()
+            RESPONSE -> responseLogger!!.printIfNotPrinted()
         }
+
     }
 }

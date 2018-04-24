@@ -1,6 +1,6 @@
 package com.github.aivancioglo.resttest.http
 
-import io.restassured.internal.RequestSpecificationImpl
+import com.github.aivancioglo.resttest.logger.RequestLogger
 import io.restassured.response.Response
 
-class ResponseImpl(request: RequestSpecificationImpl, response: Response) : com.github.aivancioglo.resttest.http.Response(request, response)
+class ResponseImpl(requestLogger: RequestLogger, response: Response) : com.github.aivancioglo.resttest.http.Response(requestLogger, response)

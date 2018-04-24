@@ -7,7 +7,6 @@ import com.github.aivancioglo.resttest.setters.Setter
  */
 class OAuth1 {
     var used = false
-        private set
 
     var consumerKey: String = ""
         set(value) {

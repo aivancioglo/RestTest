@@ -1,6 +1,9 @@
 package com.github.aivancioglo.resttest.http
 
 import com.github.aivancioglo.resttest.http.Settings.Companion.contentType
+import com.github.aivancioglo.resttest.http.Settings.Companion.logAllEnabled
+import com.github.aivancioglo.resttest.http.Settings.Companion.logIfFailedEnabled
+import com.github.aivancioglo.resttest.logger.RequestLogger
 import com.github.aivancioglo.resttest.setters.Setter
 import io.restassured.RestAssured.given
 import io.restassured.http.Method
@@ -49,23 +52,7 @@ open class Request {
      * @return Response class instance.
      */
     protected fun send(method: Method, vararg setters: Setter): Response {
-        for (setter in setters)
-            setter.update(this)
-
-        if (oAuth1.used && oAuth2.used)
-            throw RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same request!")
-
-        if (oAuth1.used)
-            requestSpecification
-                    .auth()
-                    .oauth(oAuth1.consumerKey, oAuth1.consumerSecret, oAuth1.token, oAuth1.tokenSecret)
-
-        if (oAuth2.used)
-            requestSpecification.auth().oauth2(oAuth2.token)
-
-        requestSpecification.baseUri("$protocol://$host")
-
-        return ResponseImpl(requestSpecification as RequestSpecificationImpl, requestSpecification.request(method)!!)
+        return send(method, "", *setters)
     }
 
     /**
@@ -93,6 +80,35 @@ open class Request {
 
         requestSpecification.baseUri("$protocol://$host")
 
-        return ResponseImpl(requestSpecification as RequestSpecificationImpl, requestSpecification.request(method, path)!!)
+        if (requestSpecification is RequestSpecificationImpl) {
+            requestSpecification.setMethod(method)
+            requestSpecification.setPath(path)
+        }
+
+        val requestLogger = RequestLogger(requestSpecification as RequestSpecificationImpl)
+
+        if (logAllEnabled)
+            requestLogger.printIfNotPrinted()
+
+        val response : io.restassured.response.Response
+
+        try {
+            response = requestSpecification.request(method, path)
+        } catch (e: Throwable) {
+            if (logIfFailedEnabled)
+                requestLogger.printIfNotPrinted()
+
+            throw AssertionError(e)
+        }
+
+        return ResponseImpl(requestLogger, response)
+    }
+
+    private fun RequestSpecificationImpl.setMethod(method: Method) {
+        this.method = method.toString()
+    }
+
+    private fun RequestSpecificationImpl.setPath(path: String) {
+        path(path)
     }
 }

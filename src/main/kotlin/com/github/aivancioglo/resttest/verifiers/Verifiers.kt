@@ -109,6 +109,20 @@ abstract class Verifiers {
         }
 
         /**
+         * Verify response cookie.
+         *
+         * @param name of cookie.
+         * @param matcher of responseSpecification cookie.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun cookie(name: String, matcher: Matcher<*>): Verifier = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().cookie(name, matcher)
+            }
+        }
+
+        /**
          * Verify response header.
          *
          * @param name of header.

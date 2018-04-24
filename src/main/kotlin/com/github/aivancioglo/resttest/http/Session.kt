@@ -5,6 +5,7 @@ import java.util.*
 /**
  * Request repeating session.
  */
+@Deprecated("This old Repeater class is deprecated.", ReplaceWith("Repeater class."))
 class Session {
     private var loopsCount = 0
     private var timeoutMls = 0
@@ -15,10 +16,8 @@ class Session {
      *
      * @param loopsCount of your requests.
      */
+    @Deprecated("This is method of deprecated Repeater class.")
     fun tries(loopsCount: Int) = apply {
-        if (loopsCount < 1)
-            throw Exception("Loop count should be more than 0!")
-
         this.loopsCount = loopsCount
     }
 
@@ -28,6 +27,7 @@ class Session {
      * @param sec to finish your request
      * @param mls to finish your request
      */
+    @Deprecated("This is method of deprecated Repeater class.")
     @JvmOverloads
     fun timeout(sec: Int, mls: Int = 0) = apply {
         if (sec <= 0 && mls <= 0)
@@ -42,6 +42,7 @@ class Session {
      * @param sec that should wait after request.
      * @param mls that should wait after request.
      */
+    @Deprecated("This is method of deprecated Repeater class.")
     @JvmOverloads
     fun every(sec: Int, mls: Int = 0) = apply {
         if (sec < 0)
@@ -58,6 +59,7 @@ class Session {
      *
      * @param request to execute.
      */
+    @Deprecated("This is method of deprecated Repeater class.")
     fun until(request: Runnable) {
         var loop = loopsCount
         val currentTime = Date().time

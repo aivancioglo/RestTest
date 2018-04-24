@@ -40,12 +40,9 @@ enum class ContentType(var type: String, vararg types: String) {
     URLENC("application/x-www-form-urlencoded"),
 
     /**
-     * This feature will be added on the next version.
-    /**
      * `multipart/form-data`
      */
     MULTIPART("multipart/form-data"),
-     */
 
     /**
      * `application/octet-stream`
