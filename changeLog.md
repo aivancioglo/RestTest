@@ -1,3 +1,7 @@
+## V. 1.1.1
+##### Fixes:
+* Response headers log is printed incorrectly.
+
 ## V. 1.1.0
 ##### Features:
 * New setters: `cookie`, `oauth1`, `oauth2`.
