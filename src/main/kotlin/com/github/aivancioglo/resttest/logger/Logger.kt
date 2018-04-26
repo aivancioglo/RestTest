@@ -35,7 +35,6 @@ class Logger() {
                 if (!requestLogger!!.printed) {
                     requestLogger!!.print()
                     println()
-                    println()
                 }
                 responseLogger!!.printIfNotPrinted()
             }

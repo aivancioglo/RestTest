@@ -115,7 +115,6 @@ abstract class Setters {
          * Getting cookie setter.
          *
          * @param name of header.
-         * @param value of header.
          * @return Setter instance.
          */
         @JvmStatic

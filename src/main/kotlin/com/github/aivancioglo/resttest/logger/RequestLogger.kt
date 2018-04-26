@@ -1,18 +1,20 @@
 package com.github.aivancioglo.resttest.logger
 
+import io.restassured.http.Header
 import io.restassured.internal.RequestSpecificationImpl
 import io.restassured.internal.support.Prettifier
 import io.restassured.parsing.Parser
+import io.restassured.specification.MultiPartSpecification
 import java.text.SimpleDateFormat
 import java.util.*
 
 class RequestLogger(private var request: RequestSpecificationImpl) {
-    private val headers = request.headers!!
+    private val headers: List<Header> = request.headers!!.asList()
     private val pathParams = arrayListOf<String>()
     private val requestParams = arrayListOf<String>()
     private val queryParams = arrayListOf<String>()
     private val formParams = arrayListOf<String>()
-    private val multiPartParams = request.multiPartParams!!
+    private val multiPartParams: List<MultiPartSpecification> = request.multiPartParams!!
     private val cookies = arrayListOf<String>()
     private val requestTime: String by lazy {
         val format = SimpleDateFormat("EEE, dd MMM YYYY HH:mm:ss z")
@@ -44,43 +46,27 @@ class RequestLogger(private var request: RequestSpecificationImpl) {
     fun print() {
         var requestLog = "Request method: ${request.method}\n" +
                 "Request URI:    ${request.uri}\n" +
-                "Date:           $requestTime\n"
+                "Date:           $requestTime"
 
-        if (request.headers.exist()) {
-            requestLog += "Headers:        ${headers.asList()[0]}\n"
-
-            if (request.headers.size() > 1)
-                for (i in 1 until headers.size())
-                    requestLog += "                ${headers.asList()[i]}\n"
-
-        }
-
-        fun addToPrint(title: String, values: List<String>) {
+        fun addToPrint(title: String, values: List<Any>) {
             if (!values.isEmpty())
                 requestLog += "\n" + title + values.joinToString("\n                ").trim()
-
         }
 
+        addToPrint("Headers:        ", headers)
         addToPrint("Path params:    ", pathParams)
         addToPrint("Request params: ", requestParams)
         addToPrint("Query params:   ", queryParams)
         addToPrint("Form params:    ", formParams)
         addToPrint("Cookies:        ", cookies)
-
-        if (!request.multiPartParams.isEmpty()) {
-            requestLog += "Multi parts:    ${multiPartParams[0]}\n"
-
-            if (request.multiPartParams.size > 1)
-                for (i in 1 until multiPartParams.size)
-                    requestLog += "                ${multiPartParams[i]}\n"
-        }
+        addToPrint("Multi parts:    ", multiPartParams)
 
         if (body != null) {
             requestLog += "Body:\n\n"
-            requestLog += "$body\n\n\n"
-        } else {
-            requestLog += "\n\n"
+            requestLog += "$body\n"
         }
+
+        requestLog += "\n"
 
         print(requestLog)
         printed = true

@@ -15,9 +15,7 @@ class ResponseLogger(private val response: Response) {
         var responseLog = "${response.statusLine}\n" +
                 "Duration: $responseTime\n"
 
-        response.headers.forEach {
-            responseLog += it.name + ": " + it.value
-        }
+        responseLog += response.headers.joinToString("\n") { it.name + ": " + it.value }
 
         if (body != null && body.trim().isNotEmpty()) {
             responseLog += "Body:\n\n"

@@ -90,13 +90,13 @@ class SettersTest {
         response.assertThat(OK)
     }
 
-    @Ignore("The httpbin.org does not allow to test 'multi part'.")
+    @Ignore("Test in progress")
     @Test
     fun multiPrat() {
         response = post("httpbin.org/post",
                 contentType(MULTIPART),
-                multiPart("file", "../resources/invalid.png",
-                        File("video.mp4").inputStream()))
+                multiPart("file", "file.txt",
+                        File("src/test/resources/file.txt").inputStream()))
 
         response.assertThat(
                 path("args.multiPart", equalTo("video.mp4")))
