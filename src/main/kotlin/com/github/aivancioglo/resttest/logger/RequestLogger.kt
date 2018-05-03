@@ -66,7 +66,7 @@ class RequestLogger(private var request: RequestSpecificationImpl) {
             requestLog += "$body\n"
         }
 
-        requestLog += "\n"
+        requestLog += "\n\n\n"
 
         print(requestLog)
         printed = true

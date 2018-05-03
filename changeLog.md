@@ -1,3 +1,11 @@
+## V. 1.2.0
+##### Features:
+* New setter: `schema`.
+* Setter `jsonSchema` is deprecated now.
+
+##### Fixes:
+* Response and Request logs do not have separators when request body is empty. 
+
 ## V. 1.1.1
 ##### Fixes:
 * Response headers log is printed incorrectly.
@@ -9,6 +17,7 @@
 * New properties: `protocol`, `host`, `decoder_charset` and `encoder_charset`.
 * New content type: `MULTIPART`.
 * The `perform` method in `RestTest` class is overloaded now.
+* Class `Session` is deprecated now.
 * New dependency `xml-path` for xml response validation.
 
 ##### Fixes:

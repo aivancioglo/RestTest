@@ -1,7 +1,9 @@
 package com.github.aivancioglo.resttest.verifiers
 
 import com.github.aivancioglo.resttest.http.ContentType
-import io.restassured.module.jsv.JsonSchemaValidator
+import io.restassured.matcher.RestAssuredMatchers.matchesDtdInClasspath
+import io.restassured.matcher.RestAssuredMatchers.matchesXsdInClasspath
+import io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath
 import io.restassured.response.Response
 import org.hamcrest.Matcher
 import java.util.concurrent.TimeUnit
@@ -45,10 +47,40 @@ abstract class Verifiers {
          * @return Verifier instance.
          */
         @JvmStatic
+        @Deprecated("Method is deprecated. Use method `schema` instead.")
         fun jsonSchema(jsonSchema: String): Verifier = object : Verifier {
             override fun verify(response: Response) {
-                response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath(jsonSchema))
+                response.then().body(matchesJsonSchemaInClasspath(jsonSchema))
             }
+        }
+
+        /**
+         * Verify response body using schema validation.
+         *
+         * @param schema of expected responseSpecification body.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun schema(schema: String): Verifier = when {
+            schema.endsWith(".json") -> object : Verifier {
+                override fun verify(response: Response) {
+                    response.then().body(matchesJsonSchemaInClasspath(schema))
+                }
+            }
+
+            schema.endsWith(".xsd") -> object : Verifier {
+                override fun verify(response: Response) {
+                    response.then().body(matchesXsdInClasspath(schema))
+                }
+            }
+
+            schema.endsWith(".dtd") -> object : Verifier {
+                override fun verify(response: Response) {
+                    response.then().body(matchesDtdInClasspath(schema))
+                }
+            }
+
+            else -> throw RuntimeException("Invalid schema file extension.")
         }
 
         /**
@@ -173,7 +205,7 @@ abstract class Verifiers {
          * @return Verifier instance.
          */
         @JvmStatic
-        fun time(matcher: Matcher<Long>): Verifier = object : Verifier{
+        fun time(matcher: Matcher<Long>): Verifier = object : Verifier {
             override fun verify(response: Response) {
                 response.then().time(matcher)
             }
@@ -187,7 +219,7 @@ abstract class Verifiers {
          * @return Verifier instance.
          */
         @JvmStatic
-        fun time(matcher: Matcher<Long>, timeUnit: TimeUnit): Verifier = object : Verifier{
+        fun time(matcher: Matcher<Long>, timeUnit: TimeUnit): Verifier = object : Verifier {
             override fun verify(response: Response) {
                 response.then().time(matcher, timeUnit)
             }
