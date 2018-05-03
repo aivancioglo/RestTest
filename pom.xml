@@ -5,7 +5,7 @@
 
     <groupId>com.github.aivancioglo</groupId>
     <artifactId>resttest-java</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 
     <name>RestTest</name>
     <description>Lib for REST API testing</description>
@@ -29,7 +29,7 @@
         <url>http://github.com/aivancioglo/RestTest/tree/master</url>
         <connection>scm:git:git://github.com/aivancioglo/RestTest.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/aivancioglo/RestTest.git</developerConnection>
-        <tag>resttest-java-1.1.0</tag>
+        <tag>resttest-java-1.2.0</tag>
     </scm>
 
     <distributionManagement>
@@ -52,7 +52,7 @@
     </pluginRepositories>
 
     <properties>
-        <rest.assured>3.0.7</rest.assured>
+        <rest.assured>3.1.0</rest.assured>
         <scribejava.apis.version>2.5.3</scribejava.apis.version>
         <groovy.all.version>2.4.5</groovy.all.version>
         <hamcrest.version>2.0.0.0</hamcrest.version>

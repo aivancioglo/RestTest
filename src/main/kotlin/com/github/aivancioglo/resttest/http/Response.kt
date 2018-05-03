@@ -9,7 +9,7 @@ import com.github.aivancioglo.resttest.logger.Logger
 import com.github.aivancioglo.resttest.logger.RequestLogger
 import com.github.aivancioglo.resttest.logger.ResponseLogger
 import com.github.aivancioglo.resttest.verifiers.Verifier
-import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.jsonSchema
+import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.schema
 import com.github.aivancioglo.resttest.verifiers.Verifiers.Companion.statusCode
 import io.restassured.http.Header
 import io.restassured.mapper.ObjectMapper
@@ -71,12 +71,12 @@ abstract class Response() {
      * Making responseSpecification validation.
      *
      * @param code of responseSpecification.
-     * @param jsonSchema for responseSpecification validation.
+     * @param schema for responseSpecification validation.
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(code: Int, jsonSchema: String, vararg verifiers: Verifier) = printFailuresIfExist(
-            statusCode(code), jsonSchema(jsonSchema), *verifiers)
+    fun assertThat(code: Int, schema: String, vararg verifiers: Verifier) = printFailuresIfExist(
+            statusCode(code), schema(schema), *verifiers)
 
     /**
      * Making responseSpecification validation.
@@ -86,8 +86,8 @@ abstract class Response() {
      * @param verifiers for responseSpecification validation.
      */
     @SafeVarargs
-    fun assertThat(statusCode: StatusCode, jsonSchema: String, vararg verifiers: Verifier) = printFailuresIfExist(
-            statusCode(statusCode), jsonSchema(jsonSchema), *verifiers)
+    fun assertThat(statusCode: StatusCode, schema: String, vararg verifiers: Verifier) = printFailuresIfExist(
+            statusCode(statusCode), schema(schema), *verifiers)
 
     /**
      * Response logging.
