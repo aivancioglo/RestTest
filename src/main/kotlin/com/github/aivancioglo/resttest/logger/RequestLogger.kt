@@ -62,7 +62,7 @@ class RequestLogger(private var request: RequestSpecificationImpl) {
         addToPrint("Multi parts:    ", multiPartParams)
 
         if (body != null) {
-            requestLog += "Body:\n\n"
+            requestLog += "\nBody:\n\n"
             requestLog += "$body\n"
         }
 

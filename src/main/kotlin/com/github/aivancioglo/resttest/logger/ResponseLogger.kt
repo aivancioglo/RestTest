@@ -17,7 +17,7 @@ class ResponseLogger(private val response: Response) {
                 response.headers.joinToString("\n") { it.name + ": " + it.value }
 
         if (body != null && body.trim().isNotEmpty()) {
-            responseLog += "Body:\n\n"
+            responseLog += "\nBody:\n\n"
             responseLog += body
         }
 

@@ -15,6 +15,7 @@ import io.restassured.http.Header
 import io.restassured.mapper.ObjectMapper
 import io.restassured.mapper.ObjectMapperType
 import io.restassured.response.Response
+import jdk.nashorn.internal.runtime.regexp.RegExp
 
 /**
  * This class is using for HTTP/HTTPS response validation and processing.
@@ -241,7 +242,9 @@ abstract class Response() {
                 log()
 
             throw AssertionError("\n\n============= F A I L U R E S =============\n" + errors.map {
-                it.message!!.replace(Regex("^1 expectation failed\\."), "")
+                it.message!!
+                        .replace(it.javaClass.name, "")
+                        .replace(Regex(": \\d+ expectation failed."), "")
             }.joinToString("\n-------------------------------------------\n") + "\n===========================================")
 
         }
