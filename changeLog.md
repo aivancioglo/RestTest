@@ -1,3 +1,11 @@
+## V. 1.3.0
+##### Features:
+* Static method `perform` is deprecated now.
+* New static method `repeat` in `RestTest` class.
+
+##### Fixes:
+* Small bug with request/response log printing. 
+
 ## V. 1.2.0
 ##### Features:
 * New setter: `schema`.

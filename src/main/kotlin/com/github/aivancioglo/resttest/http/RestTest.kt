@@ -5,129 +5,275 @@ import com.github.aivancioglo.resttest.setters.Setter
 abstract class RestTest {
     companion object {
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
         @JvmOverloads
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Int = 0,
                     every: Int = 0,
                     tries: Int = 0) = Repeater().timeout(timeout).every(every).tries(tries)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Int = 0,
                     every: Int = 0,
                     tries: Int = 0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Int = 0,
                     every: Double = 0.0) = Repeater().timeout(timeout).every(every)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Int = 0,
                     request: Runnable) = Repeater().timeout(timeout).until(request)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Int = 0,
                     every: Int = 0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Int = 0,
                     every: Double = 0.0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Int = 0,
                     every: Double = 0.0,
                     tries: Int = 0) = Repeater().timeout(timeout).every(every).tries(tries)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Int = 0,
                     every: Double = 0.0,
                     tries: Int = 0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Double = 0.0) = Repeater().timeout(timeout)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Double = 0.0,
                     request: Runnable) = Repeater().timeout(timeout).until(request)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Double = 0.0,
                     every: Int = 0) = Repeater().timeout(timeout).every(every)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Double = 0.0,
                     every: Int = 0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Double = 0.0,
                     every: Double = 0.0) = Repeater().timeout(timeout).every(every)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Double = 0.0,
                     every: Double = 0.0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Double = 0.0,
                     every: Double = 0.0,
                     tries: Int = 0) = Repeater().timeout(timeout).every(every).tries(tries)
 
         /**
-         * Use this function, to creates Session of request repeating.
+         * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        @Deprecated("This method is deprecated", ReplaceWith("repeater()"))
         fun perform(timeout: Double = 0.0,
                     every: Double = 0.0,
                     tries: Int = 0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun repeat(timeout: Int = 0,
+                    every: Int = 0,
+                    tries: Int = 0) = Repeater().timeout(timeout).every(every).tries(tries)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
+                    every: Int = 0,
+                    tries: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
+                    every: Double = 0.0) = Repeater().timeout(timeout).every(every)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
+                    every: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
+                    every: Double = 0.0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
+                    every: Double = 0.0,
+                    tries: Int = 0) = Repeater().timeout(timeout).every(every).tries(tries)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
+                    every: Double = 0.0,
+                    tries: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0) = Repeater().timeout(timeout)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0,
+                    request: Runnable) = Repeater().timeout(timeout).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0,
+                    every: Int = 0) = Repeater().timeout(timeout).every(every)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0,
+                    every: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0,
+                    every: Double = 0.0) = Repeater().timeout(timeout).every(every)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0,
+                    every: Double = 0.0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0,
+                    every: Double = 0.0,
+                    tries: Int = 0) = Repeater().timeout(timeout).every(every).tries(tries)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0,
+                    every: Double = 0.0,
+                    tries: Int = 0,
+                    request: Runnable) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(runnable: Runnable) = Repeater().until(runnable)
 
         /**
          * Making GET requestSpecification.
