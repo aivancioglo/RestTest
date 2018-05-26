@@ -1,21 +1,26 @@
 package com.github.aivancioglo.resttest.http
 
-import com.github.aivancioglo.resttest.http.Settings.Companion.contentType
 import com.github.aivancioglo.resttest.http.Settings.Companion.logAllEnabled
 import com.github.aivancioglo.resttest.http.Settings.Companion.logIfFailedEnabled
 import com.github.aivancioglo.resttest.logger.RequestLogger
 import com.github.aivancioglo.resttest.setters.Setter
 import io.restassured.RestAssured.given
 import io.restassured.http.Method
+import io.restassured.http.Method.*
 import io.restassured.internal.RequestSpecificationImpl
 
 /**
  * Class for creating request. You can extend it using your own endpoint class.
  */
 open class Request {
-    val requestSpecification = given().contentType(contentType)!!
+    val requestSpecification = given().contentType(Settings.contentType)!!
     val oAuth1 = OAuth1()
     val oAuth2 = OAuth2()
+    var contentType = Settings.contentType
+    val body = HashMap<String, Any>()
+    val setters = ArrayList<Setter>()
+    lateinit var method: Method
+
     /**
      * This feature will be added on the next version.
      *
@@ -41,14 +46,14 @@ open class Request {
      */
     protected fun set(vararg setters: Setter) {
         for (setter in setters)
-            setter.update(this)
+            this.setters.add(setter)
     }
 
     /**
-     * Sending your requestSpecification.
+     * Sending your request.
      *
-     * @param method of your requestSpecification.
-     * @param setters are setting up requestSpecification specification.
+     * @param method of your request.
+     * @param setters are setting up request specification.
      * @return Response class instance.
      */
     protected fun send(method: Method, vararg setters: Setter): Response {
@@ -56,7 +61,7 @@ open class Request {
     }
 
     /**
-     * Sending your requestSpecification.
+     * Sending your request.
      *
      * @param method of your request.
      * @param path is a path param.
@@ -64,8 +69,10 @@ open class Request {
      * @return Response class instance.
      */
     protected fun send(method: Method, path: String, vararg setters: Setter): Response {
-        for (setter in setters)
-            setter.update(this)
+        this.method = method
+        this.setters.addAll(setters)
+
+        update()
 
         if (oAuth1.used && oAuth2.used)
             throw RuntimeException("You can not use OAuth 1.0 and OAuth 2 in the same request!")
@@ -90,7 +97,7 @@ open class Request {
         if (logAllEnabled)
             requestLogger.printIfNotPrinted()
 
-        val response : io.restassured.response.Response
+        val response: io.restassured.response.Response
 
         try {
             response = requestSpecification.request(method, path)
@@ -102,6 +109,19 @@ open class Request {
         }
 
         return ResponseImpl(requestLogger, response)
+    }
+
+    private fun update() {
+        val settersNames = setters.map {
+            it.javaClass.simpleName.replace(Regex("$.+"), "")
+        }
+
+        if (contentType.contains("json", true)
+                && settersNames.contains("body") && settersNames.contains("param")
+                && (method == POST || method == PUT || method == PATCH))
+            throw RuntimeException("You can not use \"body\" setter and \"param\" setter at the same time, when content type is JSON")
+
+        setters.forEach { it.update(this) }
     }
 
     private fun RequestSpecificationImpl.setMethod(method: Method) {

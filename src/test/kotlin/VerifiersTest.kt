@@ -104,7 +104,7 @@ class VerifiersTest {
         response = get("httpbin.org/get")
 
         response.assertThat(
-                contentTypeIs(JSON.type))
+                contentTypeIs(JSON.value))
     }
 
     @Test(expected = AssertionError::class)
@@ -112,7 +112,7 @@ class VerifiersTest {
         response = get("httpbin.org/get")
 
         response.assertThat(
-                contentTypeIs(XML.type))
+                contentTypeIs(XML.value))
     }
 
     @Test

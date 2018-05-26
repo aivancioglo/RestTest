@@ -15,7 +15,6 @@ import io.restassured.http.Header
 import io.restassured.mapper.ObjectMapper
 import io.restassured.mapper.ObjectMapperType
 import io.restassured.response.Response
-import jdk.nashorn.internal.runtime.regexp.RegExp
 
 /**
  * This class is using for HTTP/HTTPS response validation and processing.
@@ -222,6 +221,15 @@ abstract class Response() {
      * @return boolean value.
      */
     fun isHeaderExist(name: String) = response.headers.hasHeaderWithName(name)
+
+    /**
+     * This method can be used for setting of all required variables of default response.
+     */
+    protected fun set(logger: Logger, response: io.restassured.response.Response) {
+        this.response = response
+        this.logger = logger
+    }
+
 
     private fun printFailuresIfExist(vararg verifiers: Verifier): Logger {
         verifiers.find {

@@ -1,4 +1,5 @@
 import com.github.aivancioglo.resttest.http.ContentType.MULTIPART
+import com.github.aivancioglo.resttest.http.ContentType.URLENC
 import com.github.aivancioglo.resttest.http.Response
 import com.github.aivancioglo.resttest.http.RestTest.Companion.get
 import com.github.aivancioglo.resttest.http.RestTest.Companion.post
@@ -9,6 +10,7 @@ import com.github.aivancioglo.resttest.setters.Setters.Companion.cookie
 import com.github.aivancioglo.resttest.setters.Setters.Companion.formParam
 import com.github.aivancioglo.resttest.setters.Setters.Companion.header
 import com.github.aivancioglo.resttest.setters.Setters.Companion.host
+import com.github.aivancioglo.resttest.setters.Setters.Companion.jsonParam
 import com.github.aivancioglo.resttest.setters.Setters.Companion.multiPart
 import com.github.aivancioglo.resttest.setters.Setters.Companion.param
 import com.github.aivancioglo.resttest.setters.Setters.Companion.path
@@ -80,6 +82,22 @@ class SettersTest {
 
         response.assertThat(
                 path("args.formParam", equalTo("0")))
+    }
+
+    @Test
+    fun jsonParam() {
+        response = post("httpbin.org/post",
+                jsonParam("jsonParam", 0))
+
+        response.assertThat(
+                path("json.jsonParam", equalTo(0)))
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun jsonParamUrlenc() {
+        post("httpbin.org/post",
+                contentType(URLENC),
+                jsonParam("jsonParam", 0))
     }
 
     @Test

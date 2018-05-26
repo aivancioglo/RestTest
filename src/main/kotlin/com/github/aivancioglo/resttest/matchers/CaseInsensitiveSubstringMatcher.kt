@@ -4,6 +4,7 @@ import org.hamcrest.Description
 import org.hamcrest.Factory
 import org.hamcrest.TypeSafeMatcher
 
+@Deprecated("Use RestTestMatcher class")
 class CaseInsensitiveSubstringMatcher(private val subString: String) : TypeSafeMatcher<String>() {
     override fun describeTo(description: Description) {
         description.appendText("containing substring \"${this.subString}\"")
@@ -15,6 +16,7 @@ class CaseInsensitiveSubstringMatcher(private val subString: String) : TypeSafeM
     companion object {
         @Factory
         @JvmStatic
+        @Deprecated("Use containsIgnoringCase in RestTestMatcher class")
         fun containsIgnoringCase(subString: String) =
                 CaseInsensitiveSubstringMatcher(subString)
     }

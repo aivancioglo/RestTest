@@ -43,7 +43,7 @@ class RequestLogger(private var request: RequestSpecificationImpl) {
             cookies.add(i.toString())
     }
 
-    fun print() {
+    fun asString(): String {
         var requestLog = "Request method: ${request.method}\n" +
                 "Request URI:    ${request.uri}\n" +
                 "Date:           $requestTime"
@@ -63,12 +63,16 @@ class RequestLogger(private var request: RequestSpecificationImpl) {
 
         if (body != null) {
             requestLog += "\nBody:\n\n"
-            requestLog += "$body\n"
+            requestLog += "$body"
         }
 
         requestLog += "\n\n\n"
 
-        print(requestLog)
+        return requestLog
+    }
+
+    fun print() {
+        print(asString())
         printed = true
     }
 
