@@ -11,19 +11,23 @@ class ResponseLogger(private val response: Response) {
     var printed = false
         private set
 
-    fun print() {
+    fun asString(): String {
         var responseLog = "${response.statusLine}\n" +
                 "Duration: $responseTime\n" +
                 response.headers.joinToString("\n") { it.name + ": " + it.value }
 
         if (body != null && body.trim().isNotEmpty()) {
-            responseLog += "Body:\n\n"
+            responseLog += "\nBody:\n\n"
             responseLog += body
         }
 
         responseLog += "\n\n\n"
 
-        print(responseLog)
+        return responseLog
+    }
+
+    fun print() {
+        print(asString())
         printed = true
     }
 

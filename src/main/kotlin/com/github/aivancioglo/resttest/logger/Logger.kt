@@ -32,15 +32,13 @@ class Logger() {
     fun log(logType: LogType = ALL) {
         when (logType) {
             ALL -> {
-                if (!requestLogger!!.printed) {
-                    requestLogger!!.print()
-                    println()
-                }
+                requestLogger!!.printIfNotPrinted()
                 responseLogger!!.printIfNotPrinted()
             }
             REQUEST -> requestLogger!!.printIfNotPrinted()
             RESPONSE -> responseLogger!!.printIfNotPrinted()
         }
-
     }
+
+    fun asString() = requestLogger!!.asString() + responseLogger!!.asString()
 }

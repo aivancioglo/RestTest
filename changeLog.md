@@ -1,3 +1,23 @@
+## V. 1.3.0
+##### Features:
+* Static method `perform` is now deprecated. The new static method `repeat` was created in `RestTest` class to substitute deprecated `perform` method.
+* The `CaseInsensitiveSubstringMatcher` and `RegexMatcher` classes are now deprecated. New `RestTestMatcher` class with matchers was created instead of it.
+* New `isSorted` matcher was created in `RestTestMatcher` class.
+* The new setter `jsonParam` is added. Usage example:
+     ```Java
+     post("endpoint.com",
+        jsonParam("key", "value"));
+     ```
+     Will be converted to:
+     ```Java
+     post("endpoint.com",
+         body("{\"key\":\"value\"}"));
+     ```
+* The `param` setter will automatically try to determine which parameter type (i.e. query, json, or form parameter) based on the HTTP method.
+
+##### Fixes:
+* Small bug with request/response log printing. 
+
 ## V. 1.2.0
 ##### Features:
 * New setter: `schema`.

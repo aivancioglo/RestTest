@@ -136,7 +136,7 @@ abstract class Verifiers {
         @JvmStatic
         fun contentTypeIs(contentType: ContentType): Verifier = object : Verifier {
             override fun verify(response: Response) {
-                response.then().contentType(contentType.type)
+                response.then().contentType(contentType.value)
             }
         }
 

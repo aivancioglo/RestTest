@@ -2,6 +2,8 @@ package com.github.aivancioglo.resttest.setters
 
 import com.github.aivancioglo.resttest.http.ContentType
 import com.github.aivancioglo.resttest.http.Request
+import io.restassured.http.Method.*
+import io.restassured.mapper.ObjectMapperType.JACKSON_2
 import io.restassured.specification.MultiPartSpecification
 import java.io.File
 import java.io.InputStream
@@ -24,7 +26,8 @@ abstract class Setters {
         @JvmStatic
         fun contentType(type: ContentType) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.contentType(type.type)
+                request.contentType = type.value
+                request.requestSpecification.contentType(type.value)
             }
         }
 
@@ -37,6 +40,7 @@ abstract class Setters {
         @JvmStatic
         fun contentType(type: String) = object : Setter {
             override fun update(request: Request) {
+                request.contentType = type
                 request.requestSpecification.contentType(type)
             }
         }
@@ -51,7 +55,11 @@ abstract class Setters {
         @JvmStatic
         fun param(key: String, value: Any) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.param(key, value)
+                if (request.contentType.contains("json", true) &&
+                        (request.method == POST || request.method == PUT || request.method == PATCH)) {
+                    request.body[key] = value
+                    request.requestSpecification.body(request.body, JACKSON_2)
+                } else request.requestSpecification.param(key, value)
             }
         }
 
@@ -80,6 +88,28 @@ abstract class Setters {
         fun formParam(key: String, value: Any) = object : Setter {
             override fun update(request: Request) {
                 request.requestSpecification.formParam(key, value)
+            }
+        }
+
+        /**
+         * Getting json param setter.
+         *
+         * @param key of form param.
+         * @param value of form param.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun jsonParam(key: String, value: Any) = object : Setter {
+            override fun update(request: Request) {
+                if (request.contentType.contains("json"))
+                    if (request.method == POST || request.method == PUT || request.method == PATCH) {
+                        request.body[key] = value
+                        request.requestSpecification.body(request.body, JACKSON_2)
+                    }
+                    else
+                        throw RuntimeException("You can use \"jsonParam\" setter only for POST, PUT or PATCH requests.")
+                else
+                    throw RuntimeException("You can not use \"jsonParam\" setter when content type is not JSON.")
             }
         }
 
@@ -134,6 +164,9 @@ abstract class Setters {
         @JvmStatic
         fun header(name: String, value: String) = object : Setter {
             override fun update(request: Request) {
+                if (name.equals("content-type", true))
+                    request.contentType = value
+
                 request.requestSpecification.header(name, value)
             }
         }
@@ -358,7 +391,7 @@ abstract class Setters {
         @JvmStatic
         fun accept(contentType: ContentType) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.accept(contentType.type)
+                request.requestSpecification.accept(contentType.value)
             }
         }
 

@@ -222,6 +222,15 @@ abstract class Response() {
      */
     fun isHeaderExist(name: String) = response.headers.hasHeaderWithName(name)
 
+    /**
+     * This method can be used for setting of all required variables of default response.
+     */
+    protected fun set(logger: Logger, response: io.restassured.response.Response) {
+        this.response = response
+        this.logger = logger
+    }
+
+
     private fun printFailuresIfExist(vararg verifiers: Verifier): Logger {
         verifiers.find {
             try {
@@ -241,7 +250,9 @@ abstract class Response() {
                 log()
 
             throw AssertionError("\n\n============= F A I L U R E S =============\n" + errors.map {
-                it.message!!.replace(Regex("^1 expectation failed\\."), "")
+                it.message!!
+                        .replace(it.javaClass.name, "")
+                        .replace(Regex(": \\d+ expectation failed."), "")
             }.joinToString("\n-------------------------------------------\n") + "\n===========================================")
 
         }

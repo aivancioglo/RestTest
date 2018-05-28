@@ -1,6 +1,6 @@
 package com.github.aivancioglo.resttest.http
 
-enum class ContentType(var type: String, vararg types: String) {
+enum class ContentType(var value: String, vararg values: String) {
     /**
      * &#42;/&#42;
      */

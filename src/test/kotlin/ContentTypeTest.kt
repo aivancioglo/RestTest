@@ -19,7 +19,7 @@ class ContentTypeTest {
                 accept(ANY))
 
         response.assertThat(OK,
-                path("headers.Accept", equalTo(ANY.type)),
+                path("headers.Accept", equalTo(ANY.value)),
                 path("headers.Content-Type", containsString("*/*")))
     }
 
@@ -30,7 +30,7 @@ class ContentTypeTest {
                 accept(JSON))
 
         response.assertThat(OK,
-                path("headers.Accept", equalTo(JSON.type)),
+                path("headers.Accept", equalTo(JSON.value)),
                 path("headers.Content-Type", containsString("application/json")))
     }
 
@@ -41,10 +41,9 @@ class ContentTypeTest {
                 accept(URLENC))
 
         response.assertThat(OK,
-                path("headers.Accept", equalTo(URLENC.type)),
+                path("headers.Accept", equalTo(URLENC.value)),
                 path("headers.Content-Type", containsString("application/x-www-form-urlencoded")))
     }
-
 
     @Test
     fun xmlRequest() {
@@ -53,7 +52,7 @@ class ContentTypeTest {
                 accept(XML))
 
         response.assertThat(OK,
-                path("headers.Accept", equalTo(XML.type)),
+                path("headers.Accept", equalTo(XML.value)),
                 path("headers.Content-Type", containsString("application/xml")))
     }
 
@@ -64,7 +63,7 @@ class ContentTypeTest {
                 accept(TEXT))
 
         response.assertThat(OK,
-                path("headers.Accept", equalTo(TEXT.type)),
+                path("headers.Accept", equalTo(TEXT.value)),
                 path("headers.Content-Type", containsString("text/plain")))
     }
 
@@ -75,7 +74,7 @@ class ContentTypeTest {
                 accept(BINARY))
 
         response.assertThat(OK,
-                path("headers.Accept", equalTo(BINARY.type)),
+                path("headers.Accept", equalTo(BINARY.value)),
                 path("headers.Content-Type", containsString("application/octet-stream")))
     }
 
@@ -86,7 +85,7 @@ class ContentTypeTest {
                 accept(JSON))
 
         response.assertThat(OK,
-                path("headers.Accept", equalTo(JSON.type)),
+                path("headers.Accept", equalTo(JSON.value)),
                 path("headers.Content-Type", containsString("application/json; charset=UTF-16")))
     }
 }
