@@ -113,8 +113,7 @@ class Repeater {
         cycle.start()
 
         if (timeoutMls > 0) {
-            while (System.currentTimeMillis() - startTime < timeoutMls && cycle.isAlive) {
-            }
+            do { } while (System.currentTimeMillis() - startTime < timeoutMls && cycle.isAlive)
 
             if (cycle.isAlive) {
                 message = if (error != null)
