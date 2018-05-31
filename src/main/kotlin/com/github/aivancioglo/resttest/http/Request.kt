@@ -85,11 +85,11 @@ open class Request {
         if (oAuth2.used)
             requestSpecification.auth().oauth2(oAuth2.token)
 
-        requestSpecification.baseUri("$protocol://$host")
-
         if (requestSpecification is RequestSpecificationImpl) {
             requestSpecification.setMethod(method)
             requestSpecification.setPath(path)
+            if (host.isNotBlank())
+                requestSpecification.baseUri("$protocol://$host")
         }
 
         val requestLogger = RequestLogger(requestSpecification as RequestSpecificationImpl)
@@ -113,7 +113,7 @@ open class Request {
 
     private fun update() {
         val settersNames = setters.map {
-            it.javaClass.simpleName.replace(Regex("$.+"), "")
+            it.javaClass.simpleName.replace(Regex("\\$.+"), "")
         }
 
         if (contentType.contains("json", true)

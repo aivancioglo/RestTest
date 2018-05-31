@@ -18,6 +18,19 @@ abstract class Setters {
     companion object {
 
         /**
+         * Getting baseUri setter.
+         *
+         * @param baseUri of request.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun baseUri(baseUri: String) = object : Setter {
+            override fun update(request: Request) {
+                request.requestSpecification.baseUri(baseUri)
+            }
+        }
+
+        /**
          * Getting content type setter.
          *
          * @param type of content.
@@ -55,10 +68,11 @@ abstract class Setters {
         @JvmStatic
         fun param(key: String, value: Any) = object : Setter {
             override fun update(request: Request) {
-                if (request.contentType.contains("json", true) &&
-                        (request.method == POST || request.method == PUT || request.method == PATCH)) {
+                if (request.contentType.contains("json", true) && (request.method == POST || request.method == PUT || request.method == PATCH)) {
                     request.body[key] = value
                     request.requestSpecification.body(request.body, JACKSON_2)
+                } else if (listOf(POST, PUT, PATCH).contains(request.method) && (request.contentType.contains(ContentType.URLENC.value, ignoreCase = true) || request.contentType.contains(ContentType.MULTIPART.value, ignoreCase = true))) {
+                    request.requestSpecification.formParam(key, value)
                 } else request.requestSpecification.param(key, value)
             }
         }
@@ -105,8 +119,7 @@ abstract class Setters {
                     if (request.method == POST || request.method == PUT || request.method == PATCH) {
                         request.body[key] = value
                         request.requestSpecification.body(request.body, JACKSON_2)
-                    }
-                    else
+                    } else
                         throw RuntimeException("You can use \"jsonParam\" setter only for POST, PUT or PATCH requests.")
                 else
                     throw RuntimeException("You can not use \"jsonParam\" setter when content type is not JSON.")
