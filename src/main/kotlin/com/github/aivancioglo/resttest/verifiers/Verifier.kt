@@ -8,9 +8,9 @@ import io.restassured.response.Response
 interface Verifier {
 
     /**
-     * Function for response verifying.
+     * Function for response verification.
      *
-     * @param response of your request.
+     * @param response Response of your request.
      */
     fun verify(response: Response)
 }
