@@ -12,15 +12,15 @@ import java.net.URLDecoder
 import java.util.regex.Pattern
 
 /**
- * Abstract class for using static functions to call setters.
+ * Abstract class for calling setters using static functions.
  */
 abstract class Setters {
     companion object {
 
         /**
-         * Getting content type setter.
+         * Get content type setter.
          *
-         * @param type of content.
+         * @param type Content type of the request.
          * @return Setter instance.
          */
         @JvmStatic
@@ -32,9 +32,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting content type setter.
+         * Get content type setter.
          *
-         * @param type of content.
+         * @param type Content type of the request.
          * @return Setter instance.
          */
         @JvmStatic
@@ -46,10 +46,10 @@ abstract class Setters {
         }
 
         /**
-         * Getting param setter.
+         * Get param setter.
          *
-         * @param key of param.
-         * @param value of param.
+         * @param key Key of param.
+         * @param value Value of param.
          * @return Setter instance.
          */
         @JvmStatic
@@ -64,10 +64,10 @@ abstract class Setters {
         }
 
         /**
-         * Getting query param setter.
+         * Get query param setter.
          *
-         * @param key of query param.
-         * @param value of query param.
+         * @param key Key of query param.
+         * @param value Value of query param.
          * @return Setter instance.
          */
         @JvmStatic
@@ -78,10 +78,10 @@ abstract class Setters {
         }
 
         /**
-         * Getting form param setter.
+         * Get form param setter.
          *
-         * @param key of form param.
-         * @param value of form param.
+         * @param key Key of form param.
+         * @param value Value of form param.
          * @return Setter instance.
          */
         @JvmStatic
@@ -92,10 +92,10 @@ abstract class Setters {
         }
 
         /**
-         * Getting json param setter.
+         * Get json param setter.
          *
-         * @param key of form param.
-         * @param value of form param.
+         * @param key Key of json param.
+         * @param value Value of json param.
          * @return Setter instance.
          */
         @JvmStatic
@@ -114,10 +114,11 @@ abstract class Setters {
         }
 
         /**
-         * Getting cookie setter.
+         * Get cookie setter.
          *
-         * @param name of header.
-         * @param value of header.
+         * @param name Name of cookie.
+         * @param value Value of cookie.
+         * @param additionalValues Additional values of cookie.
          * @return Setter instance.
          */
         @JvmStatic
@@ -128,10 +129,10 @@ abstract class Setters {
         }
 
         /**
-         * Getting cookie setter.
+         * Get cookie setter.
          *
-         * @param name of header.
-         * @param value of header.
+         * @param name Name of cookie.
+         * @param value Value of cookie.
          * @return Setter instance.
          */
         @JvmStatic
@@ -142,9 +143,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting cookie setter.
+         * Get cookie setter.
          *
-         * @param name of header.
+         * @param name Name of cookie.
          * @return Setter instance.
          */
         @JvmStatic
@@ -155,10 +156,10 @@ abstract class Setters {
         }
 
         /**
-         * Getting header setter.
+         * Get header setter.
          *
-         * @param name of header.
-         * @param value of header.
+         * @param name Name of header.
+         * @param value Value of header.
          * @return Setter instance.
          */
         @JvmStatic
@@ -172,9 +173,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting requestSpecification body setter.
+         * Get requestSpecification body setter.
          *
-         * @param body of requestSpecification.
+         * @param body Body of requestSpecification.
          * @return Setter instance.
          */
         @JvmStatic
@@ -185,9 +186,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting requestSpecification body setter.
+         * Get requestSpecification body setter.
          *
-         * @param body of requestSpecification.
+         * @param body Body of requestSpecification.
          * @return Setter instance.
          */
         @JvmStatic
@@ -198,9 +199,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting requestSpecification protocol setter.
+         * Get requestSpecification protocol setter.
          *
-         * @param protocol of requestSpecification.
+         * @param protocol Protocol of requestSpecification.
          * @return Setter instance.
          */
         @JvmStatic
@@ -211,9 +212,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting requestSpecification host setter.
+         * Get requestSpecification host setter.
          *
-         * @param host of requestSpecification.
+         * @param host Host of requestSpecification.
          * @return Setter instance.
          */
         @JvmStatic
@@ -224,9 +225,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting requestSpecification path setter.
+         * Get requestSpecification path setter.
          *
-         * @param path of requestSpecification.
+         * @param path Path of requestSpecification.
          * @return Setter instance.
          */
         @JvmStatic
@@ -243,9 +244,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting requestSpecification port setter.
+         * Get requestSpecification port setter.
          *
-         * @param port of requestSpecification.
+         * @param port Port of requestSpecification.
          * @return Setter instance.
          */
         @JvmStatic
@@ -256,10 +257,10 @@ abstract class Setters {
         }
 
         /**
-         * Getting path param setter.
+         * Get path param setter.
          *
-         * @param key of path param.
-         * @param value of path param.
+         * @param key Key of path param.
+         * @param value Value of path param.
          * @return Setter instance.
          */
         @JvmStatic
@@ -270,11 +271,11 @@ abstract class Setters {
         }
 
         /**
-         * Getting multi part setter.
+         * Get multi part setter.
          *
-         * @param controlName of the body part. In HTML this is the attribute name of the input tag.
-         * @param fileName of the content you're uploading.
-         * @param stream you want to requestSpecification.
+         * @param controlName Control name of the body part. In HTML this is the attribute name of the input tag.
+         * @param fileName File name of the content you're uploading.
+         * @param stream Stream you want to requestSpecification.
          * @return Setter instance.
          */
         @JvmStatic
@@ -285,12 +286,12 @@ abstract class Setters {
         }
 
         /**
-         * Getting multi part setter.
+         * Get multi part setter.
          *
-         * @param controlName of the body part. In HTML this is the attribute name of the input tag.
-         * @param fileName of the content you're uploading.
-         * @param stream you want to requestSpecification.
-         * @param mimeType The mime-type
+         * @param controlName Control name of the body part. In HTML this is the attribute name of the input tag.
+         * @param fileName File name of the content you're uploading.
+         * @param stream Stream you want to requestSpecification.
+         * @param mimeType The mime-type.
          * @return Setter instance.
          */
         @JvmStatic
@@ -304,9 +305,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting multi part setter.
+         * Get multi part setter.
          *
-         * @param file to upload
+         * @param file File to upload.
          * @return Setter instance.
          */
         @JvmStatic
@@ -317,9 +318,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting multi part setter.
+         * Get multi part setter.
          *
-         * @param file to upload
+         * @param file File to upload.
          * @param controlName Defines the control name of the body part. In HTML this is the attribute name of the input tag.
          * @return Setter instance.
          */
@@ -331,9 +332,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting multi part setter.
+         * Get multi part setter.
          *
-         * @param multiPartSpecification of yur request.
+         * @param multiPartSpecification Multi part specification of your request.
          * @return Setter instance.
          */
         @JvmStatic
@@ -344,9 +345,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting redirect setter.
+         * Get redirect setter.
          *
-         * @param max count of redirects.
+         * @param max Maximum count of redirects.
          * @return Setter instance.
          */
         @JvmStatic
@@ -357,9 +358,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting redirect setter.
+         * Get redirect setter.
          *
-         * @param follow redirects.
+         * @param follow Follow redirects.
          * @return Setter instance.
          */
         @JvmStatic
@@ -370,9 +371,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting media type setter.
+         * Get accept setter.
          *
-         * @param mediaType of request.
+         * @param mediaType Media type of request.
          * @return Setter instance.
          */
         @JvmStatic
@@ -383,9 +384,9 @@ abstract class Setters {
         }
 
         /**
-         * Getting media type setter.
+         * Getting accept setter.
          *
-         * @param contentType of request.
+         * @param contentType Content type of request.
          * @return Setter instance.
          */
         @JvmStatic
@@ -396,11 +397,11 @@ abstract class Setters {
         }
 
         /**
-         * Specifies if RestTest should url encode the URL automatically. Usually this is a recommended but in some cases
-         * e.g. the query parameters are already be encoded before you provide them to RestTest then it's useful to disable
+         * Specifies if RestTest should url encode the URL automatically. Usually, this is recommended but in some cases
+         * (e.g. the query parameters are already be encoded before you provide them to RestTest) then it's useful to disable
          * URL encoding.
          *
-         * @param isEnabled URL encoding or disabled.
+         * @param isEnabled Is URL encoding enabled or disabled.
          * @return Setter instance.
          */
         @JvmStatic
@@ -413,8 +414,8 @@ abstract class Setters {
         /**
          * Use http basic authentication.
          *
-         * @param userName of your account.
-         * @param password of your account.
+         * @param userName User name of your account.
+         * @param password Password of your account.
          * @return Setter instance.
          */
         @JvmStatic

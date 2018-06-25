@@ -9,15 +9,15 @@ import org.hamcrest.Matcher
 import java.util.concurrent.TimeUnit
 
 /**
- * Abstract class for using static functions to verify response.
+ * Abstract class for response verification using static functions.
  */
 abstract class Verifiers {
     companion object {
 
         /**
-         * Verify response status code.
+         * Verify status code of the response.
          *
-         * @param statusCode of your responseSpecification.
+         * @param statusCode Status code of your responseSpecification.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -28,9 +28,9 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify response status code.
+         * Verify status code of the response.
          *
-         * @param statusCode of your responseSpecification.
+         * @param statusCode Status code of your responseSpecification.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -43,7 +43,7 @@ abstract class Verifiers {
         /**
          * Verify response body using JSON schema validation.
          *
-         * @param jsonSchema of expected responseSpecification body.
+         * @param jsonSchema Json schema of expected responseSpecification body.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -57,7 +57,7 @@ abstract class Verifiers {
         /**
          * Verify response body using schema validation.
          *
-         * @param schema of expected responseSpecification body.
+         * @param schema Schema of expected responseSpecification body.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -84,11 +84,11 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify response body path.
+         * Verify path of the response body.
          *
-         * @param key of your responseSpecification body.
-         * @param matcher for verifying.
-         * @param additionalKeyMatcherPairs for verifying.
+         * @param key Key of your responseSpecification body.
+         * @param matcher Matcher for verification.
+         * @param additionalKeyMatcherPairs Additional key and matcher pairs for verification.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -103,8 +103,8 @@ abstract class Verifiers {
         /**
          * Verify response body.
          *
-         * @param matcher for verifying.
-         * @param additionalMatchers for verifying.
+         * @param matcher Matcher for verification.
+         * @param additionalMatchers Additional matchers for verification.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -115,9 +115,9 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify response body content type.
+         * Verify content type of the response body.
          *
-         * @param contentType of response body content type.
+         * @param contentType Content type of response body.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -128,9 +128,9 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify response body content type.
+         * Verify content type of the response body.
          *
-         * @param contentType of response body content type.
+         * @param contentType Content type of response body.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -143,8 +143,8 @@ abstract class Verifiers {
         /**
          * Verify response cookie.
          *
-         * @param name of cookie.
-         * @param matcher of responseSpecification cookie.
+         * @param name Name of cookie.
+         * @param matcher Matcher of responseSpecification cookie.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -157,8 +157,8 @@ abstract class Verifiers {
         /**
          * Verify response header.
          *
-         * @param name of header.
-         * @param matcher of responseSpecification header.
+         * @param name Name of header.
+         * @param matcher Matcher of responseSpecification header.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -171,7 +171,7 @@ abstract class Verifiers {
         /**
          * Verify response headers.
          *
-         * @param expectedHeaders of responseSpecification.
+         * @param expectedHeaders Expected headers of responseSpecification.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -184,9 +184,9 @@ abstract class Verifiers {
         /**
          * Verify response headers.
          *
-         * @param firstExpectedHeaderName of responseSpecification.
-         * @param firstExpectedHeaderValue of responseSpecification.
-         * @param expectedHeaders list of responseSpecification (expected "header name" - "header value" pairs).
+         * @param firstExpectedHeaderName First header name expected of responseSpecification.
+         * @param firstExpectedHeaderValue First header value expected of responseSpecification.
+         * @param expectedHeaders List of expected headers of responseSpecification (expected "header name" - "header value" pairs).
          * @return Verifier instance.
          */
         @JvmStatic
@@ -201,7 +201,7 @@ abstract class Verifiers {
         /**
          * Verify the response time (in milliseconds).
          *
-         * @param matcher request response time.
+         * @param matcher Response time of the request.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -214,8 +214,8 @@ abstract class Verifiers {
         /**
          * Verify the response time (in milliseconds).
          *
-         * @param matcher request response time.
-         * @param timeUnit of response.
+         * @param matcher Response time of the request.
+         * @param timeUnit Time unit of response.
          * @return Verifier instance.
          */
         @JvmStatic
