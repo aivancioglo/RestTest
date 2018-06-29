@@ -1,6 +1,6 @@
 package com.github.aivancioglo.resttest.verifiers
 
-import io.restassured.response.Response
+import com.github.aivancioglo.resttest.http.Response
 
 /**
  *  Verifiers interface.

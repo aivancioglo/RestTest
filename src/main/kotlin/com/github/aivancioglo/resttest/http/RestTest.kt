@@ -144,6 +144,7 @@ abstract class RestTest {
                     every: Double = 0.0,
                     tries: Int = 0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
+
         /**
          * Use this function, to create Repeater instance for request repeating.
          */
@@ -167,6 +168,15 @@ abstract class RestTest {
          */
         @JvmStatic
         fun repeat(timeout: Int = 0,
+                    every: Int = 0,
+                    tries: Int = 0,
+                    request: () -> Unit) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
                     every: Double = 0.0) = Repeater().timeout(timeout).every(every)
 
         /**
@@ -181,6 +191,13 @@ abstract class RestTest {
          */
         @JvmStatic
         fun repeat(timeout: Int = 0,
+                    request: () -> Unit) = Repeater().timeout(timeout).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
                     every: Int = 0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
 
@@ -189,8 +206,24 @@ abstract class RestTest {
          */
         @JvmStatic
         fun repeat(timeout: Int = 0,
+                    every: Int = 0,
+                    request: () -> Unit) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
                     every: Double = 0.0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Int = 0,
+                    every: Double = 0.0,
+                    request: () -> Unit) = Repeater().timeout(timeout).every(every).until(request)
 
         /**
          * Use this function, to create Repeater instance for request repeating.
@@ -213,6 +246,15 @@ abstract class RestTest {
          * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        fun repeat(timeout: Int = 0,
+                    every: Double = 0.0,
+                    tries: Int = 0,
+                    request: () -> Unit) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
         fun repeat(timeout: Double = 0.0) = Repeater().timeout(timeout)
 
         /**
@@ -221,6 +263,13 @@ abstract class RestTest {
         @JvmStatic
         fun repeat(timeout: Double = 0.0,
                     request: Runnable) = Repeater().timeout(timeout).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0,
+                    request: () -> Unit) = Repeater().timeout(timeout).until(request)
 
         /**
          * Use this function, to create Repeater instance for request repeating.
@@ -242,6 +291,14 @@ abstract class RestTest {
          */
         @JvmStatic
         fun repeat(timeout: Double = 0.0,
+                    every: Int = 0,
+                    request: () -> Unit) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0,
                     every: Double = 0.0) = Repeater().timeout(timeout).every(every)
 
         /**
@@ -251,6 +308,14 @@ abstract class RestTest {
         fun repeat(timeout: Double = 0.0,
                     every: Double = 0.0,
                     request: Runnable) = Repeater().timeout(timeout).every(every).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(timeout: Double = 0.0,
+                    every: Double = 0.0,
+                    request: () -> Unit) = Repeater().timeout(timeout).every(every).until(request)
 
         /**
          * Use this function, to create Repeater instance for request repeating.
@@ -273,7 +338,22 @@ abstract class RestTest {
          * Use this function, to create Repeater instance for request repeating.
          */
         @JvmStatic
+        fun repeat(timeout: Double = 0.0,
+                    every: Double = 0.0,
+                    tries: Int = 0,
+                    request: () -> Unit) = Repeater().timeout(timeout).every(every).tries(tries).until(request)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
         fun repeat(runnable: Runnable) = Repeater().until(runnable)
+
+        /**
+         * Use this function, to create Repeater instance for request repeating.
+         */
+        @JvmStatic
+        fun repeat(runnable: () -> Unit) = Repeater().until(Runnable { runnable() })
 
         /**
          * Making GET requestSpecification.

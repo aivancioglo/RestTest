@@ -3,12 +3,14 @@ package com.github.aivancioglo.resttest.http
 import org.hamcrest.Description
 import org.hamcrest.Factory
 import org.hamcrest.TypeSafeMatcher
+import java.util.*
 import java.util.regex.Pattern
 
 object RestTestMatcher {
     @Factory
     @JvmStatic
-    fun isSorted() = IsSortedMatcher()
+    @JvmOverloads
+    fun isSorted(ignoreCase: Boolean = false) = IsSortedMatcher(ignoreCase)
 
     @Factory
     @JvmStatic
@@ -25,9 +27,9 @@ class CaseInsensitiveSubstringMatcher(private val subString: String) : TypeSafeM
     override fun describeTo(description: Description) {
         description.appendText("containing substring \"${this.subString}\"")
     }
+
     override fun matchesSafely(actualString: String) =
             actualString.toLowerCase().contains(this.subString.toLowerCase())
-
 }
 
 class RegexMatcher(private val regex: String) : TypeSafeMatcher<String>() {
@@ -35,14 +37,19 @@ class RegexMatcher(private val regex: String) : TypeSafeMatcher<String>() {
     override fun describeTo(description: Description) {
         description.appendText("Regular expression = \"$regex\"")
     }
-    override fun matchesSafely(text: String) = Pattern.compile(regex).matcher(text).find()
 
+    override fun matchesSafely(text: String) = Pattern.compile(regex).matcher(text).find()
 }
 
-class IsSortedMatcher : TypeSafeMatcher<Iterable<*>>() {
+class IsSortedMatcher(private var ignoreCase: Boolean = false) : TypeSafeMatcher<Iterable<*>>() {
     private lateinit var sortedList: List<*>
 
+    lateinit var comparator: Comparator<*>
     private var message = ""
+
+    constructor(ignoreCase: Boolean = false, comparator: Comparator<*>) : this(ignoreCase) {
+        this.comparator = comparator
+    }
 
     override fun describeTo(description: Description) {
         description.appendText(message)

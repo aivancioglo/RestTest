@@ -127,6 +127,15 @@ class Repeater {
             cycle.join()
 
         if (message != "")
-                throw AssertionError(message)
+            throw AssertionError(message)
+    }
+
+    /**
+     * This function is executing your request until passing or timeout.
+     *
+     * @param request to execute.
+     */
+    fun until(request: () -> Unit) {
+        until(Runnable(request))
     }
 }

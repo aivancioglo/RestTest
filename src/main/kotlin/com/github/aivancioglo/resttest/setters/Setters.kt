@@ -59,7 +59,7 @@ abstract class Setters {
                         (request.method == POST || request.method == PUT || request.method == PATCH)) {
                     request.body[key] = value
                     request.requestSpecification.body(request.body, JACKSON_2)
-                } else request.requestSpecification.param(key, value)
+                } else request.requestSpecification.params(mapOf(key to value))
             }
         }
 
@@ -73,7 +73,7 @@ abstract class Setters {
         @JvmStatic
         fun queryParam(key: String, value: Any) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.queryParam(key, value)
+                request.requestSpecification.queryParams(mapOf(key to value))
             }
         }
 
@@ -87,7 +87,7 @@ abstract class Setters {
         @JvmStatic
         fun formParam(key: String, value: Any) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.formParam(key, value)
+                request.requestSpecification.formParams(mapOf(key to value))
             }
         }
 
@@ -105,8 +105,7 @@ abstract class Setters {
                     if (request.method == POST || request.method == PUT || request.method == PATCH) {
                         request.body[key] = value
                         request.requestSpecification.body(request.body, JACKSON_2)
-                    }
-                    else
+                    } else
                         throw RuntimeException("You can use \"jsonParam\" setter only for POST, PUT or PATCH requests.")
                 else
                     throw RuntimeException("You can not use \"jsonParam\" setter when content type is not JSON.")
