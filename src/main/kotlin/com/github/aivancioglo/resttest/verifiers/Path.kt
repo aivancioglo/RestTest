@@ -16,8 +16,12 @@ open class Path() : Verifier {
     }
 
     override fun verify(response: Response) {
-        response.appendRoot(".$key")
-        response.then().body(response.rootPath, matcher, *additionalKeyMatcherPairs)
-        response.detachRoot(".$key")
+        if (response.rootPath == "")
+            response.then().body(key, matcher, *additionalKeyMatcherPairs)
+        else {
+            response.appendRoot(".$key")
+            response.then().body(response.rootPath, matcher, *additionalKeyMatcherPairs)
+            response.detachRoot(".$key")
+        }
     }
 }
