@@ -85,4 +85,6 @@ enum class StatusCode(val code: Int, val message: String) {
     NETWORK_AUTHENTICATION_REQUIRED(511, "Network Authentication Required"),
     NETWORK_READ_TIMEOUT_ERROR(598, "Network read timeout error"),
     NETWORK_CONNECT_TIMEOUT_ERROR(599, "Network connect timeout error");
+
+    infix fun or(that: StatusCode): Pair<StatusCode, StatusCode> = Pair(this, that)
 }

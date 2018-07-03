@@ -2,10 +2,12 @@ package com.github.aivancioglo.resttest.verifiers
 
 import com.github.aivancioglo.resttest.http.ContentType
 import com.github.aivancioglo.resttest.http.Response
+import com.github.aivancioglo.resttest.http.StatusCode
 import io.restassured.matcher.RestAssuredMatchers.matchesDtdInClasspath
 import io.restassured.matcher.RestAssuredMatchers.matchesXsdInClasspath
 import io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers.oneOf
 import java.util.concurrent.TimeUnit
 
 /**
@@ -17,7 +19,7 @@ abstract class Verifiers {
         /**
          * Verify status code of the response.
          *
-         * @param statusCode Status code of your responseSpecification.
+         * @param statusCode Status code of your response.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -30,20 +32,33 @@ abstract class Verifiers {
         /**
          * Verify status code of the response.
          *
-         * @param statusCode Status code of your responseSpecification.
+         * @param statusCode Status code of your response.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun statusCode(statusCode: com.github.aivancioglo.resttest.http.StatusCode) = object : Verifier {
+        fun statusCode(statusCode: StatusCode) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().statusCode(statusCode.code)
             }
         }
 
         /**
+         * Verify status code of the response.
+         *
+         * @param statusCodes of your response.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun statusCode(statusCodes: Pair<StatusCode, StatusCode>) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().statusCode(oneOf(statusCodes.first.code, statusCodes.second.code))
+            }
+        }
+
+        /**
          * Verify response body using JSON schema validation.
          *
-         * @param jsonSchema Json schema of expected responseSpecification body.
+         * @param jsonSchema Json schema of expected response body.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -57,7 +72,7 @@ abstract class Verifiers {
         /**
          * Verify response body using schema validation.
          *
-         * @param schema Schema of expected responseSpecification body.
+         * @param schema Schema of expected response body.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -86,7 +101,7 @@ abstract class Verifiers {
         /**
          * Verify path of the response body.
          *
-         * @param key Key of your responseSpecification body.
+         * @param key Key of your response body.
          * @param matcher Matcher for verification.
          * @param additionalKeyMatcherPairs Additional key and matcher pairs for verification.
          * @return Verifier instance.
@@ -99,7 +114,7 @@ abstract class Verifiers {
         /**
          * Set path for path verifying.
          *
-         * @param key of your responseSpecification body.
+         * @param key of your response body.
          * @return Verifier instance.
          */
 
@@ -150,7 +165,7 @@ abstract class Verifiers {
          * Verify response cookie.
          *
          * @param name Name of cookie.
-         * @param matcher Matcher of responseSpecification cookie.
+         * @param matcher Matcher of response cookie.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -164,7 +179,7 @@ abstract class Verifiers {
          * Verify response header.
          *
          * @param name Name of header.
-         * @param matcher Matcher of responseSpecification header.
+         * @param matcher Matcher of response header.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -177,7 +192,7 @@ abstract class Verifiers {
         /**
          * Verify response headers.
          *
-         * @param expectedHeaders Expected headers of responseSpecification.
+         * @param expectedHeaders Expected headers of response.
          * @return Verifier instance.
          */
         @JvmStatic
@@ -190,9 +205,9 @@ abstract class Verifiers {
         /**
          * Verify response headers.
          *
-         * @param firstExpectedHeaderName First header name expected of responseSpecification.
-         * @param firstExpectedHeaderValue First header value expected of responseSpecification.
-         * @param expectedHeaders List of expected headers of responseSpecification (expected "header name" - "header value" pairs).
+         * @param firstExpectedHeaderName First header name expected of response.
+         * @param firstExpectedHeaderValue First header value expected of response.
+         * @param expectedHeaders List of expected headers of response (expected "header name" - "header value" pairs).
          * @return Verifier instance.
          */
         @JvmStatic

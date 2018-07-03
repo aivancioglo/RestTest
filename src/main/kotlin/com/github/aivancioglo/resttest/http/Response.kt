@@ -83,6 +83,16 @@ abstract class Response() {
     /**
      * Making response validation.
      *
+     * @param statusCodes of response.
+     * @param verifiers for response validation.
+     */
+    @SafeVarargs
+    fun assertThat(statusCodes: Pair<StatusCode, StatusCode>, vararg verifiers: Verifier) = printFailuresIfExist(
+            statusCode(statusCodes), *verifiers)
+
+    /**
+     * Making response validation.
+     *
      * @param code of response.
      * @param schema for response validation.
      * @param verifiers for response validation.
@@ -95,12 +105,21 @@ abstract class Response() {
      * Making response validation.
      *
      * @param statusCode of response.
-     * @param jsonSchema for response validation.
      * @param verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(statusCode: StatusCode, schema: String, vararg verifiers: Verifier) = printFailuresIfExist(
             statusCode(statusCode), schema(schema), *verifiers)
+
+    /**
+     * Making response validation.
+     *
+     * @param statusCodes of response.
+     * @param verifiers for response validation.
+     */
+    @SafeVarargs
+    fun assertThat(statusCodes: Pair<StatusCode, StatusCode>, schema: String, vararg verifiers: Verifier) = printFailuresIfExist(
+            statusCode(statusCodes), schema(schema), *verifiers)
 
     /**
      * Response logging.
