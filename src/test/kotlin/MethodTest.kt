@@ -18,7 +18,7 @@ class MethodTest {
 
         response.assertThat(OK,
                 path("headers.Accept", equalTo("*/*")),
-                path("headers.Content-Type", equalTo("application/json; charset=UTF-8")))
+                path("headers.Content-Type", equalTo("application/json")))
     }
 
     @Test
@@ -27,7 +27,7 @@ class MethodTest {
 
         response.assertThat(OK,
                 path("headers.Accept", equalTo("*/*")),
-                path("headers.Content-Type", equalTo("application/json; charset=UTF-8")))
+                path("headers.Content-Type", equalTo("application/json")))
     }
 
     @Test
@@ -36,7 +36,7 @@ class MethodTest {
 
         response.assertThat(OK,
                 path("headers.Accept", equalTo("*/*")),
-                path("headers.Content-Type", equalTo("application/json; charset=UTF-8")))
+                path("headers.Content-Type", equalTo("application/json")))
     }
 
     @Test
@@ -45,7 +45,7 @@ class MethodTest {
 
         response.assertThat(OK,
                 path("headers.Accept", equalTo("*/*")),
-                path("headers.Content-Type", equalTo("application/json; charset=UTF-8")))
+                path("headers.Content-Type", equalTo("application/json")))
     }
 
     @Test
@@ -54,6 +54,6 @@ class MethodTest {
 
         response.assertThat(OK,
                 path("headers.Accept", equalTo("*/*")),
-                path("headers.Content-Type", equalTo("application/json; charset=UTF-8")))
+                path("headers.Content-Type", equalTo("application/json")))
     }
 }
