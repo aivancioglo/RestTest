@@ -1,8 +1,12 @@
 package com.github.aivancioglo.resttest.setters
 
 import com.github.aivancioglo.resttest.http.ContentType
+import com.github.aivancioglo.resttest.http.ContentType.MULTIPART
+import com.github.aivancioglo.resttest.http.ContentType.URLENC
 import com.github.aivancioglo.resttest.http.Request
+import com.github.aivancioglo.resttest.mappers.URLEncodeMapper
 import io.restassured.http.Method.*
+import io.restassured.internal.serialization.SerializationSupport.isSerializableCandidate
 import io.restassured.mapper.ObjectMapperType.JACKSON_2
 import io.restassured.specification.MultiPartSpecification
 import java.io.File
@@ -75,8 +79,8 @@ abstract class Setters {
                         (request.method == POST || request.method == PUT || request.method == PATCH)) {
                     request.body[key] = value
                     request.requestSpecification.body(request.body, JACKSON_2)
-                } else if (listOf(POST, PUT, PATCH).contains(request.method) && (request.contentType.contains(ContentType.URLENC.value, ignoreCase = true) || request.contentType.contains(ContentType.MULTIPART.value, ignoreCase = true))) {
-                    request.requestSpecification.formParam(key, value)
+                } else if (listOf(POST, PUT, PATCH).contains(request.method) && (request.contentType.contains(URLENC.value, ignoreCase = true) || request.contentType.contains(MULTIPART.value, ignoreCase = true))) {
+                    formParam(key, value).update(request)
                 } else request.requestSpecification.param(key, value)
             }
         }
@@ -105,7 +109,10 @@ abstract class Setters {
         @JvmStatic
         fun formParam(key: String, value: Any) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.formParam(key, value)
+                if (isSerializableCandidate(value))
+                    request.requestSpecification.formParams(URLEncodeMapper.serialize(mapOf(key to value)))
+                else
+                    request.requestSpecification.formParam(key, value)
             }
         }
 
