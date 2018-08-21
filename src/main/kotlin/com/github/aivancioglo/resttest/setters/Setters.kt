@@ -8,6 +8,8 @@ import io.restassured.specification.MultiPartSpecification
 import java.io.File
 import java.io.InputStream
 import java.io.Serializable
+import java.net.URI
+import java.net.URL
 import java.net.URLDecoder
 import java.util.regex.Pattern
 
@@ -16,6 +18,21 @@ import java.util.regex.Pattern
  */
 abstract class Setters {
     companion object {
+        /**
+         * Getting baseUri setter.
+         *
+         * @param baseUri of request.
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun baseUri(baseUri: String) = object : Setter {
+            override fun update(request: Request) {
+                if (!baseUri.matches(Regex("^\\w+?://.*?")))
+                    request.baseUri = "http://$baseUri"
+                else
+                    request.baseUri = baseUri
+            }
+        }
 
         /**
          * Get content type setter.
@@ -206,7 +223,7 @@ abstract class Setters {
         @JvmStatic
         fun protocol(protocol: String) = object : Setter {
             override fun update(request: Request) {
-                request.protocol = protocol
+                request.baseUri = request.baseUri.replace(Regex("^.+://"), "$protocol://")
             }
         }
 
@@ -219,7 +236,7 @@ abstract class Setters {
         @JvmStatic
         fun host(host: String) = object : Setter {
             override fun update(request: Request) {
-                request.host = host
+                request.baseUri = request.baseUri.replace(Regex(URL(request.baseUri).host), host)
             }
         }
 

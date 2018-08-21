@@ -1,5 +1,6 @@
 package com.github.aivancioglo.resttest.http
 
+import com.github.aivancioglo.resttest.http.Property.getProperty
 import com.github.aivancioglo.resttest.http.Settings.Companion.logAllEnabled
 import com.github.aivancioglo.resttest.http.Settings.Companion.logIfFailedEnabled
 import com.github.aivancioglo.resttest.logger.RequestLogger
@@ -20,15 +21,9 @@ open class Request {
     val body = HashMap<String, Any>()
     val setters = ArrayList<Setter>()
     lateinit var method: Method
-
-    /**
-     * This feature will be added on the next version.
-     *
     var protocol = getProperty("protocol", "http")
-    var host = getProperty("host", "")
-     */
-    var protocol = "http"
-    var host = ""
+    var host = getProperty("host", "localhost")
+    var baseUri = getProperty("baseUri","$protocol://$host")
 
     /**
      * Initiate your default settings.
@@ -56,9 +51,7 @@ open class Request {
      * @param setters are setting up request specification.
      * @return Response class instance.
      */
-    protected fun send(method: Method, vararg setters: Setter): Response {
-        return send(method, "", *setters)
-    }
+    protected fun send(method: Method, vararg setters: Setter) = send(method, "", *setters)
 
     /**
      * Sending your request.
@@ -85,7 +78,7 @@ open class Request {
         if (oAuth2.used)
             requestSpecification.auth().oauth2(oAuth2.token)
 
-        requestSpecification.baseUri("$protocol://$host")
+        requestSpecification.baseUri(baseUri)
 
         if (requestSpecification is RequestSpecificationImpl) {
             requestSpecification.setMethod(method)

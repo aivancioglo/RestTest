@@ -25,18 +25,17 @@ abstract class Settings {
         val encoderCharset = getProperty("encoder_charset", "")
 
         init {
-            config = config.httpClient(httpClientConfig()
-                    .setParam("http.connection.timeout", getProperty("connection_timeout", "20000").toInt())
-                    .setParam("http.socket.timeout", getProperty("socket_timeout", "60000").toInt()))
+            config = config
+                    .encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false))
+                    .httpClient(httpClientConfig()
+                            .setParam("http.connection.timeout", getProperty("connection_timeout", "20000").toInt())
+                            .setParam("http.socket.timeout", getProperty("socket_timeout", "60000").toInt()))
 
-            if (decoderCharset.trim() != "")
-                config = config.decoderConfig(decoderConfig().defaultContentCharset(getProperty("decoder_charset")))
+            if (decoderCharset.isNotBlank())
+                config = config.decoderConfig(decoderConfig().defaultContentCharset(decoderCharset))
 
-            config = config.encoderConfig(
-                    if (encoderCharset.trim() == "")
-                        encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)
-                    else
-                        encoderConfig().defaultContentCharset(encoderCharset))
+            if (encoderCharset.isNotBlank())
+                config = config.encoderConfig(encoderConfig().defaultContentCharset(encoderCharset))
 
             if (getProperty("use_relaxed_https_validation", "true").toBoolean())
                 useRelaxedHTTPSValidation()
