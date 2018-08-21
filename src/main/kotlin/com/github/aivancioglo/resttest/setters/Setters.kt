@@ -8,7 +8,6 @@ import io.restassured.specification.MultiPartSpecification
 import java.io.File
 import java.io.InputStream
 import java.io.Serializable
-import java.net.URI
 import java.net.URL
 import java.net.URLDecoder
 import java.util.regex.Pattern
@@ -76,7 +75,9 @@ abstract class Setters {
                         (request.method == POST || request.method == PUT || request.method == PATCH)) {
                     request.body[key] = value
                     request.requestSpecification.body(request.body, JACKSON_2)
-                } else request.requestSpecification.params(mapOf(key to value))
+                } else if (listOf(POST, PUT, PATCH).contains(request.method) && (request.contentType.contains(ContentType.URLENC.value, ignoreCase = true) || request.contentType.contains(ContentType.MULTIPART.value, ignoreCase = true))) {
+                    request.requestSpecification.formParam(key, value)
+                } else request.requestSpecification.param(key, value)
             }
         }
 
@@ -90,7 +91,7 @@ abstract class Setters {
         @JvmStatic
         fun queryParam(key: String, value: Any) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.queryParams(mapOf(key to value))
+                request.requestSpecification.queryParam(key, value)
             }
         }
 
@@ -104,7 +105,7 @@ abstract class Setters {
         @JvmStatic
         fun formParam(key: String, value: Any) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.formParams(mapOf(key to value))
+                request.requestSpecification.formParam(key, value)
             }
         }
 

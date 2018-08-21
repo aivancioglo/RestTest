@@ -4,9 +4,6 @@ import com.github.aivancioglo.resttest.http.Response
 import com.github.aivancioglo.resttest.http.RestTest.Companion.get
 import com.github.aivancioglo.resttest.http.RestTest.Companion.post
 import com.github.aivancioglo.resttest.http.StatusCode.OK
-import com.github.aivancioglo.resttest.logger.LogType
-import com.github.aivancioglo.resttest.setters.Setters
-import com.github.aivancioglo.resttest.setters.Setters.Companion.baseUri
 import com.github.aivancioglo.resttest.setters.Setters.Companion.body
 import com.github.aivancioglo.resttest.setters.Setters.Companion.contentType
 import com.github.aivancioglo.resttest.setters.Setters.Companion.cookie

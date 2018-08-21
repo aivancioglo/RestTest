@@ -106,7 +106,7 @@ open class Request {
 
     private fun update() {
         val settersNames = setters.map {
-            it.javaClass.simpleName.replace(Regex("$.+"), "")
+            it.javaClass.simpleName.replace(Regex("\\$.+"), "")
         }
 
         if (contentType.contains("json", true)
