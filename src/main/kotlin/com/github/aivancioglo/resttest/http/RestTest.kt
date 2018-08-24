@@ -1,6 +1,8 @@
 package com.github.aivancioglo.resttest.http
 
 import com.github.aivancioglo.resttest.setters.Setter
+import io.restassured.RestAssured
+import io.restassured.parsing.Parser
 
 abstract class RestTest {
     companion object {
@@ -356,155 +358,193 @@ abstract class RestTest {
         fun repeat(runnable: () -> Unit) = Repeater().until(Runnable { runnable() })
 
         /**
-         * Making GET requestSpecification.
+         * Making GET request.
          *
-         * @param setters are setting up requestSpecification specification.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun get(vararg setters: Setter) = Endpoint().get(*setters)
 
         /**
-         * Making GET requestSpecification.
+         * Making GET request.
          *
-         * @param url of your requestSpecification.
-         * @param setters are setting up requestSpecification specification.
+         * @param url of your request.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun get(url: String, vararg setters: Setter) = Endpoint().get(url, *setters)
 
         /**
-         * Making POST requestSpecification.
+         * Making POST request.
          *
-         * @param setters are setting up requestSpecification specification.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun post(vararg setters: Setter) = Endpoint().post(*setters)
 
         /**
-         * Making POST requestSpecification.
+         * Making POST request.
          *
-         * @param url of your requestSpecification.
-         * @param setters are setting up requestSpecification specification.
+         * @param url of your request.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun post(url: String, vararg setters: Setter) = Endpoint().post(url, *setters)
 
         /**
-         * Making PUT requestSpecification.
+         * Making PUT request.
          *
-         * @param setters are setting up requestSpecification specification.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun put(vararg setters: Setter) = Endpoint().put(*setters)
 
         /**
-         * Making PUT requestSpecification.
+         * Making PUT request.
          *
-         * @param url of your requestSpecification.
-         * @param setters are setting up requestSpecification specification.
+         * @param url of your request.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun put(url: String, vararg setters: Setter) = Endpoint().put(url, *setters)
 
         /**
-         * Making PATCH requestSpecification.
+         * Making PATCH request.
          *
-         * @param setters are setting up requestSpecification specification.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun patch(vararg setters: Setter) = Endpoint().patch(*setters)
 
         /**
-         * Making PATCH requestSpecification.
+         * Making PATCH request.
          *
-         * @param url of your requestSpecification.
-         * @param setters are setting up requestSpecification specification.
+         * @param url of your request.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun patch(url: String, vararg setters: Setter) = Endpoint().patch(url, *setters)
 
         /**
-         * Making DELETE requestSpecification.
+         * Making DELETE request.
          *
-         * @param setters are setting up requestSpecification specification.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun delete(vararg setters: Setter) = Endpoint().delete(*setters)
 
         /**
-         * Making DELETE requestSpecification.
+         * Making DELETE request.
          *
-         * @param url of your requestSpecification.
-         * @param setters are setting up requestSpecification specification.
+         * @param url of your request.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun delete(url: String, vararg setters: Setter) = Endpoint().delete(url, *setters)
 
         /**
-         * Making OPTIONS requestSpecification.
+         * Making OPTIONS request.
          *
-         * @param setters are setting up requestSpecification specification.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun options(vararg setters: Setter) = Endpoint().options(*setters)
 
         /**
-         * Making OPTIONS requestSpecification.
+         * Making OPTIONS request.
          *
-         * @param url of your requestSpecification.
-         * @param setters are setting up requestSpecification specification.
+         * @param url of your request.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun options(url: String, vararg setters: Setter) = Endpoint().options(url, *setters)
 
         /**
-         * Making HEAD requestSpecification.
+         * Making HEAD request.
          *
-         * @param setters are setting up requestSpecification specification.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun head(vararg setters: Setter) = Endpoint().head(*setters)
 
         /**
-         * Making HEAD requestSpecification.
+         * Making HEAD request.
          *
-         * @param url of your requestSpecification.
-         * @param setters are setting up requestSpecification specification.
+         * @param url of your request.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun head(url: String, vararg setters: Setter) = Endpoint().head(url, *setters)
 
         /**
-         * Making TRACE requestSpecification.
+         * Making TRACE request.
          *
-         * @param setters are setting up requestSpecification specification.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun trace(vararg setters: Setter) = Endpoint().trace(*setters)
 
         /**
-         * Making TRACE requestSpecification.
+         * Making TRACE request.
          *
-         * @param url of your requestSpecification.
-         * @param setters are setting up requestSpecification specification.
+         * @param url of your request.
+         * @param setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
         fun trace(url: String, vararg setters: Setter) = Endpoint().trace(url, *setters)
+
+        /**
+         * Register a custom content-type to be parsed using a predefined parser.
+         *
+         * @param contentType  Content type of your request.
+         * @param parser       The parser to use when verifying the response.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun registerParser(contentType: String, parser: Parser) = RestAssured.registerParser(contentType, parser)
+
+        /**
+         * Register a custom content-type to be parsed using a predefined parser.
+         *
+         * @param contentType  Content type of your request.
+         * @param parser       The parser to use when verifying the response.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun registerParser(contentType: ContentType, parser: Parser) = RestAssured.registerParser(contentType.value, parser)
+
+        /**
+         * Unregister the parser associated with the provided content-type.
+         *
+         * @param contentType  Content type of your request.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun unregisterParser(contentType: String) = RestAssured.unregisterParser(contentType)
+
+        /**
+         * Unregister the parser associated with the provided content-type.
+         *
+         * @param contentType  Content type of your request.
+         * @return Response instance.
+         */
+        @JvmStatic
+        fun unregisterParser(contentType: ContentType) = RestAssured.unregisterParser(contentType.value)
     }
 }
