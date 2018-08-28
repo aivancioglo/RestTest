@@ -3,6 +3,7 @@ package com.github.aivancioglo.resttest.setters
 import com.github.aivancioglo.resttest.http.ContentType
 import com.github.aivancioglo.resttest.http.ContentType.MULTIPART
 import com.github.aivancioglo.resttest.http.ContentType.URLENC
+import com.github.aivancioglo.resttest.http.Parser
 import com.github.aivancioglo.resttest.http.Request
 import com.github.aivancioglo.resttest.mappers.URLEncodeMapper
 import io.restassured.http.Method.*
@@ -489,6 +490,30 @@ abstract class Setters {
                 request.oAuth1.used = false
                 request.oAuth2.used = false
                 request.requestSpecification.auth().none()
+            }
+        }
+
+        /**
+         * Register a content-type to be parsed using a predefined parser.
+         *
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun parser(contentType: String, parser: Parser) = object : Setter {
+            override fun update(request: Request) {
+                request.requestSpecification.then().parser(contentType, parser.use())
+            }
+        }
+
+        /**
+         * Register a default predefined parser that will be used if no other parser (registered or pre-defined) matches the response content-type.
+         *
+         * @return Setter instance.
+         */
+        @JvmStatic
+        fun defaultParser(parser: Parser) = object : Setter {
+            override fun update(request: Request) {
+                request.requestSpecification.then().defaultParser(parser.use())
             }
         }
     }

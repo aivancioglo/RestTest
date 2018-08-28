@@ -9,6 +9,7 @@ import io.restassured.RestAssured.given
 import io.restassured.http.Method
 import io.restassured.http.Method.*
 import io.restassured.internal.RequestSpecificationImpl
+import io.restassured.parsing.Parser
 
 /**
  * Class for creating request. You can extend it using your own endpoint class.

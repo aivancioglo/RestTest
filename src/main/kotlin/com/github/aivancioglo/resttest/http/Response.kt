@@ -15,6 +15,7 @@ import io.restassured.http.Header
 import io.restassured.mapper.ObjectMapper
 import io.restassured.mapper.ObjectMapperType
 import io.restassured.response.Response
+import io.restassured.response.ValidatableResponse
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -26,12 +27,14 @@ abstract class Response() {
         private set
 
     protected lateinit var response: Response
+    protected lateinit var validatableResponse: ValidatableResponse
     protected lateinit var logger: Logger
     private val errors: ArrayList<AssertionError> = ArrayList()
 
     constructor(requestLogger: RequestLogger, response: Response) : this() {
         this.response = response
         logger = Logger(requestLogger, ResponseLogger(response))
+        validatableResponse = response.then()!!
 
         if (logAllEnabled)
             log()
@@ -40,6 +43,7 @@ abstract class Response() {
     constructor(logger: Logger, response: Response) : this() {
         this.logger = logger
         this.response = response
+        validatableResponse = response.then()!!
 
         if (logAllEnabled)
             log()
@@ -156,7 +160,7 @@ abstract class Response() {
     /**
      * Returns Rest Assured response.
      */
-    fun then() = response.then()!!
+    fun then() = validatableResponse
 
     /**
      * For getting response code of last then.

@@ -2,7 +2,6 @@ package com.github.aivancioglo.resttest.http
 
 import com.github.aivancioglo.resttest.setters.Setter
 import io.restassured.RestAssured
-import io.restassured.parsing.Parser
 
 abstract class RestTest {
     companion object {
@@ -517,7 +516,7 @@ abstract class RestTest {
          * @return Response instance.
          */
         @JvmStatic
-        fun registerParser(contentType: String, parser: Parser) = RestAssured.registerParser(contentType, parser)
+        fun registerParser(contentType: String, parser: Parser) = RestAssured.registerParser(contentType, parser.use())
 
         /**
          * Register a custom content-type to be parsed using a predefined parser.
@@ -527,7 +526,7 @@ abstract class RestTest {
          * @return Response instance.
          */
         @JvmStatic
-        fun registerParser(contentType: ContentType, parser: Parser) = RestAssured.registerParser(contentType.value, parser)
+        fun registerParser(contentType: ContentType, parser: Parser) = RestAssured.registerParser(contentType.value, parser.use())
 
         /**
          * Unregister the parser associated with the provided content-type.
