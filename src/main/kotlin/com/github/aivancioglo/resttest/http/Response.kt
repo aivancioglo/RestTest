@@ -370,8 +370,9 @@ abstract class Response() {
      * This method can be used for setting of all required variables of default response.
      */
     protected fun set(logger: Logger, response: io.restassured.response.Response) {
-        this.response = response
         this.logger = logger
+        this.response = response
+        this.validatableResponse = response.then()
     }
 
 
