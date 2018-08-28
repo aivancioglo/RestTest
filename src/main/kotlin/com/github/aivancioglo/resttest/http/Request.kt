@@ -9,12 +9,12 @@ import io.restassured.RestAssured.given
 import io.restassured.http.Method
 import io.restassured.http.Method.*
 import io.restassured.internal.RequestSpecificationImpl
-import io.restassured.parsing.Parser
 
 /**
  * Class for creating request. You can extend it using your own endpoint class.
  */
 open class Request {
+    val storage = hashMapOf<Any, Any>()
     val requestSpecification = given().contentType(Settings.contentType)!!
     val oAuth1 = OAuth1()
     val oAuth2 = OAuth2()
@@ -24,7 +24,7 @@ open class Request {
     lateinit var method: Method
     var protocol = getProperty("protocol", "http")
     var host = getProperty("host", "localhost")
-    var baseUri = getProperty("baseUri","$protocol://$host")
+    var baseUri = getProperty("baseUri", "$protocol://$host")
 
     /**
      * Initiate your default settings.
