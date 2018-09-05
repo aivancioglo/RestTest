@@ -3,14 +3,16 @@ package com.github.aivancioglo.resttest.http
 import org.hamcrest.Description
 import org.hamcrest.Factory
 import org.hamcrest.TypeSafeMatcher
-import java.util.*
 import java.util.regex.Pattern
 
 object RestTestMatcher {
     @Factory
     @JvmStatic
-    @JvmOverloads
     fun isSorted(ignoreCase: Boolean = false) = IsSortedMatcher(ignoreCase)
+
+    @Factory
+    @JvmStatic
+    fun isSorted(ignoreCase: Boolean = false, comparator: Comparator<*>) = IsSortedMatcher(ignoreCase, comparator)
 
     @Factory
     @JvmStatic
@@ -56,7 +58,19 @@ class IsSortedMatcher(private var ignoreCase: Boolean = false) : TypeSafeMatcher
     }
 
     override fun matchesSafely(list: Iterable<*>): Boolean {
-        sortedList = list.sortedBy { it.toString() }
+        sortedList = list.sortedWith(kotlin.Comparator { v1, v2 ->
+            when {
+                v1 is Byte && v2 is Byte -> v1.compareTo(v2)
+                v1 is Short && v2 is Short -> v1.compareTo(v2)
+                v1 is Long && v2 is Long -> v1.compareTo(v2)
+                v1 is Int && v2 is Int -> v1.compareTo(v2)
+                v1 is Float && v2 is Float -> v1.compareTo(v2)
+                v1 is Double && v2 is Double -> v1.compareTo(v2)
+                v1 is Boolean && v2 is Boolean -> v1.compareTo(v2)
+                else -> v1.toString().compareTo(v2.toString())
+            }
+        })
+
         val listWithIndexes = list.toList()
 
         for (i in 0 until sortedList.size)
