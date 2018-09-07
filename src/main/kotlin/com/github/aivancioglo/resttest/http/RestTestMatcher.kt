@@ -3,7 +3,10 @@ package com.github.aivancioglo.resttest.http
 import org.hamcrest.Description
 import org.hamcrest.Factory
 import org.hamcrest.TypeSafeMatcher
+import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.HashSet
+
 
 object RestTestMatcher {
     @Factory
@@ -22,6 +25,10 @@ object RestTestMatcher {
     @JvmStatic
     fun containsIgnoringCase(subString: String) =
             CaseInsensitiveSubstringMatcher(subString)
+
+    @Factory
+    @JvmStatic
+    fun isDistinct() = DistinctMatcher()
 }
 
 class CaseInsensitiveSubstringMatcher(private val subString: String) : TypeSafeMatcher<String>() {
@@ -80,4 +87,18 @@ class IsSortedMatcher(private var ignoreCase: Boolean = false) : TypeSafeMatcher
         return list == sortedList
     }
 
+}
+
+class DistinctMatcher : TypeSafeMatcher<Iterable<*>>() {
+    private val set = HashSet<Any?>()
+    private var item: Any? = null
+
+    override fun describeTo(description: Description) {
+        description.appendText("element found twice: $item")
+    }
+
+    override fun matchesSafely(items: Iterable<*>?): Boolean {
+        item = items!!.find { !set.add(it) }
+        return item == null
+    }
 }
