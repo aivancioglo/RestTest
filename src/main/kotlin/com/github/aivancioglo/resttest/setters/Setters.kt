@@ -501,7 +501,7 @@ abstract class Setters {
         @JvmStatic
         fun parser(contentType: String, parser: Parser) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.then().parser(contentType, parser.use())
+                request.contentTypeParsers[contentType] = parser
             }
         }
 
@@ -513,7 +513,7 @@ abstract class Setters {
         @JvmStatic
         fun defaultParser(parser: Parser) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.then().defaultParser(parser.use())
+                request.defaultParser = parser
             }
         }
     }

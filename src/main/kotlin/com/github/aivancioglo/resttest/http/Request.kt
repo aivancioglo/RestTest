@@ -15,6 +15,8 @@ import io.restassured.internal.RequestSpecificationImpl
  */
 open class Request {
     val storage = hashMapOf<Any, Any>()
+    var defaultParser: Parser? = null
+    val contentTypeParsers = hashMapOf<String, Parser>()
     val requestSpecification = given().contentType(Settings.contentType)!!
     val oAuth1 = OAuth1()
     val oAuth2 = OAuth2()
@@ -102,7 +104,7 @@ open class Request {
             throw AssertionError(e)
         }
 
-        return ResponseImpl(requestLogger, response)
+        return ResponseImpl(this, response, requestLogger)
     }
 
     private fun update() {

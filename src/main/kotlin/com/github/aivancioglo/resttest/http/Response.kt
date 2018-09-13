@@ -26,24 +26,16 @@ abstract class Response() {
     var rootPath = ""
         private set
 
-    protected lateinit var response: Response
-    protected lateinit var validatableResponse: ValidatableResponse
     protected lateinit var logger: Logger
+    protected lateinit var request: Request
+    protected lateinit var response: Response
     private val errors: ArrayList<AssertionError> = ArrayList()
 
-    constructor(requestLogger: RequestLogger, response: Response) : this() {
+    constructor(request: Request, response: Response, requestLogger: RequestLogger) : this() {
+        this.request = request
         this.response = response
+
         logger = Logger(requestLogger, ResponseLogger(response))
-        validatableResponse = response.then()!!
-
-        if (logAllEnabled)
-            log()
-    }
-
-    constructor(logger: Logger, response: Response) : this() {
-        this.logger = logger
-        this.response = response
-        validatableResponse = response.then()!!
 
         if (logAllEnabled)
             log()
@@ -160,7 +152,16 @@ abstract class Response() {
     /**
      * Returns Rest Assured response.
      */
-    fun then() = validatableResponse
+    fun then(): ValidatableResponse {
+        val validatableResponse = response.then()
+
+        // Register parsers
+        request.contentTypeParsers.forEach { contentType, parser -> validatableResponse.parser(contentType, parser.use()) }
+        if (request.defaultParser != null)
+            validatableResponse.defaultParser(request.defaultParser!!.use())
+
+        return validatableResponse.assertThat()
+    }
 
     /**
      * For getting response code of last then.
@@ -193,7 +194,7 @@ abstract class Response() {
             response.`as`(cls)!!
 
         if (Model::class.java.isAssignableFrom(cls))
-            (model as Model).set(logger, response)
+            (model as Model).set(request, response, logger)
 
         return model
     }
@@ -215,7 +216,7 @@ abstract class Response() {
             response.`as`(cls.java)!!
 
         if (Model::class.java.isAssignableFrom(cls.java))
-            (model as Model).set(logger, response)
+            (model as Model).set(request, response, logger)
 
         return model
     }
@@ -238,7 +239,7 @@ abstract class Response() {
             response.`as`(cls, objectMapper)!!
 
         if (Model::class.java.isAssignableFrom(cls))
-            (model as Model).set(logger, response)
+            (model as Model).set(request, response, logger)
 
         return model
     }
@@ -261,7 +262,7 @@ abstract class Response() {
             response.`as`(cls.java, objectMapper)!!
 
         if (Model::class.java.isAssignableFrom(cls.java))
-            (model as Model).set(logger, response)
+            (model as Model).set(request, response, logger)
 
         return model
     }
@@ -284,7 +285,7 @@ abstract class Response() {
             response.`as`(cls, objectMapperType)!!
 
         if (Model::class.java.isAssignableFrom(cls))
-            (model as Model).set(logger, response)
+            (model as Model).set(request, response, logger)
 
         return model
     }
@@ -307,7 +308,7 @@ abstract class Response() {
             response.`as`(cls.java, objectMapperType)!!
 
         if (Model::class.java.isAssignableFrom(cls.java))
-            (model as Model).set(logger, response)
+            (model as Model).set(request, response, logger)
 
         return model
     }
@@ -369,10 +370,10 @@ abstract class Response() {
     /**
      * This method can be used for setting of all required variables of default response.
      */
-    protected fun set(logger: Logger, response: io.restassured.response.Response) {
+    protected fun set(request: Request, response: io.restassured.response.Response, logger: Logger) {
         this.logger = logger
+        this.request = request
         this.response = response
-        this.validatableResponse = response.then()
     }
 
 
