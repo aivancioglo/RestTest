@@ -1,5 +1,6 @@
 package com.github.aivancioglo.resttest.http
 
+import com.github.aivancioglo.resttest.http.OAuthSignature.HEADER
 import com.github.aivancioglo.resttest.setters.Setter
 
 /**
@@ -27,6 +28,12 @@ class OAuth1 {
         }
 
     var tokenSecret: String = ""
+        set(value) {
+            field = value
+            used = true
+        }
+
+    var signature: OAuthSignature = HEADER
         set(value) {
             field = value
             used = true
@@ -79,6 +86,18 @@ class OAuth1 {
         fun tokenSecret(tokenSecret: String) = object : Setter {
             override fun update(request: Request) {
                 request.oAuth1.tokenSecret = tokenSecret
+            }
+        }
+
+        /**
+         * Setter of OAuth 1.0 signature
+         *
+         * @return consumer key.
+         */
+        @JvmStatic
+        fun signature(signature: OAuthSignature) = object : Setter {
+            override fun update(request: Request) {
+                request.oAuth1.signature = signature
             }
         }
     }

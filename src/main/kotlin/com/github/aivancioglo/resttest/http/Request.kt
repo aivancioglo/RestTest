@@ -76,10 +76,10 @@ open class Request {
         if (oAuth1.used)
             requestSpecification
                     .auth()
-                    .oauth(oAuth1.consumerKey, oAuth1.consumerSecret, oAuth1.token, oAuth1.tokenSecret)
+                    .oauth(oAuth1.consumerKey, oAuth1.consumerSecret, oAuth1.token, oAuth1.tokenSecret, oAuth1.signature.value)
 
         if (oAuth2.used)
-            requestSpecification.auth().oauth2(oAuth2.token)
+            requestSpecification.auth().oauth2(oAuth2.token, oAuth2.signature.value)
 
         requestSpecification.baseUri(baseUri)
 
