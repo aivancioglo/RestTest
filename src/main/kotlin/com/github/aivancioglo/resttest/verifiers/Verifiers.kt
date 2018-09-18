@@ -45,6 +45,19 @@ abstract class Verifiers {
         /**
          * Verify status code of the response.
          *
+         * @param matcher Matcher for status code.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun statusCode(matcher: Matcher<in Int>) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().statusCode(matcher)
+            }
+        }
+
+        /**
+         * Verify status code of the response.
+         *
          * @param statusCodes of your response.
          * @return Verifier instance.
          */
