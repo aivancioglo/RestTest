@@ -446,7 +446,7 @@ abstract class Setters {
         @JvmStatic
         fun basicAuth(userName: String, password: String) = object : Setter {
             override fun update(request: Request) {
-                request.requestSpecification.auth().basic(userName, password)
+                request.requestSpecification.auth().preemptive().basic(userName, password)
             }
         }
 
