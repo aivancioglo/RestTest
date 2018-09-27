@@ -29,6 +29,10 @@ object RestTestMatcher {
     @Factory
     @JvmStatic
     fun isDistinct() = DistinctMatcher()
+
+    @Factory
+    @JvmStatic
+    fun hasSize(size: Int) = HasSizeMatcher(size)
 }
 
 class CaseInsensitiveSubstringMatcher(private val subString: String) : TypeSafeMatcher<String>() {
@@ -101,4 +105,12 @@ class DistinctMatcher : TypeSafeMatcher<Iterable<*>>() {
         item = items!!.find { !set.add(it) }
         return item == null
     }
+}
+
+class HasSizeMatcher(private val size: Int) : TypeSafeMatcher<Iterable<*>>() {
+    override fun describeTo(description: Description) {
+        description.appendText("a collection with size <$size>")
+    }
+
+    override fun matchesSafely(items: Iterable<*>?) = items?.count() == size
 }
