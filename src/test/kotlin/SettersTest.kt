@@ -110,7 +110,7 @@ class SettersTest {
 
     @Ignore("Test in progress")
     @Test
-    fun multiPrat() {
+    fun multiPart() {
         response = post("httpbin.org/post",
                 contentType(MULTIPART),
                 multiPart("file", "file.txt",

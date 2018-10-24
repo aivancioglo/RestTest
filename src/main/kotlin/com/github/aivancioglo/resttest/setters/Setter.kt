@@ -8,9 +8,9 @@ import com.github.aivancioglo.resttest.http.Request
 interface Setter {
 
     /**
-     * Update your request.
+     * Function for the request update.
      *
-     * @param request that will be updated.
+     * @param request Request that will be updated.
      */
     fun update(request: Request)
 }

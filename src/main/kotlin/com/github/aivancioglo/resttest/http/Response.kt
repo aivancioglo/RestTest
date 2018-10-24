@@ -15,79 +15,107 @@ import io.restassured.http.Header
 import io.restassured.mapper.ObjectMapper
 import io.restassured.mapper.ObjectMapperType
 import io.restassured.response.Response
+import io.restassured.response.ValidatableResponse
+import java.util.*
+import kotlin.reflect.KClass
 
 /**
- * This class is using for HTTP/HTTPS response validation and processing.
+ * This class is used for HTTP/HTTPS response validation and processing.
  */
 abstract class Response() {
-    protected lateinit var response: Response
+    var rootPath = ""
+        private set
+
     protected lateinit var logger: Logger
+    protected lateinit var request: Request
+    protected lateinit var response: Response
     private val errors: ArrayList<AssertionError> = ArrayList()
 
-    constructor(requestLogger: RequestLogger, response: Response) : this() {
+    constructor(request: Request, response: Response, requestLogger: RequestLogger) : this() {
+        this.request = request
         this.response = response
+
         logger = Logger(requestLogger, ResponseLogger(response))
 
         if (logAllEnabled)
             log()
     }
 
-    constructor(logger: Logger, response: Response) : this() {
-        this.logger = logger
-        this.response = response
-
-        if (logAllEnabled)
-            log()
-    }
-
     /**
-     * Making responseSpecification validation.
+     * Performing response validation
      *
-     * @param verifiers for responseSpecification validation.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(verifier: Verifier, vararg verifiers: Verifier) = printFailuresIfExist(verifier, *verifiers)
 
     /**
-     * Making responseSpecification validation.
+     * Performing response validation
      *
-     * @param code of responseSpecification.
-     * @param verifiers for responseSpecification validation.
+     * @param verifiers Verifiers for response validation.
+     */
+    @SafeVarargs
+    fun assertThat(verifiers: Array<Verifier>) = printFailuresIfExist(*verifiers)
+
+    /**
+     * Performing response validation
+     *
+     * @param code Status code of response.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(code: Int, vararg verifiers: Verifier) = printFailuresIfExist(statusCode(code), *verifiers)
 
     /**
-     * Making responseSpecification validation.
+     * Performing response validation
      *
-     * @param statusCode of responseSpecification.
-     * @param verifiers for responseSpecification validation.
+     * @param statusCode Status code of response.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(statusCode: StatusCode, vararg verifiers: Verifier) = printFailuresIfExist(
             statusCode(statusCode), *verifiers)
 
     /**
-     * Making responseSpecification validation.
+     * Performing response validation
      *
-     * @param code of responseSpecification.
-     * @param schema for responseSpecification validation.
-     * @param verifiers for responseSpecification validation.
+     * @param statusCodes Status codes of response.
+     * @param verifiers Verifiers for response validation.
+     */
+    @SafeVarargs
+    fun assertThat(statusCodes: Pair<StatusCode, StatusCode>, vararg verifiers: Verifier) = printFailuresIfExist(
+            statusCode(statusCodes), *verifiers)
+
+    /**
+     * Performing response validation
+     *
+     * @param code Status code of response.
+     * @param schema Schema for response validation.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(code: Int, schema: String, vararg verifiers: Verifier) = printFailuresIfExist(
             statusCode(code), schema(schema), *verifiers)
 
     /**
-     * Making responseSpecification validation.
+     * Performing response validation
      *
-     * @param statusCode of responseSpecification.
-     * @param jsonSchema for responseSpecification validation.
-     * @param verifiers for responseSpecification validation.
+     * @param statusCode Status code of response.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(statusCode: StatusCode, schema: String, vararg verifiers: Verifier) = printFailuresIfExist(
             statusCode(statusCode), schema(schema), *verifiers)
+
+    /**
+     * Performing response validation
+     *
+     * @param statusCodes Status codes of response.
+     * @param verifiers Verifiers for response validation.
+     */
+    @SafeVarargs
+    fun assertThat(statusCodes: Pair<StatusCode, StatusCode>, schema: String, vararg verifiers: Verifier) = printFailuresIfExist(
+            statusCode(statusCodes), schema(schema), *verifiers)
 
     /**
      * Response logging.
@@ -101,25 +129,60 @@ abstract class Response() {
     }
 
     /**
-     * For getting responseSpecification code of last responseSpecification.
+     * Set root path.
+     */
+    fun root(root: String) {
+        rootPath = root
+    }
+
+    /**
+     * Add to root path.
+     */
+    fun appendRoot(path: String) {
+        rootPath += path
+    }
+
+    /**
+     * Detach from root path.
+     */
+    fun detachRoot(path: String) {
+        rootPath = rootPath.removeSuffix(path)
+    }
+
+    /**
+     * Returns validatable response.
+     */
+    fun then(): ValidatableResponse {
+        val validatableResponse = response.then()
+
+        // Register parsers
+        request.contentTypeParsers.forEach { contentType, parser -> validatableResponse.parser(contentType, parser.use()) }
+        if (request.defaultParser != null)
+            validatableResponse.defaultParser(request.defaultParser!!.use())
+
+        return validatableResponse.assertThat()
+    }
+
+    /**
+     * For getting response code of last request returned by then().
      *
-     * @return responseSpecification code.
+     * @return response code.
      */
     fun getStatusCode() = response.statusCode
 
     /**
-     * For getting body of last responseSpecification as string.
+     * For getting body of last response as string.
      *
      * @return body as string.
      */
     fun getBody() = response.body.asString()!!
 
     /**
-     * Deserialize responseSpecification body as your model class.
+     * @return deserialized body as your model class.
      *
-     * @param cls that of your module.
-     * @param T is responseSpecification model.
-     * @return deserialize body as your model class.
+     * @param cls Class that will be deserialized.
+     * @param T The response model.
+     * @return deserialized body as your model class.
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>): T {
@@ -131,18 +194,40 @@ abstract class Response() {
             response.`as`(cls)!!
 
         if (Model::class.java.isAssignableFrom(cls))
-            (model as Model).set(logger, response)
+            (model as Model).set(request, response, logger)
 
         return model
     }
 
     /**
-     * Deserialize responseSpecification body as your model class.
+     * @return deserialized body as your model class.
      *
-     * @param cls that of your module.
-     * @param objectMapper for response body deserializing.
-     * @param T is responseSpecification model.
-     * @return deserialize body as your model class.
+     * @param cls Class that will be deserialized.
+     * @param T The response model.
+     * @return deserialized body as your model class.
+     */
+    @JvmName("as")
+    fun <T : Any> to(cls: KClass<T>): T {
+        val model = if (response.body.asString().trim().isEmpty() ||
+                (!response.contentType.contains("JSON", true) &&
+                        !response.contentType.contains("XML", true)))
+            cls.java.newInstance()!!
+        else
+            response.`as`(cls.java)!!
+
+        if (Model::class.java.isAssignableFrom(cls.java))
+            (model as Model).set(request, response, logger)
+
+        return model
+    }
+
+    /**
+     * @return deserialized body as your model class.
+     *
+     * @param cls Class that will be deserialized.
+     * @param objectMapper Object mapper for response body deserialization.
+     * @param T The response model.
+     * @return deserialized body as your model class.
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapper: ObjectMapper): T {
@@ -154,18 +239,41 @@ abstract class Response() {
             response.`as`(cls, objectMapper)!!
 
         if (Model::class.java.isAssignableFrom(cls))
-            (model as Model).set(logger, response)
+            (model as Model).set(request, response, logger)
 
         return model
     }
 
     /**
-     * Deserialize responseSpecification body as your model class.
+     * @return deserialized body as your model class.
      *
-     * @param cls that of your module.
+     * @param cls Class that will be deserialized.
+     * @param objectMapper Object mapper for response body deserialization.
+     * @param T The response model.
+     * @return deserialized body as your model class.
+     */
+    @JvmName("as")
+    fun <T : Any> to(cls: KClass<T>, objectMapper: ObjectMapper): T {
+        val model = if (response.body.asString().trim().isEmpty() ||
+                (!response.contentType.contains("JSON", true) &&
+                        !response.contentType.contains("XML", true)))
+            cls.java.newInstance()!!
+        else
+            response.`as`(cls.java, objectMapper)!!
+
+        if (Model::class.java.isAssignableFrom(cls.java))
+            (model as Model).set(request, response, logger)
+
+        return model
+    }
+
+    /**
+     * @return deserialized body as your model class.
+     *
+     * @param cls Class that will be deserialized.
      * @param objectMapperType for response body deserializing.
-     * @param T is responseSpecification model.
-     * @return deserialize body as your model class.
+     * @param T The response model.
+     * @return deserialized body as your model class.
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapperType: ObjectMapperType): T {
@@ -177,7 +285,30 @@ abstract class Response() {
             response.`as`(cls, objectMapperType)!!
 
         if (Model::class.java.isAssignableFrom(cls))
-            (model as Model).set(logger, response)
+            (model as Model).set(request, response, logger)
+
+        return model
+    }
+
+    /**
+     * @return deserialized body as your model class.
+     *
+     * @param cls Class that will be deserialized.
+     * @param objectMapperType for response body deserializing.
+     * @param T The response model.
+     * @return deserialized body as your model class.
+     */
+    @JvmName("as")
+    fun <T : Any> to(cls: KClass<T>, objectMapperType: ObjectMapperType): T {
+        val model = if (response.body.asString().trim().isEmpty() ||
+                (!response.contentType.contains("JSON", true) &&
+                        !response.contentType.contains("XML", true)))
+            cls.java.newInstance()!!
+        else
+            response.`as`(cls.java, objectMapperType)!!
+
+        if (Model::class.java.isAssignableFrom(cls.java))
+            (model as Model).set(request, response, logger)
 
         return model
     }
@@ -193,7 +324,7 @@ abstract class Response() {
     fun <T> path(path1: String, vararg path2: String): T = response.path(path1, *path2)
 
     /**
-     * Get responseSpecification header by name.
+     * Get response header by name.
      *
      * @param name of header.
      * @return header value.
@@ -206,6 +337,20 @@ abstract class Response() {
      * @return list.
      */
     fun headers(): List<Header> = response.headers.asList()
+
+    /**
+     * Returns cookie.
+     *
+     * @return cookie.
+     */
+    fun cookie(name: String) = response.cookie(name)!!
+
+    /**
+     * Returns list of cookies.
+     *
+     * @return list.
+     */
+    fun cookies(): Map<String, String> = response.cookies!!
 
     /**
      * Get the content type of the response
@@ -225,16 +370,17 @@ abstract class Response() {
     /**
      * This method can be used for setting of all required variables of default response.
      */
-    protected fun set(logger: Logger, response: io.restassured.response.Response) {
-        this.response = response
+    protected fun set(request: Request, response: io.restassured.response.Response, logger: Logger) {
         this.logger = logger
+        this.request = request
+        this.response = response
     }
 
 
     private fun printFailuresIfExist(vararg verifiers: Verifier): Logger {
         verifiers.find {
             try {
-                it.verify(response)
+                it.verify(this)
             } catch (e: Throwable) {
                 errors.add(AssertionError(e))
 

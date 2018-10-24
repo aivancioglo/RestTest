@@ -4,8 +4,8 @@ package com.github.aivancioglo.resttest.http
  * Enum class with all base responseSpecification status codes.
  *
  * @constructor creates enum item.
- * @param code of responseSpecification.
- * @param message of responseSpecification code.
+ * @param code Status code of response.
+ * @param message of response code.
  */
 enum class StatusCode(val code: Int, val message: String) {
     // Information
@@ -85,4 +85,6 @@ enum class StatusCode(val code: Int, val message: String) {
     NETWORK_AUTHENTICATION_REQUIRED(511, "Network Authentication Required"),
     NETWORK_READ_TIMEOUT_ERROR(598, "Network read timeout error"),
     NETWORK_CONNECT_TIMEOUT_ERROR(599, "Network connect timeout error");
+
+    infix fun or(that: StatusCode): Pair<StatusCode, StatusCode> = Pair(this, that)
 }

@@ -172,7 +172,7 @@ class VerifiersTest {
     }
 
     @Test(expected = AssertionError::class)
-    fun timeMapNegative() {
+    fun timeNegative() {
         response = get("httpbin.org/get")
 
         response.assertThat(
@@ -188,7 +188,7 @@ class VerifiersTest {
     }
 
     @Test(expected = AssertionError::class)
-    fun timeUnitMapNegative() {
+    fun timeUnitNegative() {
         response = get("httpbin.org/get")
 
         response.assertThat(

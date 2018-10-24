@@ -1,54 +1,82 @@
 package com.github.aivancioglo.resttest.verifiers
 
 import com.github.aivancioglo.resttest.http.ContentType
+import com.github.aivancioglo.resttest.http.Response
+import com.github.aivancioglo.resttest.http.StatusCode
 import io.restassured.matcher.RestAssuredMatchers.matchesDtdInClasspath
 import io.restassured.matcher.RestAssuredMatchers.matchesXsdInClasspath
 import io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath
-import io.restassured.response.Response
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers.oneOf
 import java.util.concurrent.TimeUnit
 
 /**
- * Abstract class for using static functions to verify response.
+ * Abstract class for response verification using static functions.
  */
 abstract class Verifiers {
     companion object {
 
         /**
-         * Verify response status code.
+         * Verify status code of the response.
          *
-         * @param statusCode of your responseSpecification.
+         * @param statusCode Status code of your response.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun statusCode(statusCode: Int): Verifier = object : Verifier {
+        fun statusCode(statusCode: Int) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().statusCode(statusCode)
             }
         }
 
         /**
-         * Verify response status code.
+         * Verify status code of the response.
          *
-         * @param statusCode of your responseSpecification.
+         * @param statusCode Status code of your response.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun statusCode(statusCode: com.github.aivancioglo.resttest.http.StatusCode): Verifier = object : Verifier {
+        fun statusCode(statusCode: StatusCode) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().statusCode(statusCode.code)
             }
         }
 
         /**
+         * Verify status code of the response.
+         *
+         * @param matcher Matcher for status code.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun statusCode(matcher: Matcher<in Int>) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().statusCode(matcher)
+            }
+        }
+
+        /**
+         * Verify status code of the response.
+         *
+         * @param statusCodes of your response.
+         * @return Verifier instance.
+         */
+        @JvmStatic
+        fun statusCode(statusCodes: Pair<StatusCode, StatusCode>) = object : Verifier {
+            override fun verify(response: Response) {
+                response.then().statusCode(oneOf(statusCodes.first.code, statusCodes.second.code))
+            }
+        }
+
+        /**
          * Verify response body using JSON schema validation.
          *
-         * @param jsonSchema of expected responseSpecification body.
+         * @param jsonSchema Json schema of expected response body.
          * @return Verifier instance.
          */
         @JvmStatic
         @Deprecated("Method is deprecated. Use method `schema` instead.")
-        fun jsonSchema(jsonSchema: String): Verifier = object : Verifier {
+        fun jsonSchema(jsonSchema: String) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().body(matchesJsonSchemaInClasspath(jsonSchema))
             }
@@ -57,11 +85,11 @@ abstract class Verifiers {
         /**
          * Verify response body using schema validation.
          *
-         * @param schema of expected responseSpecification body.
+         * @param schema Schema of expected response body.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun schema(schema: String): Verifier = when {
+        fun schema(schema: String) = when {
             schema.endsWith(".json") -> object : Verifier {
                 override fun verify(response: Response) {
                     response.then().body(matchesJsonSchemaInClasspath(schema))
@@ -84,57 +112,63 @@ abstract class Verifiers {
         }
 
         /**
-         * Verify response body path.
+         * Verify path of the response body.
          *
-         * @param key of your responseSpecification body.
-         * @param matcher for verifying.
-         * @param additionalKeyMatcherPairs for verifying.
+         * @param key Key of your response body.
+         * @param matcher Matcher for verification.
+         * @param additionalKeyMatcherPairs Additional key and matcher pairs for verification.
          * @return Verifier instance.
          */
         @JvmStatic
         fun path(key: String,
                  matcher: Matcher<*>,
-                 vararg additionalKeyMatcherPairs: Any): Verifier = object : Verifier {
-            override fun verify(response: Response) {
-                response.then().body(key, matcher, *additionalKeyMatcherPairs)
-            }
-        }
+                 vararg additionalKeyMatcherPairs: Any) = Path(key, matcher, *additionalKeyMatcherPairs)
+
+        /**
+         * Set path for path verifying.
+         *
+         * @param key of your response body.
+         * @return Verifier instance.
+         */
+
+        @JvmStatic
+        fun path(key: String, vararg paths: Path) = MultiPath(key, *paths)
 
         /**
          * Verify response body.
          *
-         * @param matcher for verifying.
-         * @param additionalMatchers for verifying.
+         * @param matcher Matcher for verification.
+         * @param additionalMatchers Additional matchers for verification.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun body(matcher: Matcher<*>, vararg additionalMatchers: Matcher<*>): Verifier = object : Verifier {
+        fun body(matcher: Matcher<*>, vararg additionalMatchers: Matcher<*>) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().body(matcher, *additionalMatchers)
             }
         }
 
         /**
-         * Verify response body content type.
+         * Verify content type of the response body.
          *
-         * @param contentType of response body content type.
+         * @param contentType Content type of response body.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun contentTypeIs(contentType: String): Verifier = object : Verifier {
+        fun contentTypeIs(contentType: String) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().contentType(contentType)
             }
         }
 
         /**
-         * Verify response body content type.
+         * Verify content type of the response body.
          *
-         * @param contentType of response body content type.
+         * @param contentType Content type of response body.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun contentTypeIs(contentType: ContentType): Verifier = object : Verifier {
+        fun contentTypeIs(contentType: ContentType) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().contentType(contentType.value)
             }
@@ -143,12 +177,12 @@ abstract class Verifiers {
         /**
          * Verify response cookie.
          *
-         * @param name of cookie.
-         * @param matcher of responseSpecification cookie.
+         * @param name Name of cookie.
+         * @param matcher Matcher of response cookie.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun cookie(name: String, matcher: Matcher<*>): Verifier = object : Verifier {
+        fun cookie(name: String, matcher: Matcher<*>) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().cookie(name, matcher)
             }
@@ -157,12 +191,12 @@ abstract class Verifiers {
         /**
          * Verify response header.
          *
-         * @param name of header.
-         * @param matcher of responseSpecification header.
+         * @param name Name of header.
+         * @param matcher Matcher of response header.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun header(name: String, matcher: Matcher<*>): Verifier = object : Verifier {
+        fun header(name: String, matcher: Matcher<*>) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().header(name, matcher)
             }
@@ -171,11 +205,11 @@ abstract class Verifiers {
         /**
          * Verify response headers.
          *
-         * @param expectedHeaders of responseSpecification.
+         * @param expectedHeaders Expected headers of response.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun headers(expectedHeaders: Map<String, *>): Verifier = object : Verifier {
+        fun headers(expectedHeaders: Map<String, *>) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().headers(expectedHeaders)
             }
@@ -184,15 +218,15 @@ abstract class Verifiers {
         /**
          * Verify response headers.
          *
-         * @param firstExpectedHeaderName of responseSpecification.
-         * @param firstExpectedHeaderValue of responseSpecification.
-         * @param expectedHeaders list of responseSpecification (expected "header name" - "header value" pairs).
+         * @param firstExpectedHeaderName First header name expected of response.
+         * @param firstExpectedHeaderValue First header value expected of response.
+         * @param expectedHeaders List of expected headers of response (expected "header name" - "header value" pairs).
          * @return Verifier instance.
          */
         @JvmStatic
         fun headers(firstExpectedHeaderName: String,
                     firstExpectedHeaderValue: Any,
-                    vararg expectedHeaders: Any): Verifier = object : Verifier {
+                    vararg expectedHeaders: Any) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().headers(firstExpectedHeaderName, firstExpectedHeaderValue, *expectedHeaders)
             }
@@ -201,11 +235,11 @@ abstract class Verifiers {
         /**
          * Verify the response time (in milliseconds).
          *
-         * @param matcher request response time.
+         * @param matcher Response time of the request.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun time(matcher: Matcher<Long>): Verifier = object : Verifier {
+        fun time(matcher: Matcher<Long>) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().time(matcher)
             }
@@ -214,12 +248,12 @@ abstract class Verifiers {
         /**
          * Verify the response time (in milliseconds).
          *
-         * @param matcher request response time.
-         * @param timeUnit of response.
+         * @param matcher Response time of the request.
+         * @param timeUnit Time unit of response.
          * @return Verifier instance.
          */
         @JvmStatic
-        fun time(matcher: Matcher<Long>, timeUnit: TimeUnit): Verifier = object : Verifier {
+        fun time(matcher: Matcher<Long>, timeUnit: TimeUnit) = object : Verifier {
             override fun verify(response: Response) {
                 response.then().time(matcher, timeUnit)
             }

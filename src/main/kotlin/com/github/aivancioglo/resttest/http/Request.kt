@@ -1,5 +1,6 @@
 package com.github.aivancioglo.resttest.http
 
+import com.github.aivancioglo.resttest.http.Property.getProperty
 import com.github.aivancioglo.resttest.http.Settings.Companion.logAllEnabled
 import com.github.aivancioglo.resttest.http.Settings.Companion.logIfFailedEnabled
 import com.github.aivancioglo.resttest.logger.RequestLogger
@@ -13,6 +14,9 @@ import io.restassured.internal.RequestSpecificationImpl
  * Class for creating request. You can extend it using your own endpoint class.
  */
 open class Request {
+    val storage = hashMapOf<Any, Any>()
+    var defaultParser: Parser? = null
+    val contentTypeParsers = hashMapOf<String, Parser>()
     val requestSpecification = given().contentType(Settings.contentType)!!
     val oAuth1 = OAuth1()
     val oAuth2 = OAuth2()
@@ -20,15 +24,9 @@ open class Request {
     val body = HashMap<String, Any>()
     val setters = ArrayList<Setter>()
     lateinit var method: Method
-
-    /**
-     * This feature will be added on the next version.
-     *
     var protocol = getProperty("protocol", "http")
-    var host = getProperty("host", "")
-     */
-    var protocol = "http"
-    var host = ""
+    var host = getProperty("host", "localhost")
+    var baseUri = getProperty("baseUri", "$protocol://$host")
 
     /**
      * Initiate your default settings.
@@ -53,19 +51,17 @@ open class Request {
      * Sending your request.
      *
      * @param method of your request.
-     * @param setters are setting up request specification.
+     * @param setters Setters are setting up request specification.
      * @return Response class instance.
      */
-    protected fun send(method: Method, vararg setters: Setter): Response {
-        return send(method, "", *setters)
-    }
+    protected fun send(method: Method, vararg setters: Setter) = send(method, "", *setters)
 
     /**
      * Sending your request.
      *
      * @param method of your request.
      * @param path is a path param.
-     * @param setters are setting up request specification.
+     * @param setters Setters are setting up request specification.
      * @return Response class instance.
      */
     protected fun send(method: Method, path: String, vararg setters: Setter): Response {
@@ -80,12 +76,12 @@ open class Request {
         if (oAuth1.used)
             requestSpecification
                     .auth()
-                    .oauth(oAuth1.consumerKey, oAuth1.consumerSecret, oAuth1.token, oAuth1.tokenSecret)
+                    .oauth(oAuth1.consumerKey, oAuth1.consumerSecret, oAuth1.token, oAuth1.tokenSecret, oAuth1.signature.value)
 
         if (oAuth2.used)
-            requestSpecification.auth().oauth2(oAuth2.token)
+            requestSpecification.auth().oauth2(oAuth2.token, oAuth2.signature.value)
 
-        requestSpecification.baseUri("$protocol://$host")
+        requestSpecification.baseUri(baseUri)
 
         if (requestSpecification is RequestSpecificationImpl) {
             requestSpecification.setMethod(method)
@@ -108,12 +104,12 @@ open class Request {
             throw AssertionError(e)
         }
 
-        return ResponseImpl(requestLogger, response)
+        return ResponseImpl(this, response, requestLogger)
     }
 
     private fun update() {
         val settersNames = setters.map {
-            it.javaClass.simpleName.replace(Regex("$.+"), "")
+            it.javaClass.simpleName.replace(Regex("\\$.+"), "")
         }
 
         if (contentType.contains("json", true)

@@ -3,6 +3,8 @@ package com.github.aivancioglo.resttest.http
 import com.github.aivancioglo.resttest.http.Property.getProperty
 import io.restassured.RestAssured.config
 import io.restassured.RestAssured.useRelaxedHTTPSValidation
+import io.restassured.config.DecoderConfig.decoderConfig
+import io.restassured.config.EncoderConfig.encoderConfig
 import io.restassured.config.HttpClientConfig.httpClientConfig
 
 abstract class Settings {
@@ -19,18 +21,21 @@ abstract class Settings {
         var contentType = getProperty("content_type", "application/json")
             private set
 
+        val decoderCharset = getProperty("decoder_charset", "")
+        val encoderCharset = getProperty("encoder_charset", "")
+
         init {
-            config.httpClient(httpClientConfig()
-                    .setParam("http.connection.timeout", getProperty("connection_timeout", "20000").toInt())
-                    .setParam("http.socket.timeout", getProperty("socket_timeout", "60000").toInt()))
+            config = config
+                    .encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false))
+                    .httpClient(httpClientConfig()
+                            .setParam("http.connection.timeout", getProperty("connection_timeout", "20000").toInt())
+                            .setParam("http.socket.timeout", getProperty("socket_timeout", "60000").toInt()))
 
-            if (getProperty("decoder_charset", "").trim() != "")
-                config.decoderConfig.defaultContentCharset(getProperty("decoder_charset"))
+            if (decoderCharset.isNotBlank())
+                config = config.decoderConfig(decoderConfig().defaultContentCharset(decoderCharset))
 
-            if (getProperty("encoder_charset", "").trim() == "")
-                config.encoderConfig.appendDefaultContentCharsetToContentTypeIfUndefined(false)
-            else
-                config.encoderConfig.defaultContentCharset(getProperty("encoder_charset"))
+            if (encoderCharset.isNotBlank())
+                config = config.encoderConfig(encoderConfig().defaultContentCharset(encoderCharset))
 
             if (getProperty("use_relaxed_https_validation", "true").toBoolean())
                 useRelaxedHTTPSValidation()

@@ -70,7 +70,7 @@ class Repeater {
     }
 
     /**
-     * This function is executing your request until passing or timeout.
+     * This function will execute your code while it is throwing assertion error or until timeout if timeout was set.
      *
      * @param request to execute.
      */
@@ -113,8 +113,7 @@ class Repeater {
         cycle.start()
 
         if (timeoutMls > 0) {
-            while (System.currentTimeMillis() - startTime < timeoutMls && cycle.isAlive) {
-            }
+            do { } while (System.currentTimeMillis() - startTime < timeoutMls && cycle.isAlive)
 
             if (cycle.isAlive) {
                 message = if (error != null)
@@ -128,6 +127,15 @@ class Repeater {
             cycle.join()
 
         if (message != "")
-                throw AssertionError(message)
+            throw AssertionError(message)
+    }
+
+    /**
+     * This function will execute your code while it is throwing assertion error or until timeout if timeout was set.
+     *
+     * @param request to execute.
+     */
+    fun until(request: () -> Unit) {
+        until(Runnable(request))
     }
 }

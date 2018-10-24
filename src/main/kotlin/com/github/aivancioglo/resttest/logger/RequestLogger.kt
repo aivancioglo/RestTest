@@ -1,5 +1,7 @@
 package com.github.aivancioglo.resttest.logger
 
+import com.github.aivancioglo.resttest.http.Settings
+import com.github.aivancioglo.resttest.http.Settings.Companion.encoderCharset
 import io.restassured.http.Header
 import io.restassured.internal.RequestSpecificationImpl
 import io.restassured.internal.support.Prettifier
@@ -53,7 +55,13 @@ class RequestLogger(private var request: RequestSpecificationImpl) {
                 requestLog += "\n" + title + values.joinToString("\n                ").trim()
         }
 
-        addToPrint("Headers:        ", headers)
+        addToPrint("Headers:        ", headers.map {
+            if (it.name.equals("Content-Type", true) && encoderCharset.trim() != "")
+                Header(it.name, it.value + "; charset=" + encoderCharset)
+            else
+                it
+        })
+
         addToPrint("Path params:    ", pathParams)
         addToPrint("Request params: ", requestParams)
         addToPrint("Query params:   ", queryParams)
