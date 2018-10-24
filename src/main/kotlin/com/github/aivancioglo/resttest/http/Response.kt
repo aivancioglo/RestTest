@@ -20,7 +20,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 /**
- * This class is using for HTTP/HTTPS response validation and processing.
+ * This class is used for HTTP/HTTPS response validation and processing.
  */
 abstract class Response() {
     var rootPath = ""
@@ -42,76 +42,76 @@ abstract class Response() {
     }
 
     /**
-     * Making response validation.
+     * Performing response validation
      *
-     * @param verifiers for response validation.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(verifier: Verifier, vararg verifiers: Verifier) = printFailuresIfExist(verifier, *verifiers)
 
     /**
-     * Making response validation.
+     * Performing response validation
      *
-     * @param verifiers for response validation.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(verifiers: Array<Verifier>) = printFailuresIfExist(*verifiers)
 
     /**
-     * Making response validation.
+     * Performing response validation
      *
-     * @param code of response.
-     * @param verifiers for response validation.
+     * @param code Status code of response.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(code: Int, vararg verifiers: Verifier) = printFailuresIfExist(statusCode(code), *verifiers)
 
     /**
-     * Making response validation.
+     * Performing response validation
      *
-     * @param statusCode of response.
-     * @param verifiers for response validation.
+     * @param statusCode Status code of response.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(statusCode: StatusCode, vararg verifiers: Verifier) = printFailuresIfExist(
             statusCode(statusCode), *verifiers)
 
     /**
-     * Making response validation.
+     * Performing response validation
      *
-     * @param statusCodes of response.
-     * @param verifiers for response validation.
+     * @param statusCodes Status codes of response.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(statusCodes: Pair<StatusCode, StatusCode>, vararg verifiers: Verifier) = printFailuresIfExist(
             statusCode(statusCodes), *verifiers)
 
     /**
-     * Making response validation.
+     * Performing response validation
      *
-     * @param code of response.
-     * @param schema for response validation.
-     * @param verifiers for response validation.
+     * @param code Status code of response.
+     * @param schema Schema for response validation.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(code: Int, schema: String, vararg verifiers: Verifier) = printFailuresIfExist(
             statusCode(code), schema(schema), *verifiers)
 
     /**
-     * Making response validation.
+     * Performing response validation
      *
-     * @param statusCode of response.
-     * @param verifiers for response validation.
+     * @param statusCode Status code of response.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(statusCode: StatusCode, schema: String, vararg verifiers: Verifier) = printFailuresIfExist(
             statusCode(statusCode), schema(schema), *verifiers)
 
     /**
-     * Making response validation.
+     * Performing response validation
      *
-     * @param statusCodes of response.
-     * @param verifiers for response validation.
+     * @param statusCodes Status codes of response.
+     * @param verifiers Verifiers for response validation.
      */
     @SafeVarargs
     fun assertThat(statusCodes: Pair<StatusCode, StatusCode>, schema: String, vararg verifiers: Verifier) = printFailuresIfExist(

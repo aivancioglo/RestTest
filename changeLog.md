@@ -1,3 +1,12 @@
+## V. 1.4.0
+##### Features:
+* Adapted code for Kotlin using.
+* New setters: `baseUri`, `parser`, `defaultParser`.
+* Updated RestTest matchers.
+
+##### Fixes:
+* Small fixes.
+
 ## V. 1.3.0
 ##### Features:
 * Static method `perform` is now deprecated. The new static method `repeat` was created in `RestTest` class to substitute deprecated `perform` method.

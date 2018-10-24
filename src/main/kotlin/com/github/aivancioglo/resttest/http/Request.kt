@@ -51,7 +51,7 @@ open class Request {
      * Sending your request.
      *
      * @param method of your request.
-     * @param setters are setting up request specification.
+     * @param setters Setters are setting up request specification.
      * @return Response class instance.
      */
     protected fun send(method: Method, vararg setters: Setter) = send(method, "", *setters)
@@ -61,7 +61,7 @@ open class Request {
      *
      * @param method of your request.
      * @param path is a path param.
-     * @param setters are setting up request specification.
+     * @param setters Setters are setting up request specification.
      * @return Response class instance.
      */
     protected fun send(method: Method, path: String, vararg setters: Setter): Response {

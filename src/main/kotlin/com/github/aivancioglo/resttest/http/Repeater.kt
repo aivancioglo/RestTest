@@ -70,7 +70,7 @@ class Repeater {
     }
 
     /**
-     * This function is executing your request until passing or timeout.
+     * This function will execute your code while it is throwing assertion error or until timeout if timeout was set.
      *
      * @param request to execute.
      */
@@ -131,7 +131,7 @@ class Repeater {
     }
 
     /**
-     * This function is executing your request until passing or timeout.
+     * This function will execute your code while it is throwing assertion error or until timeout if timeout was set.
      *
      * @param request to execute.
      */

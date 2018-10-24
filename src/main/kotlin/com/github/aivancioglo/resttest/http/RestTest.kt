@@ -359,7 +359,7 @@ abstract class RestTest {
         /**
          * Making GET request.
          *
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -369,7 +369,7 @@ abstract class RestTest {
          * Making GET request.
          *
          * @param url of your request.
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -378,7 +378,7 @@ abstract class RestTest {
         /**
          * Making POST request.
          *
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -388,7 +388,7 @@ abstract class RestTest {
          * Making POST request.
          *
          * @param url of your request.
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -397,7 +397,7 @@ abstract class RestTest {
         /**
          * Making PUT request.
          *
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -407,7 +407,7 @@ abstract class RestTest {
          * Making PUT request.
          *
          * @param url of your request.
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -416,7 +416,7 @@ abstract class RestTest {
         /**
          * Making PATCH request.
          *
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -426,7 +426,7 @@ abstract class RestTest {
          * Making PATCH request.
          *
          * @param url of your request.
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -435,7 +435,7 @@ abstract class RestTest {
         /**
          * Making DELETE request.
          *
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -445,7 +445,7 @@ abstract class RestTest {
          * Making DELETE request.
          *
          * @param url of your request.
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -454,7 +454,7 @@ abstract class RestTest {
         /**
          * Making OPTIONS request.
          *
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -464,7 +464,7 @@ abstract class RestTest {
          * Making OPTIONS request.
          *
          * @param url of your request.
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -473,7 +473,7 @@ abstract class RestTest {
         /**
          * Making HEAD request.
          *
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -483,7 +483,7 @@ abstract class RestTest {
          * Making HEAD request.
          *
          * @param url of your request.
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -492,7 +492,7 @@ abstract class RestTest {
         /**
          * Making TRACE request.
          *
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
@@ -502,7 +502,7 @@ abstract class RestTest {
          * Making TRACE request.
          *
          * @param url of your request.
-         * @param setters are setting up request specification.
+         * @param setters Setters are setting up request specification.
          * @return Response instance.
          */
         @JvmStatic
