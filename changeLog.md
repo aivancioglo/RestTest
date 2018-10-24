@@ -1,11 +1,30 @@
 ## V. 1.4.0
 ##### Features:
-* Adapted code for Kotlin using.
-* New setters: `baseUri`, `parser`, `defaultParser`.
-* Updated RestTest matchers.
+* Integrated RestTest with Kotlin.
+* Cookies can be extracted right from the response.
+* Introduced new setters: `baseUri`, `parser`, `defaultParser`.
+* RestTest matchers were updated.
+* The `path` verified functionality was extended, it can contain nested paths. Example:
+    ```
+     response.assertThat(
+         path("keys",
+             path("first", equalTo("1")),
+             path("second", equalTo("2"))))
+     ```
+     is the same as:
+     ```
+     response.assertThat(
+          path("keys.first", equalTo("1")),
+          path("keys.second", equalTo("2")))
+     ```
+* New property was introduced: `baseUri`.
 
 ##### Fixes:
-* Small fixes.
+* The `encoder_charset` and `decoder_charset` properties did not work.
+* Content type was logging in wrong way.
+* Matcher `is_sorted` was sorting numbers as string.
+* The `param` setter was working wrong when used in PATCH, PUT requests.
+* Other small fixes.
 
 ## V. 1.3.0
 ##### Features:

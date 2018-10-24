@@ -150,7 +150,7 @@ abstract class Response() {
     }
 
     /**
-     * Returns Rest Assured response.
+     * Returns validatable response.
      */
     fun then(): ValidatableResponse {
         val validatableResponse = response.then()
