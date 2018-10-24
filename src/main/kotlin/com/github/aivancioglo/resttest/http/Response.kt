@@ -164,7 +164,7 @@ abstract class Response() {
     }
 
     /**
-     * For getting response code of last then.
+     * For getting response code of last request returned by then().
      *
      * @return response code.
      */
@@ -178,11 +178,11 @@ abstract class Response() {
     fun getBody() = response.body.asString()!!
 
     /**
-     * Deserialize response body as your model class.
+     * @return deserialized body as your model class.
      *
-     * @param cls that of your module.
-     * @param T is response model.
-     * @return deserialize body as your model class.
+     * @param cls Class that will be deserialized.
+     * @param T The response model.
+     * @return deserialized body as your model class.
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>): T {
@@ -200,11 +200,11 @@ abstract class Response() {
     }
 
     /**
-     * Deserialize response body as your model class.
+     * @return deserialized body as your model class.
      *
-     * @param cls that of your module.
-     * @param T is response model.
-     * @return deserialize body as your model class.
+     * @param cls Class that will be deserialized.
+     * @param T The response model.
+     * @return deserialized body as your model class.
      */
     @JvmName("as")
     fun <T : Any> to(cls: KClass<T>): T {
@@ -222,12 +222,12 @@ abstract class Response() {
     }
 
     /**
-     * Deserialize response body as your model class.
+     * @return deserialized body as your model class.
      *
-     * @param cls that of your module.
-     * @param objectMapper for response body deserializing.
-     * @param T is response model.
-     * @return deserialize body as your model class.
+     * @param cls Class that will be deserialized.
+     * @param objectMapper Object mapper for response body deserialization.
+     * @param T The response model.
+     * @return deserialized body as your model class.
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapper: ObjectMapper): T {
@@ -245,12 +245,12 @@ abstract class Response() {
     }
 
     /**
-     * Deserialize response body as your model class.
+     * @return deserialized body as your model class.
      *
-     * @param cls that of your module.
-     * @param objectMapper for response body deserializing.
-     * @param T is response model.
-     * @return deserialize body as your model class.
+     * @param cls Class that will be deserialized.
+     * @param objectMapper Object mapper for response body deserialization.
+     * @param T The response model.
+     * @return deserialized body as your model class.
      */
     @JvmName("as")
     fun <T : Any> to(cls: KClass<T>, objectMapper: ObjectMapper): T {
@@ -268,12 +268,12 @@ abstract class Response() {
     }
 
     /**
-     * Deserialize response body as your model class.
+     * @return deserialized body as your model class.
      *
-     * @param cls that of your module.
+     * @param cls Class that will be deserialized.
      * @param objectMapperType for response body deserializing.
-     * @param T is response model.
-     * @return deserialize body as your model class.
+     * @param T The response model.
+     * @return deserialized body as your model class.
      */
     @JvmName("as")
     fun <T> to(cls: Class<T>, objectMapperType: ObjectMapperType): T {
@@ -291,12 +291,12 @@ abstract class Response() {
     }
 
     /**
-     * Deserialize response body as your model class.
+     * @return deserialized body as your model class.
      *
-     * @param cls that of your module.
+     * @param cls Class that will be deserialized.
      * @param objectMapperType for response body deserializing.
-     * @param T is response model.
-     * @return deserialize body as your model class.
+     * @param T The response model.
+     * @return deserialized body as your model class.
      */
     @JvmName("as")
     fun <T : Any> to(cls: KClass<T>, objectMapperType: ObjectMapperType): T {
